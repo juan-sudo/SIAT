@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bootstrap-5.3.3-dist">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/vistas/pack/bower_components/bootstrap/dist/bootstrap-5.3.3-dist.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

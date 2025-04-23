@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Conect" isTestSource="false" packagePrefix="Conect\" />
+      <sourceFolder url="file://$MODULE_DIR$/Controladores" isTestSource="false" packagePrefix="Controladores\" />
+      <sourceFolder url="file://$MODULE_DIR$/Modelos" isTestSource="false" packagePrefix="Modelos\" />
+      <sourceFolder url="file://$MODULE_DIR$/api" isTestSource="false" packagePrefix="api\" />
+      <sourceFolder url="file://$MODULE_DIR$/vistas/Conect" isTestSource="false" packagePrefix="Conect\" />
+      <sourceFolder url="file://$MODULE_DIR$/vistas/Controladores" isTestSource="false" packagePrefix="Controladores\" />
+      <sourceFolder url="file://$MODULE_DIR$/vistas/Modelos" isTestSource="false" packagePrefix="Modelos\" />
+      <sourceFolder url="file://$MODULE_DIR$/vistas/api" isTestSource="false" packagePrefix="api\" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

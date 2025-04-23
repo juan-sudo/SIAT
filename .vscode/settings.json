@@ -1,0 +1,15 @@
+{
+ "prettier.bracketSameLine": false,
+ "editor.autoSurround": "languageDefined",
+ "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
+ "editor.bracketPairColorization.independentColorPoolPerBracketType": false,
+ "editor.matchBrackets": "near",
+ "editor.autoClosingBrackets": "never",
+ "editor.bracketPairColorization.enabled": false,
+ "editor.guides.bracketPairs": true,
+ "editor.guides.highlightActiveBracketPair": true,
+ "prettier.bracketSpacing": false,
+ "editor.autoClosingDelete": "never",
+ "editor.autoClosingOvertype": "never",
+ "terminal.integrated.enableMultiLinePasteWarning": false
+}
