@@ -67,7 +67,7 @@ class ControladorContribuyente
   }
 
   // Mostrar Predio Propietario
-  public static function ctrPredio_Propietario($idContribuyente, $parametro_b, $init_envio,$anio)
+  public static function ctrPredio_Propietario($idContribuyente, $parametro_b, $init_envio,$anio,$area_usuario,$coactivo )
   {
     // $respuesta = ModeloContribuyente::mdlPredio_Propietario($datos);
     $pdo = Conexion::conectar();
@@ -139,9 +139,21 @@ class ControladorContribuyente
                      <td class="text-center">' .$carpeta . '</td>';
 
             if ($init_envio != 'pagado_006_743') {
-              echo '<td class="text-center">
+
+              if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&& $coactivo === 'Si') 
+              {
+                 echo '<td class="text-center">
+                      
+                        </td>';
+              }
+              elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($coactivo  !== 'Si'|| $coactivo === 'No')){
+                echo '<td class="text-center">
                         <img src="./vistas/img/iconos/cuenta_o1.png" id="p_i" class="t-icon-tbl-p btnCuenta" title="estado cuenta" idContribuyente_cuenta="' . $idConcatenado . '">
                      </td>';
+              }
+                 
+              
+            
             } else {
               echo '<td class="text-center">
                       <img src="./vistas/img/iconos/cuenta_o1.png" id="p_i" class="t-icon-tbl-p btnCuenta_pagado" title="estado cuenta" idContribuyente_cuenta="' . $idConcatenado . '">
@@ -227,14 +239,32 @@ class ControladorContribuyente
                       <td  class="text-center">' . $correlativo . '</td>
                       <td>' . $coPropietariosText . '</td>
                       <td class="text-center">' .$carpeta . '</td>';
+
+
+                     if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                        echo '<td class="text-center">
+                              
+                              </td>';
+                     }
+                      else {
+                      
+                       echo '<td class="text-center">
+                                <i class="bi bi-house-fill btnPredios"  title="Predio" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'" estado_Coactivo="'. $coPropietario["coactivo"] .'" nombre_contribuyente="'. $coPropietario["nombres"] .'"</i>
+                              </td>';
+                      }
                      
-              echo '<td class="text-center">
-                      <i class="bi bi-house-fill btnPredios"  title="Predio" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'" estado_Coactivo="'. $coPropietario["coactivo"] .'" nombre_contribuyente="'. $coPropietario["nombres"] .'"</i>
-                    </td>';
-              // Mostrar los años
-              echo '<td class="text-center">
-              <i class="bi bi-wallet-fill btndeuda"  title="Deuda" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'"</i>
-            </td>';
+                  // Mostrar los años
+                  if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                      echo '<td class="text-center">
+                          
+                          </td>';
+                  }
+
+                   else {
+                    echo '<td class="text-center">
+                            <i class="bi bi-wallet-fill btndeuda"  title="Deuda" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'"</i>
+                          </td>';
+                   }
       // Mostrar los años
              
               echo '</tr>';
@@ -280,6 +310,7 @@ class ControladorContribuyente
         $segundaConsulta->execute();
         $coPropietarios = $segundaConsulta->fetchAll(PDO::FETCH_ASSOC);
         $correlativo = 1;
+        
         if (count($coPropietarios) > 0) {
           foreach ($coPropietarios as $coPropietario) {
 
@@ -307,20 +338,74 @@ class ControladorContribuyente
             $idConcatenado = htmlspecialchars($coPropietario['id_concatenado'], ENT_QUOTES, 'UTF-8');
             $coPropietariosText = $coPropietariosList ? '<b>' . $dni . '</b> ' .  $nombres . ' ---- ' . $coPropietariosList : $nombres;
 
-            echo '<tr class="">
-              <td class="text-center">' . $correlativo . '</td>
-              <td>' . $coPropietariosText . '</td>
-               <td class="text-center">' .$carpeta . '</td>
-              <td class="text-center">
-              <img src="./vistas/img/iconos/calcular2.png"  id="p_i" class="t-icon-tbl-p btnCalcular_impuesto" title="calcular" idContribuyente_predio="' . $coPropietario["id_concatenado"] . '"data-toggle="modal" data-target="#modalCalcularImpuesto">
-              </td>
-              <td class="text-center">
-              <img src="./vistas/img/iconos/formato2.png"  id="p_i" class="t-icon-tbl-p btnImprimir_cartilla" title="imprimir formatos" idContribuyente_formato="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalImprimirFormato">
-              </td>
-              <td class="text-center">
-              <img src="./vistas/img/iconos/tim.png"  id="p_img" class="t-icon-tbl-p btnCalcularTim_img" title="Calcular Tim" idContribuyente_tim="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalCalcularTim">
-              </td>
-              </tr>';
+             
+            echo '<tr class="">';
+              echo '<td class="text-center">' . $correlativo . '</td>';
+              echo '<td>' . $coPropietariosText . '</td>';
+              echo '<td class="text-center">' . $carpeta . '</td>';
+
+              // Mostrar el primer campo solo si el área no es 'GERENCIA DE ADMINISTRACION TRIBUTARIA'
+            
+               if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                  echo '<td class="text-center">
+                         
+                        </td>';
+              }
+              else{
+                     echo '<td class="text-center">
+                          <img src="./vistas/img/iconos/calcular2.png" id="p_i" class="t-icon-tbl-p btnCalcular_impuesto" title="calcular" idContribuyente_predio="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalCalcularImpuesto">
+                        </td>';
+
+              }
+
+              // Mostrar el segundo campo solo si el área no es 'GERENCIA DE ADMINISTRACION TRIBUTARIA'
+              if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                  echo '<td class="text-center">
+                        
+                        </td>';
+              }
+              else{
+                    echo '<td class="text-center">
+                          <img src="./vistas/img/iconos/formato2.png" id="p_i" class="t-icon-tbl-p btnImprimir_cartilla" title="imprimir formatos" idContribuyente_formato="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalImprimirFormato">
+                        </td>';
+
+              }
+
+              // Mostrar el tercer campo solo si el área no es 'GERENCIA DE ADMINISTRACION TRIBUTARIA'
+             if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                  echo '<td class="text-center">
+                          
+                        </td>';
+              }
+              else{
+                  echo '<td class="text-center">
+                          <img src="./vistas/img/iconos/tim.png" id="p_img" class="t-icon-tbl-p btnCalcularTim_img" title="Calcular Tim" idContribuyente_tim="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalCalcularTim">
+                        </td>';
+              }
+
+              echo '</tr>';
+
+
+
+            // echo '<tr class="">
+            //   <td class="text-center">' . $correlativo . '</td>
+            //   <td>' . $coPropietariosText . '</td>
+            //    <td class="text-center">' .$carpeta . '</td>
+
+            //   <td class="text-center">
+            //   <img src="./vistas/img/iconos/calcular2.png"  id="p_i" class="t-icon-tbl-p btnCalcular_impuesto" title="calcular" idContribuyente_predio="' . $coPropietario["id_concatenado"] . '"data-toggle="modal" data-target="#modalCalcularImpuesto">
+            //   </td>
+              
+            //   <td class="text-center">
+            //   <img src="./vistas/img/iconos/formato2.png"  id="p_i" class="t-icon-tbl-p btnImprimir_cartilla" title="imprimir formatos" idContribuyente_formato="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalImprimirFormato">
+            //   </td>
+            //   <td class="text-center">
+            //   <img src="./vistas/img/iconos/tim.png"  id="p_img" class="t-icon-tbl-p btnCalcularTim_img" title="Calcular Tim" idContribuyente_tim="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalCalcularTim">
+            //   </td>
+
+
+
+            //   </tr>';
             $correlativo++;
           }
         } else {
@@ -643,6 +728,9 @@ class ControladorContribuyente
     }
   }
 
+
+
+
   public static function CntrVerificar_Parametro($valor)
   {
     $tabla = 'contribuyente';
@@ -650,10 +738,12 @@ class ControladorContribuyente
     return $respuesta;
   }
 
+  
   // EDITAR USUARIOS|
   public static function ctrEditarContribuyente($tabla,$datos)
   {   
         $respuesta = ModeloContribuyente::mdlEditarContribuyente($tabla, $datos);
+       
         if ($respuesta == "ok") {
           $respuesta = array(
              "tipo" => 'correcto',

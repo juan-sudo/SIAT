@@ -142,6 +142,8 @@ class ControladorEstadoCuenta
 		return  $respuesta;
 	}
 
+
+    
     public  static function ctrEstadoCuenta_orden_historial($datos)
 	{
 		$respuesta = ModeloEstadoCuenta::mdlEstadoCuenta_Orden_historial($datos);

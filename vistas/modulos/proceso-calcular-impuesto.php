@@ -141,7 +141,7 @@ error_reporting(0);
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Calcular Impuesto Predial - Arbitrios Municipales</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Calcular Impuesto Predial - Arbitrios Municipales aqui</h5>
 
       </div>
       <div class="table-responsive modal-body">
@@ -202,7 +202,7 @@ error_reporting(0);
             <span class="caption_">Lista de Predios afectos al impuesto y arbitrios</span>
           </div>
           <div class="col-md-6 text-right">
-          <span class="caption_ ">Calcular Predios Seleccionados               
+          <span class="caption_ ">Calcular Predios Seleccionados   k             
           <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="calculo_predio_select" data-size="mini" data-width="110">  </span>
           </div>
         </div>
@@ -226,7 +226,7 @@ error_reporting(0);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary boton_calcular_no" data-dismiss="modal">Salir</button>
-        <button type="button" data-target="#modalCalcularImpuesto_si_no" class="btn btn-primary boton_calcular">Calcular</button>
+        <button type="button" data-target="#modalCalcularImpuesto_si_no" class="btn btn-primary boton_calcular">Calcular i</button>
       </div>
     </div>
   </div>
@@ -243,11 +243,11 @@ error_reporting(0);
         </button>
       </div>
       <div class="modal-body">
-        <span>Estas Seguro de Calcular Impuesto y Arbitrios del <span id="anio_calcular"><!-- CONTENIDO DINAMICO--></span> ?</span>
+        <span>Estas Seguro de Calcular Impuesto y Arbitrios aqui del <span id="anio_calcular"><!-- CONTENIDO DINAMICO--></span> ?</span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary registrar_impuesto_arbitrios">si</button>
+        <button type="button" class="btn btn-primary registrar_impuesto_arbitrios">si aqui</button>
       </div>
     </div>
   </div>
@@ -283,7 +283,7 @@ error_reporting(0);
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="staticBackdropLabel">Imprimir Formatos</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Imprimir Formatos </h5>
 
       </div>
       <div class="table-responsive modal-body">
@@ -379,7 +379,7 @@ error_reporting(0);
               </div>
               <div class="tab-pane fade" id="list-la" role="tabpanel" aria-labelledby="list-messages-list">
                 <div class="table-responsive modal-body">
-                  <span class="caption_">Lista de Predios LA (Liquidacion de Arbitrio)</span>
+                  <span class="caption_">Lista de Predios LA (Liquidacion de Arbitrio) he</span>
                   <div class="row divPredio_impuesto_dj">
                     <table class="table-container" width="100%" id="predio_la_table">
                       <thead>
@@ -475,6 +475,7 @@ error_reporting(0);
       <div class="modal-body">
         <h7>Estas Seguro de Imprimir formato LA (Liquidación de Arbitrios) del año <span id="anio_formato_la"><!-- CONTENIDO DINAMICO--></span>?</h7>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary print_formato_la">si</button>

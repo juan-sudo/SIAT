@@ -2,6 +2,7 @@ class Foto {
   constructor() {
       this.imagesArray = [];
       this.modal_mostrar_foto = null;
+      this.modal_mostral_foto_modal=null;
   }
 
   // Método para cargar imágenes
@@ -88,9 +89,313 @@ class Foto {
       });
   }
 
+
   // Mostrar fotos del predio en el carrusel
+
+
+// Mostrar fotos del predio en el carrusel
+MostrarFotosPredioModal(id_predio) {
+    const formData = new FormData();
+    formData.append("mostrar_foto_carrusel_modal", "mostrar_foto_carrusel_modal");
+    formData.append("id_predio", id_predio);
+
+    $.ajax({
+        type: 'POST',
+        url: "ajax/predio.ajax.php",  // Asegúrate de que esta URL sea la correcta
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            console.log("respuesta de las imágenes", response);
+
+            // Limpiar el carrusel y los indicadores
+           $('#carousel-example-generic .carousel-indicators').empty();
+            $('#carousel-example-generic .carousel-inner').empty();
+            $('#modalFotosPredio .show-historial-predio').empty(); // Limpiar el historial
+            $('#mensaje-no-fotos').hide(); // Ocultar el mensaje de no fotos
+
+            let estado_t=response[0].Direccion_completo;
+            
+
+               // Crear el botón y agregarlo al div '.aqui'
+               $('.aqui').html(`
+                <div style="padding: 5px;  display: flex; align-items: center;" class="text-muted" >
+                    <h5 style=" font-weight: bold; margin-right: 10px;">Dirección del Predio:</h5>
+                    <p style="font-size: 16px; line-height: 1.5; margin: 0;">
+                        ${estado_t}
+                    </p>
+                </div>
+            `);
+
+
+            // Verificar si hay fotos
+            
+            // Verificar si hay fotos
+            // Verificar si hay fotos
+            // Verificar si hay fotos
+
+            // Verificar si hay fotos
+          // Verificar si hay fotos
+          // Verificar si hay fotos
+
+            // Verificar si hay fotos
+           // Verificar si hay fotos
+  // Verificar si hay fotos
+
+  if (response.length > 0) {
+    let timeline = '';
+    let lastDetalleTransferencia = null; // Para comparar y agrupar fotos con el mismo Id_Detalle_Transferencia
+    let panelBodyContent = ''; // Para agrupar las fotos y detalles
+    let separatorTime = ''; // Para guardar el tiempo del separator
+    let separatorTimeR = ''; // Para guardar el tiempo del separator
+    let separatorTime1 = ''; // Para guardar el tiempo del separator
+    let separatorTimeR1 = ''; // Para guardar el tiempo del separator
+
+    // Crear el encabezado de la tabla una sola vez
+    let tableHeader = `
+        <thead>
+            <tr>
+               
+                <th style="width: 10%;"><strong>Codigo</strong></th>
+                <th style="width: 20%;"><strong>Documento</strong></th>
+
+                <th style="width: 70%;"><strong>Contribuyentes</strong></th>
+                
+            </tr>
+        </thead>
+    `;
+
+    
+    // Iterar sobre todas las fotos y mostrarlas en la línea de tiempo
+    response.forEach(function (foto, index) {
+
+       
+       
+        // Verificar cuál fecha usar para el separator (Fecha_Transferencia o Fecha_Registro)
+     
+
+        // Si el Id_Detalle_Transferencia es el mismo, agregar la foto al mismo bloque
+        if (foto.Id_Detalle_Transferencia === lastDetalleTransferencia) {
+
+          
+            
+            // Si ya hemos agregado una fila, solo agregamos el detalle sin el encabezado
+            panelBodyContent += `
+                <div class="row">
+                    <div class="col-md-12" style='padding:0'>
+                        <table>
+                           <tr>
+                              
+                             
+                               
+                                <td style="width: 10%;">${foto.Id_Contribuyente}</td>
+                                <td style="width: 20%;">${foto.Documento}</td>
+                                
+                                 <td style="width: 70%;">${foto.Nombre_Completo}</td>
+                               
+                              
+                                </tr>
+
+                        </table>
+                    </div>
+                </div>
+            `;
+        } else {
+            
+            // Si es un nuevo Id_Detalle_Transferencia, agregar el bloque anterior y luego el nuevo con el encabezado
+            if (panelBodyContent) {
+                timeline += `
+                    <div class="timeline" style='padding-bottom:0px'>
+                    
+                        <div class="line text-muted"></div>
+                    
+
+                           <article class="panel panel-default panel-outline" style='border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>
+                   
+                            <div class="panel-heading icon" >
+                                 <i class="glyphicon glyphicon-remove-circle" style="color: #c77b5f;"> </i>
+                            </div>
+                            <div class="panel-body"  style="padding: 20px;">
+                                ${panelBodyContent}
+                            </div>
+                        </article>
+                    </div>
+                `;
+            }
+
+            // Reiniciar el contenido del panel para la nueva foto
+            panelBodyContent = `
+
+                <div class="row">
+                    <div class="col-md-12" style='padding:0'>
+
+                        <div style="width: 100%;">
+                           
+                             <div class="text-muted" > <strong> Estado: </strong>  <span  style="background-color: #f0f0f0; padding: 4px; border-radius: 5px;"> ${foto.Estado_Transferencia === 'R' ? 'Registrado' : 'Transferido'}</span>
+                            </div>
+                       
+                        </div>
+                         <div style="width: 100%;">
+                          
+                              <div class="text-muted" > <strong> Fecha registro: </strong>  ${foto.Fecha_Registro === null ? 'No registra' : foto.Fecha_Registro}</div>
+                       
+                         
+                              </div>
+                              <div style="width: 100%; display: ${foto.carpeta_origen === null ? 'none' : 'block'};">
+                                <div class="text-muted">
+                                    <strong> Carpeta origen: </strong>  
+                                    ${foto.carpeta_origen === null ? 'No registra' : foto.carpeta_origen }
+                                </div>
+                                </div>
+
+
+                              <div style="width: 100%; display: ${foto.carpeta_destino === null ? 'none' : 'block'};">
+                            <div class="text-muted">
+                                <strong> Carpeta actual: </strong> 
+                                <span style="background-color: ${foto.carpeta_destino === null ? 'transparent' : '#dff0e0'}; padding: 2px; border-radius: 2px;">
+                                ${foto.carpeta_destino === null ? 'No registra' : foto.carpeta_destino }
+                                </span>
+                            </div>
+                            </div>
+
+                    
+                <div class="text-muted" > <strong>Propietarios </strong></div>
+
+
+                        <table style="width: 100%; table-layout: fixed;" >
+                            ${tableHeader} <!-- Agregar solo una vez el encabezado -->
+                         <tr>
+                           
+                           
+                       
+                          
+                            <td style="width: 10%;">${foto.Id_Contribuyente}</td>
+                             <td style="width: 20%;">${foto.Documento}</td>
+                               <td style="width: 70%;">${foto.Nombre_Completo}</td>
+                              
+                            
+                        </tr>
+
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Actualizar el valor del Id_Detalle_Transferencia para la siguiente iteración
+        lastDetalleTransferencia = foto.Id_Detalle_Transferencia;
+    });
+
+    // Asegurarse de agregar el último bloque si quedó pendiente
+    if (panelBodyContent) {
+        timeline += `
+       
+     
+            <div class="timeline">
+            
+                <div class="line text-muted"></div>
+             
+
+                 <article class="panel panel-default panel-outline" style='border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>
+                   
+                    <div class="panel-heading icon">
+                          <i class="glyphicon glyphicon-check"  style="color: green;"> </i>
+                    </div>
+                    <div class="panel-body"  style="padding: 20px;">
+                        ${panelBodyContent}
+                    </div>
+                </article>
+                
+            </div>
+        `;
+    }
+
+    // Añadir la línea de tiempo al modal
+    $('#modalFotosPredio .show-historial-predio').html(timeline);
+
+
+
+    // Mostrar el modal
+    $('#modalFotosPredio').modal('show');
+} else {
+    // Si no hay fotos, mostrar el mensaje de no fotos
+   // $('#mensaje-no-fotos').show();
+  //  $('#modalFotosPredio').modal('show');
+}
+
+
+
+
+        },
+        error: function () {
+            alert('Error al cargar las fotos.');
+        }
+    });
+}
+
+
+
+// // Mostrar fotos del predio en el carrusel
+// MostrarFotosPredioModalHistorial(id_predio) {
+  
+    
+
+//     const formData = new FormData();
+//     formData.append("mostrar_foto_carrusel", "mostrar_foto_carrusel");
+//     formData.append("id_predio", id_predio);
+
+//     $.ajax({
+//         type: 'POST',
+//         url: "ajax/predio.ajax.php",  // Asegúrate de que esta URL sea la correcta
+//         data: formData,
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             console.log("respuesta de las imágenes", response);
+
+//             // Limpiar el carrusel y los indicadores
+//             $('#carousel-example-generic .carousel-indicators').empty();
+//             $('#carousel-example-generic .carousel-inner').empty();
+
+//             // Verificar si hay fotos
+//             if (response.length > 0) {
+//                 // Limpiar el mensaje de "No hay fotos"
+//                 $('#mensaje-no-fotos').hide(); // Ocultar el mensaje de no fotos
+
+//                 // Añadir fotos al carrusel
+//                 response.forEach(function (foto, index) {
+//                     $('#carousel-example-generic').carousel('pause');
+//                     $('#carousel-example-generic .carousel-indicators').append(`
+//                         <li data-target="#carousel-example-generic" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>
+//                     `);
+//                     $('#carousel-example-generic .carousel-inner').append(`
+//                         <div class="item ${index === 0 ? 'active' : ''}">
+//                             <img src="${foto.ruta_foto}?v=${new Date().getTime()}" alt="Slide ${index + 1}">
+//                         </div>
+//                     `);
+//                 });
+
+//                 // Mostrar el modal
+//                 $('#modalFotosPredio').modal('show');
+//             } else {
+//                 // Si no hay fotos, mostrar el mensaje de no fotos
+//                 $('#mensaje-no-fotos').show();
+//                 $('#modalFotosPredio').modal('show');
+//             }
+//         },
+//         error: function () {
+//             alert('Error al cargar las fotos.');
+//         }
+//     });
+// }
+
+
   MostrarFotosPredio(id_predio) {
       const formData = new FormData();
+
+      console.log("id del predio----que va---",id_predio );
       formData.append("mostrar_foto_carrusel", "mostrar_foto_carrusel");
       formData.append("id_predio", id_predio);
 
@@ -102,6 +407,9 @@ class Foto {
           contentType: false,
           processData: false,
           success: function (response) {
+
+           
+            console.log("respusta del imagen",response);
               $('#carousel-example-generic .carousel-indicators').empty();
               $('#carousel-example-generic .carousel-inner').empty();
 
@@ -129,7 +437,7 @@ class Foto {
                     $('#modal_foto_ver').modal('show');
                 }
               } else {
-                  alert('No hay fotos para este predio.');
+                  alert('No hay fotos para este predio aqui.');
               }
           },
           error: function () {
@@ -137,11 +445,48 @@ class Foto {
           }
       });
   }
+
+
 }
 const foto = new Foto();
 
 
+
+// Función para abrir el modal y cargar las fotos cuando se hace clic en el botón correspondiente
+
+// Evento de clic para el icono de imagen
+// Evento de clic para el icono de imagen
+$(document).on("click", "#id_predio_foto", function () {
+
+    // Obtener el id_predio de la propiedad data-id_predio_foto del icono
+    var id_predio = $(this).data("id_predio_foto"); // Usamos .data() para obtener el atributo data-id_predio_foto
+    console.log("id predio para iamgen ",id_predio );
+    foto.modal_mostrar_foto=null;
+
+    foto.imagesArray = [];
+    // Verificar que se haya obtenido el id_predio
+    if (id_predio) {
+        
+
+        // Llamar a la función que carga las fotos del predio en el carrusel
+        foto.MostrarFotosPredioModal(id_predio);
+       // foto.MostrarFotosPredioModalHistorial(id_predio);
+
+        
+        
+
+        // Mostrar el modal con las fotos
+       // $("#modal_foto").modal("show");
+    } else {
+        alert("ID del predio no encontrado.");
+    }
+});
+
+
+
+
 $("#abrirFoto").on("click", function (e) {
+    console.log("aqui ams se hace clcik-------");
    
     if (predio.id_predio > 0) {
       foto.modal_mostrar_foto=false;
@@ -280,12 +625,14 @@ $("#popiguardarfoto").on("click", function (e) {
   foto.cargar_foto();
 });
  
- $("#id_predio_foto").on("click", function (e) {
-    var id_predio_foto = $(this).data('id_predio_foto');
-    foto.modal_mostrar_foto=true;
-    console.log(foto.modal_mostrar_foto);
-    foto.MostrarFotosPredio(id_predio_foto);
- });
+
+//  $("#id_predio_foto").on("click", function (e) {
+//     var id_predio_foto = $(this).data('id_predio_foto');
+//     foto.modal_mostrar_foto=true;
+//     console.log(foto.modal_mostrar_foto);
+//     foto.MostrarFotosPredio(id_predio_foto);
+//  });
+
 
  reader.onload = function (e) {
   if (foto.imagesArray.length < maxImages) {

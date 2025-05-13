@@ -212,7 +212,7 @@ $idArray = array_filter($idArray);
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="staticBackdropLabel">Recaudación Agua</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Recaudación Agua aqui</h5>
       </div>
       <div class="modal-body">
         <h7>Estas Seguro de Generar la Boleta como Cancelado de un total de <b><span id="total_confirmar_agua"><!-- CONTENIDO DINAMICO--></span></b> &nbsp;?</h7>

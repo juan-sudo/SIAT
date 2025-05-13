@@ -6,7 +6,7 @@ class OrdenPagoClass {
      this.totalDeuda_=null;
     }
 
-
+  //YA ESTA
     ordenes_pago(){
 
       let self=this;
@@ -219,7 +219,6 @@ class OrdenPagoClass {
 
 
   //MOSTRAR ORDEN DE PAGO
-
   imprimir_orden_historial(selectedOption) {
 
 
@@ -293,8 +292,6 @@ class OrdenPagoClass {
 
 //ELIMINAR ORDEN DE COMPRA
 
-
-
 eliminar_orden_compra(numero_orden,anio) {
  
  
@@ -339,6 +336,38 @@ eliminar_orden_compra(numero_orden,anio) {
 }
 
   const orden_pago = new OrdenPagoClass();
+
+
+  //ORIGINAL
+  $("#abrirOrdenPago").click(function () {
+    orden_pago.muestra_deuda();
+    $("#modalOrdenPago").modal("show");
+});
+
+$(document).on("change", "#anio_orden", function () {
+  orden_pago.muestra_deuda();
+});
+
+
+$(document).on("change", "#select_tributo_orden", function () {
+  orden_pago.muestra_deuda();
+});
+
+$(document).on("click", ".btnOrdenPago", function () {
+  $('#modalImprimir_ordenpago_si_no').modal('show');
+});
+
+
+
+
+$(document).on("click", ".print_orden_pago", function () {
+$('#modalImprimir_ordenpago_si_no').modal('hide');
+orden_pago.imprimir_orden();
+
+});
+
+  //END original
+
   
   //CARGA AUTOMATICA DE NUERO ORDEN
   $('#modalOrdenPago').on('show.bs.modal', function () {
@@ -351,12 +380,8 @@ eliminar_orden_compra(numero_orden,anio) {
     orden_pago.ordenes_pago();
 });
 
- 
-  $("#abrirOrdenPago").click(function () {
-      orden_pago.muestra_deuda();
-      $("#modalOrdenPago").modal("show");
-  });
 
+ 
 
   // RESTABLECER CUANDO SE CIERRA ORDEN DE PAGO
 $('#modalOrdenPago').on('hidden.bs.modal', function () {
@@ -366,29 +391,9 @@ $('#modalOrdenPago').on('hidden.bs.modal', function () {
 });
 
 
-  $(document).on("change", "#anio_orden", function () {
-    orden_pago.muestra_deuda();
-  });
-
-
-  $(document).on("change", "#select_tributo_orden", function () {
-    orden_pago.muestra_deuda();
-  });
 
 
 
-$(document).on("click", ".btnOrdenPago", function () {
-    $('#modalImprimir_ordenpago_si_no').modal('show');
-});
-
-
-
-
-$(document).on("click", ".print_orden_pago", function () {
-  $('#modalImprimir_ordenpago_si_no').modal('hide');
-  orden_pago.imprimir_orden();
-
-});
 
 //CERRAR EL JFRAME DE ORDEN DE PAGO
 $(document).on("click", ".cerrar-modal", function () {
@@ -562,21 +567,6 @@ $(document).on("click", ".eliminar_orden_pago_si", function () {
 });
 
 
-// $(document).on("click", ".eliminar_btn_o", function () {
-  
-//    $('#modalEliminar_ordenpago_si_no').modal('hide');
-   
-//   // Obtener el valor de la opción seleccionada
-//   let selectedOption = $('#select_tributo_orden_h').val();  // Aquí obtenemos el valor del select
-//   console.log("has hecho click aqui",selectedOption )
-//     // Separar el valor de 'numero_orden' y 'año'
-//     let [numero_orden, anio] = selectedOption.split('-');
-    
-//   //orden_pago.eliminar_orden_compra(selectedOption);
-//   orden_pago.eliminar_orden_compra(numero_orden, anio);
- 
-//  });
- 
 
 
   

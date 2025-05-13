@@ -55,7 +55,7 @@ $idArray = array_filter($idArray);
         <div class="col-md-12 table-responsive">
           <div class="divDetallePredio_licencia_agua_2">
             <table class="table-container" id="tablalistaprediosAgua">
-              <caption>Licencia de Agua</caption>
+              <caption>Licencia de Aguam</caption>
               <thead>
                 <tr>
                   <th class="text-center">N°</th>
@@ -276,10 +276,64 @@ $idArray = array_filter($idArray);
                   </div>
                 </div>
               </div>
-              <div class="col-8 col-md-8"> <!-- Obsercacion-->
-              <label class="cajalabel12">Observaciones</label>
-                <input class="form-control" type="text" name="obsLicAd" id="obsLicAd">
+
+            
+            <div class="row"> 
+                <div class="col-8 col-md-8"> <!-- Obsercacion-->
+                  <span class="caption_">Observaciones</span>
+                    <input class="form-control" type="text" name="obsLicAd" id="obsLicAd">
+                </div>
+
               </div>
+
+              <div class="row" id="divDescuentoSindicatoNuevo"  style="display: none;"> <!-- Detalle Licencia-->
+              <span class="caption_">Descuentos integrante del sindicato</span>
+                <div class="row">
+
+                <div class="col-lg-5 col-md-6"><!-- Categoria Licencia-->
+                    <label class="cajalabel2">Desc. sindicato: </label>
+                    <select name="descuentoSindicato" class="form2" id="descuentoSindicato">
+                      <option selected>Seleccione</option>
+                      <option value="0.50">50%</option>
+                      
+                    </select>
+                </div>
+
+
+                <div class="col-lg-5 col-md-6">
+                    <label class="cajalabel2">Nu. Resolucion sindicato / otro: </label>
+                    <input  type="text" name="resoSinLicAd" id="resoSinLicAd">
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row" id="divDescuentoPagoServicioNuevo" > <!-- Detalle Licencia-->
+            <span class="caption_">Descuento por Pago de servicio de agua potable</span>
+            <div class="row">
+
+                <div class="col-lg-5 col-md-6"><!-- Categoria Licencia-->
+                    <label class="cajalabel2">Desc. pago servicio: </label>
+                    <select name="descuendoServicio" class="form2" id="descuendoServicio">
+                      <option selected>Seleccione</option>
+                      <option value="2.00">2.00</option>
+                      
+                    </select>
+
+                  </div>
+
+
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Numero de expediente: </label>
+                <input type="text" name="resoPagoLicAd" id="resoPagoLicAd" >
+              </div>
+
+            </div>
+          </div>
+
+
+
+
           </section>
         </form>
       </div>
@@ -294,6 +348,8 @@ $idArray = array_filter($idArray);
   </div>
   <div class="resultados"></div>
 </div>
+<!--====== MODAL EDITAR ALICENCIA ===========-->
+
 <!--====== MODAL EDITAR ALICENCIA ===========-->
 <div class="modal" id="modalEditarLicencia">
   <div class="modal-dialog modal-lg">
@@ -438,16 +494,71 @@ $idArray = array_filter($idArray);
                     <input type="radio" id="roturaCheckboxEdit" name="roturaCheckboxEdit" value="1"> SI
                     <input type="radio" id="roturaCheckboxEdit" name="roturaCheckboxEdit" value="0"> NO
                   </div>
+
                   <div class="col-lg-5 col-md-6"><!-- Rotura Vereda-->
                     <label class="cajalabel2">Fecha Exp:</label>
                     <input type="date" id="fechaExpedLicEdit" name="fechaExpedLicEdit" class="busqueda_filtros">
                   </div>
+
+                 
+
                 </div>
               </div>
-            <div class="col-8 col-md-8"> <!-- Obsercacion-->
-              <span class="caption_">Observaciones</span>
-                <input class="form-control" type="text" name="obsLicAdEdit" id="obsLicAdEdit">
+
+              <div class="row"> 
+                <div class="col-8 col-md-8"> <!-- Obsercacion-->
+                  <span class="caption_">Observaciones</span>
+                    <input class="form-control" type="text" name="obsLicAdEdit" id="obsLicAdEdit">
+                </div>
+
             </div>
+
+            <div class="row" id="divDescuentoSindicato"  style="display: none;"> <!-- Detalle Licencia-->
+              <span class="caption_">Descuentos integrante del sindicato</span>
+                <div class="row">
+
+                <div class="col-lg-5 col-md-6"><!-- Categoria Licencia-->
+                    <label class="cajalabel2">Desc. sindicato: </label>
+                    <select name="descuentoSindicatoEdit" class="form2" id="descuentoSindicatoEdit">
+                      <option selected>Seleccione</option>
+                      <option value="0.50">50%</option>
+                      
+                    </select>
+                </div>
+
+
+                <div class="col-lg-5 col-md-6">
+                    <label class="cajalabel2">Nu. Resolucion sindicato / otro: </label>
+                    <input  type="text" name="resoSinLicAdEdit" id="resoSinLicAdEdit">
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row" id="divDescuentoPagoServicio" > <!-- Detalle Licencia-->
+            <span class="caption_">Descuento por Pago de servicio de agua potable</span>
+               <div class="row">
+
+                <div class="col-lg-5 col-md-6"><!-- Categoria Licencia-->
+                    <label class="cajalabel2">Desc. pago servicio: </label>
+                    <select name="descuendoServicioEdit" class="form2" id="descuendoServicioEdit">
+                      <option selected>Seleccione</option>
+                      <option value="2.00">2.00</option>
+                      
+                    </select>
+
+                  </div>
+
+
+              <div class="col-lg-5 col-md-6">
+                <label class="cajalabel2">Numero de expediente: </label>
+                <input type="text" name="resoPagoLicAdEdit" id="resoPagoLicAdEdit" >
+              </div>
+
+            </div>
+          </div>
+
+
           </section>
         </form>
       </div>
@@ -462,6 +573,8 @@ $idArray = array_filter($idArray);
   </div>
   <div class="resultados"></div>
 </div>
+
+
 <!--====== MODAL TRANSFERIR ===========-->
 <div class="modal" id="modalTranferirLicence">
   <div class="modal-dialog modal-lg">
@@ -616,6 +729,16 @@ $idArray = array_filter($idArray);
                 <div class="col-lg-5 col-md-6"><!-- Rotura Vereda-->
                   <label class="cajalabel2">Fecha Exp:</label>
                   <span id="fechaExpedLicEditCalcular" name="fechaExpedLicEditCalcular"></span>
+                </div>
+
+                <div class="col-lg-5 col-md-4"><!-- Categoria Licencia-->
+                  <label class="cajalabel2">Descuento sindicato: </label>
+                  <span id="descuentoSindicatoCalcular" name="descuentoSindicatoCalcular"><span>
+                </div>
+
+                <div class="col-lg-5 col-md-6"><!-- Rotura Vereda-->
+                  <label class="cajalabel2">Descuento servicio agua:</label>
+                  <span id="descuentoServicioEditCalcular" name="descuentoServicioEditCalcular"></span>
                 </div>
 
           </section>

@@ -21,6 +21,8 @@ class ImpuestoCalculator {
     this.tipopredio_la = null;
     this.idcontribuyente_tim = null;
     this.predios_seleccionados=[];
+    this.Id_Regimen_Afecto = null;
+
     const tabla_dj = document
       .getElementById("predio_dj_table")
       .getElementsByTagName("tbody")[0];
@@ -60,6 +62,7 @@ class ImpuestoCalculator {
       },
     });
   }
+
   calcularImpuesto() {
     const self = this;
     let datos = new FormData();
@@ -68,6 +71,7 @@ class ImpuestoCalculator {
     datos.append("mostrar_valor_calculado", "mostrar_valor_calculado");
     datos.append("predios_s","no");
     datos.append("predios_seleccionados","null");
+
     if ($("#calculo_predio_select").is(':checked')) {
       datos.append("predios_seleccionados",this.predios_seleccionados);
       datos.append("predios_s","si");
@@ -125,8 +129,14 @@ class ImpuestoCalculator {
   }
 
   registrarImpuesto(recalculo) {
+    
+    console.log("estas para recalculo para estado de cuenta");
+
+    console.log("ejecutando registrar-probar: ",this.predios_seleccionados, this.Id_Regimen_Afecto);
+
     //const self = this;
     let datos = new FormData();
+
     datos.append("idContribuyente_impuesto", predio.id_propietario);
     datos.append("selectnum", this.selectnum);
     datos.append("impuesto_anual", this.impuesto_anual);
@@ -135,6 +145,8 @@ class ImpuestoCalculator {
     datos.append("gasto_emision", this.gasto_emision);
     datos.append("total_pagar", this.total_pagar);
     datos.append("registrar_impuesto", "registrar_impuesto");
+   datos.append("id_Regimen_Afecto", this.Id_Regimen_Afecto);
+
     datos.append("recalcular", recalculo);
    
     if ($("#calculo_predio_select").is(':checked')&& this.predios_seleccionados.length > 0) {
@@ -227,6 +239,10 @@ class ImpuestoCalculator {
         $("#predios_dj").html(loadingMessage);
       },
       success: function (respuesta) {
+
+        console.log("la respuesta para impuesto viendo",respuesta);
+
+
         var divContainer = document.getElementById("tablapisos");
         this.html = "";
         divContainer.innerHTML = this.html;
@@ -243,6 +259,7 @@ class ImpuestoCalculator {
   }
 
   mostrarPredios_LA() {
+
     let datos = new FormData();
     datos.append("idContribuyente_impuesto", predio.id_propietario);
     datos.append("selectnum", this.selectnum_arbitrio);
@@ -262,6 +279,9 @@ class ImpuestoCalculator {
         $("#predios_la").html(loadingMessage);
       },
       success: function (respuesta) {
+
+        console.log("la respuesta para LA",respuesta);
+        
         var divContainer_ = document.getElementById("tablacuotas");
         this.html_cuota = "";
         divContainer_.innerHTML = this.html_cuota;
@@ -328,10 +348,11 @@ class ImpuestoCalculator {
       },
     });
   }
+
   tablapisos() {
     var divContainer = document.getElementById("tablapisos");
     this.html =
-      '<table class="table table-bordered miTbody_formatos"><caption>Lista de Pisos</caption>' +
+      '<table class="table table-bordered miTbody_formatos"><caption>Lista de Pisos es</caption>' +
       "<thead>" +
       "<tr>" +
       "<th>Catastro</th>" +
@@ -351,10 +372,10 @@ class ImpuestoCalculator {
     var divContainer = document.getElementById("tablacuotas");
     this.html_cuota =
       '<table class="table-container" id="predio_cuotas_la">' +
-      "<caption>Cuotas de Vencimiento de LA (Liquidacion Arbitrios)</caption>" +
+      "<caption>Cuotas de Vencimiento de LA (Liquidacion Arbitrios) aqui </caption>" +
       "<thead>" +
       "<th>Cuota</th>" +
-      "<th>Vencimiento</th>" +
+      // "<th>Vencimiento</th>" +
       "<th>Monto Absoluto</th>" +
       "<th>Gastos de Emision</th>" +
       "<th>Ttotal a Pagar</th>" +
@@ -531,6 +552,7 @@ function loadPredio_impuesto() {
   impuestoCalculator.mostrarPredios("impuesto");
   impuestoCalculator.reiniciarValores();
   impuestoCalculator.predios_seleccionados=[];
+
   $('#calculo_predio_select').prop('checked', false).change();
   $('.action-column').hide();
 
@@ -653,17 +675,24 @@ $(document).on("click", ".boton_calcular_no", function () {
 });
 
 $(document).on('change', '#select_predio_calcular', function() {
+ 
   const idPredio = $(this).data('id');
+  const regimenAfecto = $(this).data('regimen_afecto');
+   console.log("click aqui-- checked",idPredio, regimenAfecto);
+  
+
   if ($(this).is(':checked')) {
     // Si el checkbox se selecciona, agrega el id al array
     if (!impuestoCalculator.predios_seleccionados.includes(idPredio)) {
       impuestoCalculator.predios_seleccionados.push(idPredio);
+      impuestoCalculator.Id_Regimen_Afecto = regimenAfecto;
+
     }
   } else {
     // Si el checkbox se deselecciona, remueve el id del array
     impuestoCalculator.predios_seleccionados = impuestoCalculator.predios_seleccionados.filter(item => item !== idPredio);
   }
-  console.log(impuestoCalculator.predios_seleccionados);
+  console.log("selecionando ahora--",impuestoCalculator.predios_seleccionados);
 });
 
 
@@ -675,3 +704,108 @@ $(".btnCalcular_impuesto").on("click", function (e) {
  });
 
 });
+
+//APARESCA CUANDO SE SELCIONA EXonerado
+//LAS FECHAS INCIO Y FECHA FUIN
+
+$(document).ready(function() {
+  // Cuando se selecciona una opción del select
+  $('#regInafecto_e').on('change', function() {
+    // Verifica si hay una opción seleccionada
+    var selectedValue = $(this).val();
+    
+    // Si se selecciona una opción, mostrar las divs
+    if (selectedValue === "2") {
+      $('#fecha_ini_div').show(); // Muestra la primera div
+      $('#fecha_fin_div').show(); // Muestra la segunda div
+      $('#expediente_div').show(); // Muestra la tercera div
+    } else {
+      // Si no hay opción seleccionada, las ocultas
+      $('#fecha_ini_div').hide();
+      $('#fecha_fin_div').hide();
+      $('#expediente_div').hide();
+    }
+  });
+});
+
+//EFECTO DE CELULAR EN EDITAR
+//  $(document).ready(function() {
+//     // Cambia el color del borde, el ancho y la altura cada 2 segundos
+//     setInterval(function() {
+//       // Obtén el color actual del borde en formato RGB
+//       var currentColor = $('#e_telefono').css('border-color');
+      
+//       // Verifica el color y cambia entre dos colores, el ancho, la altura y un efecto de escala
+//       if (currentColor == 'rgb(42, 6, 161)') { // Si el borde es de color #2a06a1 en formato RGB
+//         $('#e_telefono').css({
+//           'border-color': '#FF5733', // Cambia a naranja
+//           'width': '120px', // Aumenta el ancho
+//           'height': '30px', // Aumenta la altura
+//           'transform': 'scale(1.1)', // Aumenta el tamaño con un efecto de escala
+//           'box-shadow': '0px 0px 10px rgba(255, 87, 51, 0.5)' // Añade sombra para un toque elegante
+//         });
+//       } else {
+//         $('#e_telefono').css({
+//           'border-color': '#2a06a1', // Cambia a #2a06a1
+//           'width': '110px', // Vuelve al tamaño original
+//           'height': '20px', // Vuelve a la altura original
+//           'transform': 'scale(1)', // Restaura el tamaño
+//           'box-shadow': '0px 0px 5px rgba(42, 6, 161, 0.5)' // Sombra más ligera
+//         });
+//       }
+//     }, 2000); // 2000ms = 2 segundos
+//   });
+
+ $(document).ready(function() {
+    // Función para mover el input hacia arriba
+    function moveInput() {
+      var currentColor = $('#e_telefono').css('border-color');
+      
+      // Mueve hacia arriba solo cuando no está en focus, el borde es rojo y el valor tiene menos de 9 dígitos
+      if (currentColor == 'rgb(255, 87, 51)' && !$('#e_telefono').is(':focus') && ($('#e_telefono').val().length < 9)) { 
+        $('#e_telefono').css({
+          'transform': 'translateY(-10px)', // Mueve hacia arriba
+          'box-shadow': '0px 0px 5px rgba(255, 87, 51, 1)' // Sombra más intensa
+        });
+
+        // Después de 0.5 segundos, vuelve a su posición original
+        setTimeout(function() {
+          $('#e_telefono').css({
+            'transform': 'translateY(0)' // Vuelve a su posición original (abajo)
+          });
+        }, 500); // Mantén el movimiento hacia arriba por 500ms
+      }
+    }
+
+    // Cambia el color del borde a rojo cuando no tiene foco y tiene menos de 9 dígitos
+    setInterval(function() {
+      if (!$('#e_telefono').is(':focus') && $('#e_telefono').val().length < 9) { // Solo cambia el borde si no tiene foco y tiene menos de 9 dígitos
+        $('#e_telefono').css({
+          'border-color': '#FF5733' // Cambia el borde a rojo
+        });
+        moveInput(); // Llama a la función para mover el input
+      }
+    }, 2000); // 2000ms = 2 segundos para cada ciclo
+
+    // Cambia el borde a azul cuando el input tiene foco o tiene 9 dígitos
+    $('#e_telefono').on('focus', function() {
+      $('#e_telefono').css({
+        'border-color': '#2a06a1' // Cambia el borde a azul cuando tiene foco
+      });
+    });
+
+    // Cambia el borde a azul si el input tiene valor (cuando pierde el foco) y tiene exactamente 9 dígitos
+    $('#e_telefono').on('blur', function() {
+      var telefonoValue = $('#e_telefono').val();
+      if (telefonoValue.length == 9) { // Si tiene exactamente 9 dígitos
+        $('#e_telefono').css({
+          'border-color': '#2a06a1' // Cambia el borde a azul
+        });
+      } else {
+        $('#e_telefono').css({
+          'border-color': '#FF5733' // Cambia el borde a rojo si no tiene 9 dígitos
+        });
+      }
+    });
+
+  });

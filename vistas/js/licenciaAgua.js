@@ -12,13 +12,18 @@ class LicenciaAgua {
     this.idproveidor = null;
     this.numproveidor = null;
     this.anioagua = null;
-
     //datos para calcular el estado de cuenta
     this.dni = null;
     this.nombres = null;
     this.monto = null;
     this.categoria = null;
     this.fecha_expedicion_c = null;
+    this.descuento_servicio = null;
+    this.descuento_sindicato = null;
+    this.numero_resolucion_sindicato = null;
+    this.numero_pago_servicio = null;
+
+    //this.descuento = null;
   }
   loadContribuyenteAguaC(page,searchClass) {
     let perfilOculto_c = $("#perfilOculto_c").val();
@@ -53,6 +58,8 @@ class LicenciaAgua {
     localStorage.setItem("idContribuyenteC", id);
     window.location = "index.php?ruta=listapredioagua&id=" + id;
   }
+
+  
   MostrarLicencia() {
     const cuerpoTabla = document.getElementById("listaLicenciasAgua");
     const filas = cuerpoTabla.getElementsByTagName("tr");
@@ -101,6 +108,8 @@ class LicenciaAgua {
     });
   }
 
+
+//CALCUALR ESTADO DE CUANTA AGUA
   funcioncalcularestdocuentaagua(recalculo) {
     var selectElement = document.getElementById("selectnum_copiar");
     nuevalicenciaAgua.anioagua =
@@ -109,14 +118,40 @@ class LicenciaAgua {
     let datos = new FormData();
     datos.append("dni", nuevalicenciaAgua.dni);
     datos.append("nombres", nuevalicenciaAgua.nombres);
-    datos.append("monto", nuevalicenciaAgua.monto);
+  
     datos.append("categoria", nuevalicenciaAgua.categoria);
     datos.append("fecha_expedicion", nuevalicenciaAgua.fecha_expedicion_c);
     datos.append("anio", nuevalicenciaAgua.anioagua);
     datos.append("id_contribuyente", nuevalicenciaAgua.idContribuyenteC);
     datos.append("id_licencia", editalicenciaAgua.idLicenciaAguaC);
-    datos.append("recalcular", recalculo);
 
+
+    //datos.append("monto", nuevalicenciaAgua.monto);
+
+     if(nuevalicenciaAgua.descuento_sindicato>0.00){
+      datos.append("descuento", nuevalicenciaAgua.descuento_sindicato);
+
+     }else if(nuevalicenciaAgua.descuento_servicio>0.00){
+      datos.append("descuento", nuevalicenciaAgua.descuento_servicio);
+
+     }else if((nuevalicenciaAgua.descuento_servicio == null || nuevalicenciaAgua.descuento_servicio == undefined || nuevalicenciaAgua.descuento_servicio == 0.00) && (nuevalicenciaAgua.descuento_sindicato == null || nuevalicenciaAgua.descuento_sindicato == undefined || nuevalicenciaAgua.descuento_sindicato == 0.00)){
+      datos.append("descuento", 0.00);
+
+     }
+     
+
+   
+
+
+
+    //  datos.append("montoAplicarSindicato", montoAplicarSindicato);
+      datos.append("monto", nuevalicenciaAgua.monto);
+
+
+    //}
+    
+
+    datos.append("recalcular", recalculo);
     datos.append("calcular_agua", "calcular_agua");
     //imprimiendo los valores enviados
     for (const [clave, valor] of datos.entries()) {
@@ -335,6 +370,8 @@ $(document).ready(function () {
       processData: false,
       dataType: "json",
       success: function (respuesta) {
+
+        //console.log("para editar licencia", respuesta);
         // console.log(respuesta);
         let elemento = respuesta[0];
         $("#idLicenciEdit").val(elemento.Id_Licencia_Agua);
@@ -357,6 +394,20 @@ $(document).ready(function () {
         $("#edit_nroLuz").val(elemento.Luz);
         $("#edit_ref").val(elemento.Referencia);
 
+      
+       // Asignar valor y manejar el caso null
+        $("#descuentoSindicatoEdit").val(elemento.Descuento_sindicato == null || elemento.Descuento_sindicato === "" ? "" : elemento.Descuento_sindicato);
+        $("#descuendoServicioEdit").val(elemento.Descuento_pago_servicio == null || elemento.Descuento_pago_servicio === "" ? "" : elemento.Descuento_pago_servicio);
+
+
+
+        $("#resoSinLicAdEdit").val(elemento.Numero_Resolucion_Sindicato);
+        $("#resoPagoLicAdEdit").val(elemento.Numero_Pago_Servicio);
+
+       
+
+
+
         let html = ` <input type="hidden" id="idvia" name="idvia" value="${elemento.Id_Ubica_Vias_Urbano}">
         <tr>
           <td class="text-center">${elemento.tipo_via} ${elemento.nombre_calle}</td>
@@ -368,6 +419,7 @@ $(document).ready(function () {
           <td class="text-center">${elemento.Id_Ubica_Vias_Urbano}</td>
         </tr>
       `;
+
       $("#itemsRC_editar_agua").html(html);
 
         let prueba = elemento.Inspeccion;
@@ -403,12 +455,21 @@ $(document).ready(function () {
     $("#modalEditarLicencia").modal("hide");
   });
 
+  
+
   $(document).on("click", "#btnRegistrarLicenAguaEdit", function () {
+
     DesCamposRegee();
+
     let formd = new FormData($("#formRegistrarLicenciaAguaEdit")[0]);
+
     formd.append("idLicenciEdit", editalicenciaAgua.idLicenciaAguaC);
+
+ 
+
     for (const pair of formd.entries()) {
-		  console.log(pair[0] + ", " + pair[1]);
+
+		   console.log("estas son los valores que van---", pair[0] + ", " + pair[1]);
 		}
     $.ajax({
       type: "POST",
@@ -424,6 +485,9 @@ $(document).ready(function () {
       },
     });
   });
+
+
+  
   $(document).on("click", ".btnEliminarLic", function () {
     // Preguntar al usuario si realmente quiere eliminar la licencia
     if (confirm("¿Estás seguro de que quieres eliminar Licencia?")) {
@@ -566,6 +630,8 @@ $(document).ready(function () {
       },
     });
   });
+
+
   //mostrando datos para procesar el esto de cuenta agua
   $(document).on("click", "#btnProcesarDeuda", function () {
     if (filaLicence) {
@@ -600,6 +666,14 @@ $(document).ready(function () {
           $("#categoriaLicAdEditCalcular").val(elemento.Id_Categoria_Agua);
           $("#fechaExpedLicEditCalcular").html(elemento.Fecha_Expedicion);
           $("#MontoLicEditCalcular").html(elemento.Monto);
+
+         
+          // Asignar valor de 0.00 si es null
+          $("#descuentoSindicatoCalcular").html(elemento.Descuento_sindicato == null ? 0.00 : elemento.Descuento_sindicato);
+          $("#descuentoServicioEditCalcular").html(elemento.Descuento_pago_servicio == null ? 0.00 : elemento.Descuento_pago_servicio);
+
+          
+
           $("#labelUbicacionLicEditCalcular").html(
             elemento.tipo_via + " " +
             elemento.nombre_calle + " " +
@@ -618,6 +692,15 @@ $(document).ready(function () {
           nuevalicenciaAgua.monto = elemento.Monto;
           nuevalicenciaAgua.categoria = elemento.Id_Categoria_Agua;
           nuevalicenciaAgua.fecha_expedicion_c = elemento.Fecha_Expedicion;
+
+          //DESCUENTO PARA CALCULAR
+          nuevalicenciaAgua.descuento_servicio = elemento.Descuento_pago_servicio;
+          nuevalicenciaAgua.descuento_sindicato = elemento.Descuento_sindicato;
+          nuevalicenciaAgua.numero_pago_servicio = elemento.Numero_Pago_Servicio;
+          nuevalicenciaAgua.numero_resolucion_sindicato = elemento.Numero_Resolucion_Sindicato;
+          
+
+
           //fecha_espedicion=elemento.Fecha_Expedicion;
           //capturando el año de donde se va calcular el estado de cuenta
           let datosLicAnio = new FormData();
@@ -656,6 +739,8 @@ $(document).ready(function () {
     var recalculo = "no";
     nuevalicenciaAgua.funcioncalcularestdocuentaagua(recalculo);
   });
+
+
   $(document).on("click", ".generarRecalculodeudaagua", function () {
     var recalculo = "si";
     nuevalicenciaAgua.funcioncalcularestdocuentaagua(recalculo);
@@ -721,3 +806,237 @@ function bloCampost() {
   $("#numDniOtrosEditt").prop("disabled", true);
   $("#propietarioLicEditt").prop("disabled", true);
 }
+
+//SELECIONAR PARA INPUT NUEVO
+$(document).ready(function() {
+  // Cuando se cambia la opción del select
+  $("#descuendoServicio").change(function() {
+    // Obtener el valor seleccionado
+    var selectedValue = $(this).val();
+    
+    // Verificar si el valor seleccionado es 2.00
+    if (selectedValue == "2.00") {
+      // Mostrar el div con el id 'resoPagoLicAdEdit'
+      $("#resoPagoLicAd").closest(".col-lg-5, .col-md-6").show();
+      
+      // Poner el foco en el campo de entrada
+      $("#resoPagoLicAd").focus();
+    } else {
+      // Ocultar el div con el id 'resoPagoLicAdEdit' si no se selecciona 2.00
+      $("#resoPagoLicAd").closest(".col-lg-5, .col-md-6").hide();
+    }
+  });
+  
+  // Ejecutar la función al cargar la página para verificar el estado inicial
+  $("#descuendoServicio").change();
+});
+
+
+//SELECIONAR PARA INPUT NUEVO
+$(document).ready(function() {
+  // Cuando se cambia la opción del select
+  $("#descuentoSindicato").change(function() {
+    // Obtener el valor seleccionado
+    var selectedValue = $(this).val();
+    
+    
+    // Verificar si el valor seleccionado es 2.00
+    if (selectedValue == "0.50") {
+      // Mostrar el div con el id 'resoPagoLicAdEdit'
+      $("#resoSinLicAd").closest(".col-lg-5, .col-md-6").show();
+      
+      // Poner el foco en el campo de entrada
+      $("#resoSinLicAd").focus();
+    } else {
+      // Ocultar el div con el id 'resoPagoLicAdEdit' si no se selecciona 2.00
+      $("#resoSinLicAd").closest(".col-lg-5, .col-md-6").hide();
+    }
+  });
+  
+  // Ejecutar la función al cargar la página para verificar el estado inicial
+  $("#descuentoSindicato").change();
+});
+
+
+
+
+//SELECIONAR PARA INPUT EDIT
+$(document).ready(function() {
+  // Cuando se cambia la opción del select
+  $("#descuendoServicioEdit").change(function() {
+    // Obtener el valor seleccionado
+    var selectedValue = $(this).val();
+    
+    // Verificar si el valor seleccionado es 2.00
+    if (selectedValue == "2.00") {
+      // Mostrar el div con el id 'resoPagoLicAdEdit'
+      $("#resoPagoLicAdEdit").closest(".col-lg-5, .col-md-6").show();
+      
+      // Poner el foco en el campo de entrada
+      $("#resoPagoLicAdEdit").focus();
+    } else {
+      // Ocultar el div con el id 'resoPagoLicAdEdit' si no se selecciona 2.00
+      $("#resoPagoLicAdEdit").closest(".col-lg-5, .col-md-6").hide();
+    }
+  });
+  
+  // Ejecutar la función al cargar la página para verificar el estado inicial
+  $("#descuendoServicioEdit").change();
+});
+
+
+
+//SELECIONAR PARA INPUT EDIT
+$(document).ready(function() {
+  // Cuando se cambia la opción del select
+  $("#descuentoSindicatoEdit").change(function() {
+    // Obtener el valor seleccionado
+    var selectedValue = $(this).val();
+    
+    
+    // Verificar si el valor seleccionado es 2.00
+    if (selectedValue == "0.50") {
+      // Mostrar el div con el id 'resoPagoLicAdEdit'
+      $("#resoSinLicAdEdit").closest(".col-lg-5, .col-md-6").show();
+      
+      // Poner el foco en el campo de entrada
+      $("#resoSinLicAdEdit").focus();
+    } else {
+      // Ocultar el div con el id 'resoPagoLicAdEdit' si no se selecciona 2.00
+      $("#resoSinLicAdEdit").closest(".col-lg-5, .col-md-6").hide();
+    }
+  });
+  
+  // Ejecutar la función al cargar la página para verificar el estado inicial
+  $("#descuentoSindicatoEdit").change();
+});
+
+
+
+
+
+// OCULTAR A OTROS(SERVICIO MUNICIAPL)
+$(document).ready(function() {
+  // Obtener el valor del campo 'area_oculta'
+  var area = $('#mySpan_area').attr('iso_area');
+  
+  console.log("El área es ahora desde modal: " + area);  // Verificar el valor del área
+
+  // Mostrar el div solo si el valor del área es "SUBGERENCIA DE SERVICIOS MUNICIPALES"
+  if (area === "SUBGERENCIA DE SERVICIOS MUNICIPALES") {
+    console.log("Mostrando el div");
+    $("#divDescuentoPagoServicioNuevo").show();  // Mostrar el div
+  } else {
+    console.log("No se muestra el div");
+    $("#divDescuentoPagoServicioNuevo").hide();  // Ocultar el div
+  }
+});
+
+
+
+// VISUBLE EDITAR LICENIA A (SERVCIO MUNICIAPL) NUEVO
+$(document).ready(function() {
+  // Obtener el valor del campo 'area_oculta'
+  var area = $('#mySpan_area').attr('iso_area');
+  
+  console.log("El área es ahora desde modal: " + area);  // Verificar el valor del área
+
+  // Mostrar el div solo si el valor del área es "SUBGERENCIA DE SERVICIOS MUNICIPALES"
+  if (area === "SUBGERENCIA DE SERVICIOS MUNICIPALES") {
+    console.log("Mostrando el div");
+    $("#divDescuentoSindicatoNuevo").show();  // Mostrar el div
+  } else {
+    console.log("No se muestra el div");
+    $("#divDescuentoSindicatoNuevo").hide();  // Ocultar el div
+  }
+});
+
+
+
+
+
+
+
+// OCULTAR A OTROS(SERVICIO MUNICIAPL) NUENO
+$(document).ready(function() {
+  // Obtener el valor del campo 'area_oculta'
+  var area = $('#mySpan_area').attr('iso_area');
+  
+  console.log("El área es ahora desde modal: " + area);  // Verificar el valor del área
+
+  // Mostrar el div solo si el valor del área es "SUBGERENCIA DE SERVICIOS MUNICIPALES"
+  if (area === "SUBGERENCIA DE SERVICIOS MUNICIPALES") {
+    console.log("Mostrando el div");
+    $("#divDescuentoSindicato").show();  // Mostrar el div
+  } else {
+    console.log("No se muestra el div");
+    $("#divDescuentoSindicato").hide();  // Ocultar el div
+  }
+});
+
+
+
+// VISUBLE EDITAR LICENIA A (SERVCIO MUNICIAPL)
+$(document).ready(function() {
+  // Obtener el valor del campo 'area_oculta'
+  var area = $('#mySpan_area').attr('iso_area');
+  
+  // Mostrar el div solo si el valor del área es "SUBGERENCIA DE SERVICIOS MUNICIPALES"
+  if (area === "SUBGERENCIA DE SERVICIOS MUNICIPALES") {
+    console.log("Mostrando el div");
+    $("#divDescuentoPagoServicio").show();  // Mostrar el div
+  } else {
+    console.log("No se muestra el div");
+    $("#divDescuentoPagoServicio").hide();  // Ocultar el div
+  }
+});
+
+
+
+
+
+
+//TODO MAYUSCULA EDITAR
+$(document).ready(function() {
+  // Cuando el usuario escribe en el campo de texto
+  $("#resoSinLicAdEdit").on('input', function() {
+    // Convertir el valor a mayúsculas
+    $(this).val($(this).val().toUpperCase());
+  });
+});
+
+
+//TODO MAYUSCULA EDIAT
+$(document).ready(function() {
+  // Cuando el usuario escribe en el campo de texto
+  $("#resoPagoLicAdEdit").on('input', function() {
+    // Convertir el valor a mayúsculas
+    $(this).val($(this).val().toUpperCase());
+  });
+});
+
+
+//TODO MAYUSCULA NUEVO
+$(document).ready(function() {
+  // Cuando el usuario escribe en el campo de texto
+  $("#resoPagoLicAd").on('input', function() {
+    // Convertir el valor a mayúsculas
+    $(this).val($(this).val().toUpperCase());
+  });
+});
+
+
+//TODO MAYUSCULA NUEVO
+$(document).ready(function() {
+  // Cuando el usuario escribe en el campo de texto
+  $("#resoSinLicAd").on('input', function() {
+    // Convertir el valor a mayúsculas
+    $(this).val($(this).val().toUpperCase());
+  });
+});
+
+
+
+
+
+

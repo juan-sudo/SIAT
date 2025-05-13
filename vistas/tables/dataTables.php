@@ -11,6 +11,7 @@ class DataTables
 {
     $action = ($_REQUEST['action'] ?? null) ? $_REQUEST['action'] : '';
     if ($action == 'ajax') {
+        $area_usuario = $_REQUEST['area_usuario'];
         $perfilUsuario = $_REQUEST['perfilOculto_c'];
         $tipoBusqueda = strtolower($_REQUEST['tipo']);
         $searchProducto = $_GET['searchContribuyente'];
@@ -143,10 +144,31 @@ class DataTables
                         <td><?= $value['nombre_completo'] ?></td>
                         <td><?= $value['direccion_completo'] ?></td>
                         <!-- si esta en coactivo se pintara de color la persona -->
-                        <td class="text-center"><?= $value['coactivo'] === '1' ? 'Si': 'No' ?></td> 
+                        <td class="text-center" id="coactivo_contribuyente"><?= $value['coactivo'] === '1' ? 'Si': 'No' ?></td> 
+
                         <td class="text-center">
-                            <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario" title="Predio"></i>
+                            <?php 
+                            if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$value['coactivo'] === '1') :
+                                // Si coactivo es '1', no se muestra el ícono
+                            ?>
+                                <!-- No se muestra ícono en este caso -->
+                            <?php 
+                            elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($value['coactivo'] !== '1'|| $value['coactivo'] === '0')) :
+                                // Si el área es 'OFICINA DE EJECUCION COACTIVA' y coactivo no es '1', muestra el ícono
+                            ?>
+                                <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
+                            <?php 
+                            else :
+                                // En todos los demás casos, muestra el ícono
+                            ?>
+                                <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
+                            <?php 
+                            endif; 
+                            ?>    
                         </td>
+
+
+                        
                         <td class="text-center">
                             <div class="modo-contenedor-selva">
                                 <input type="checkbox" data-toggle="toggle" data-on="Activado" data-off="Desactivado" data-onstyle="success" data-offstyle="danger" id="usuarioEstado" name="usuarioEstado<?= $value['Estado'] ?>" value="<?= $value['Estado'] ?>" data-size="mini" data-width="110" idUsuario="<?= $value['id_contribuyente'] ?>" <?= $activo ?>>
@@ -578,6 +600,126 @@ class DataTables
             }
         }
     }
+
+    //HIATORIAL V2
+
+    public function dtaPredioh() //optimizado
+    {
+        $action = isset($_POST['action']) ? $_POST['action'] : '';
+        if ($action == 'ajax') {
+            $propietario = $_POST['propietarios'];
+            $perfilUsuario = $_POST['perfilOculto_p'];
+            $ids = explode(",", $propietario);
+            $selectnum = $_POST['selectnum']; // anio
+
+            
+        // Definir la variable $anio_seleccionado usando un switch
+        switch ($selectnum) {
+            case 1:
+                $anio_seleccionado = 2004;
+                break;
+            case 2:
+                $anio_seleccionado = 2005;
+                break;
+            case 3:
+                $anio_seleccionado = 2006;
+                break;
+            case 4:
+                $anio_seleccionado = 2007;
+                break;
+            case 5:
+                $anio_seleccionado = 2008;
+                break;
+            case 6:
+                $anio_seleccionado = 2009;
+                break;
+            case 7:
+                $anio_seleccionado = 2010;
+                break;
+            case 8:
+                $anio_seleccionado = 2011;
+                break;
+            case 9:
+                $anio_seleccionado = 2012;
+                break;
+            case 10:
+                $anio_seleccionado = 2013;
+                break;
+            case 11:
+                $anio_seleccionado = 2014;
+                break;
+            case 12:
+                $anio_seleccionado = 2015;
+                break;
+            case 13:
+                $anio_seleccionado = 2016;
+                break;
+            case 14:
+                $anio_seleccionado = 2017;
+                break;
+            case 15:
+                $anio_seleccionado = 2018;
+                break;
+            case 16:
+                $anio_seleccionado = 2019;
+                break;
+            case 17:
+                $anio_seleccionado = 2020;
+                break;
+            case 18:
+                $anio_seleccionado = 2021;
+                break;
+            case 19:
+                $anio_seleccionado = 2022;
+                break;
+            case 20:
+                $anio_seleccionado = 2023;
+                break;
+            case 21:
+                $anio_seleccionado = 2024;
+                break;
+            case 22:
+                $anio_seleccionado = 2025;
+                break;
+            default:
+                $anio_seleccionado = 'Desconocido'; // En caso de que el valor de $selectnum no sea válido
+        }
+            $pdo = Conexion::conectar();
+
+            if (count($ids) === 1) {
+                //  $this->createTemporaryTable($pdo);
+               // $registros = $this->fetchSingleOwnerData($pdo, $ids[0], $selectnum);
+               // var_dump($registros);
+                $registros_historial = $this->fetchSingleOwnerDataHistorial($pdo, $ids[0], $selectnum);
+              //  var_dump($registros_historial);
+           
+              //  var_dump($registros_historial); // Muestra los registros del historial
+            } else {
+                // $this->createTemporaryTable($pdo);
+               // $registros = $this->fetchMultipleOwnersData($pdo, $ids, $selectnum);
+               $registros_historial = $this->fetchMultipleOwnersDataHistorial($pdo, $ids, $selectnum);
+
+            }
+
+            if ($registros_historial->rowCount() > 0) {
+             //   $resultados = $registros->fetchAll(PDO::FETCH_ASSOC);
+                $resultados_historial = $registros_historial->fetchAll(PDO::FETCH_ASSOC);
+
+              
+                foreach ($resultados_historial as $key => $value) {
+                    $this->renderRowHistorial($value, ++$key);
+                   
+                }
+
+
+            } else {
+                $this->renderNoRecordsMessageHistorial($pdo, $selectnum);
+            }
+
+            $pdo = null;
+        }
+    }
+
     public function dtaPredio() //optimizado
     {
         $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -586,28 +728,164 @@ class DataTables
             $perfilUsuario = $_POST['perfilOculto_p'];
             $ids = explode(",", $propietario);
             $selectnum = $_POST['selectnum']; // anio
+
+            
             $pdo = Conexion::conectar();
 
             if (count($ids) === 1) {
                 //  $this->createTemporaryTable($pdo);
                 $registros = $this->fetchSingleOwnerData($pdo, $ids[0], $selectnum);
+              
             } else {
                 // $this->createTemporaryTable($pdo);
                 $registros = $this->fetchMultipleOwnersData($pdo, $ids, $selectnum);
+             
             }
+
+            //OBTENER AÑO
+
+               $query = "SELECT * FROM anio WHERE Id_Anio = :selectnum";
+
+            $resultado = $pdo->prepare($query);
+            $resultado->bindParam(':selectnum', $selectnum, PDO::PARAM_INT);
+
+            $resultado->execute();
+
+            $anio_actual = $resultado->fetch(PDO::FETCH_ASSOC);
+
+
+
+
 
             if ($registros->rowCount() > 0) {
                 $resultados = $registros->fetchAll(PDO::FETCH_ASSOC);
+                // Inicializamos el contador
+                $total_predios = 0;
+              
                 foreach ($resultados as $key => $value) {
-                    $this->renderRow($value, ++$key);
+                    $this->renderRow($value, ++$key, $anio_actual['NomAnio'] );
+                   $total_predios++;
                 }
+               
+                
+            // Imprimir el total de predios después de recorrer todas las filas
+            echo sprintf(
+                '<tr>
+              
+
+                    <td colspan="6" style="background-color:#ffffff" class="text-start">
+                   
+                    <span class="caption_" style="padding-left:1rem;"><i class="bi bi-house-door-fill"></i> Total de Predios: %d</span>
+                    
+                    
+                    </td>
+                </tr>',
+                $total_predios
+            );
+
+
             } else {
                 $this->renderNoRecordsMessage($pdo, $selectnum);
             }
 
             $pdo = null;
+       
+       
+       
         }
     }
+
+    //HITORIAL PREDIO
+
+    private function fetchSingleOwnerDataHistorial($pdo, $id, $select)
+{
+  
+    $query = (" SELECT 
+    pr.id_predio as id_predio,
+    pr.predio_UR as tipo_ru, 
+    pr.Direccion_completo as direccion_completo,
+    pr.Area_Terreno as a_terreno, 
+    pr.Area_Construccion as a_construccion, 
+    
+    	pr.Valor_Predio_Aplicar as v_predio_aplicar,
+   
+    -- Agregar aquí la columna 'catastro' si es necesario
+    ca.Codigo_Catastral as catastro
+FROM 
+    propietario p
+JOIN  
+    
+    predio pr ON p.Id_Predio = pr.Id_Predio
+    LEFT JOIN anio a ON a.Id_Anio=pr.Id_Anio
+    LEFT JOIN  catastro ca ON pr.Id_Catastro = ca.Id_Catastro 
+    
+   WHERE 
+        p.Id_Contribuyente = :id
+        AND a.Id_Anio=:anio
+        
+        AND p.Estado_Transferencia = 'O'
+       
+    ");
+
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':id', $id);
+    $stmt->bindValue(':anio', $select); // Usamos selectnum (1, 2, 3...) para determinar el año
+
+    $stmt->execute();
+
+   
+    return $stmt;
+}
+
+    
+
+    //HISTORIAL PREDIO
+    private function fetchMultipleOwnersDataHistorial($pdo, $ids, $selectnum)
+
+    {
+        $id_cadena = implode(",", $ids);
+
+        var_dump($id_cadena);
+        var_dump($selectnum);
+        $count_ids = count($ids);
+
+        $query = "SELECT 
+    pr.id_predio as id_predio,
+    pr.predio_UR as tipo_ru, 
+    pr.Direccion_completo as direccion_completo,
+    pr.Area_Terreno as a_terreno, 
+    pr.Area_Construccion as a_construccion, 
+   
+    	pr.Valor_Predio_Aplicar as v_predio_aplicar,
+   
+    -- Agregar aquí la columna 'catastro' si es necesario
+    ca.Codigo_Catastral as catastro
+FROM 
+    propietario p
+JOIN 
+    
+    predio pr ON p.Id_Predio = pr.Id_Predio
+LEFT JOIN 
+    catastro ca ON pr.Id_Catastro = ca.Id_Catastro 
+    LEFT JOIN anio  a ON a.Id_Anio=pr.Id_Anio
+   
+        WHERE p.Id_Contribuyente IN ($id_cadena)
+        AND a.Id_Anio=:selectnum
+       
+        AND p.Estado_Transferencia = 'O'
+			GROUP BY pr.Id_Predio HAVING COUNT(DISTINCT p.Id_Contribuyente) = " . count($ids) . " ORDER BY pr.predio_UR
+            ";
+
+
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':selectnum', $selectnum);
+        $stmt->execute();
+        return $stmt;
+    }
+
+
+
 
     private function fetchSingleOwnerData($pdo, $id, $selectnum)
     {
@@ -634,10 +912,16 @@ class DataTables
                 )and pro.Baja='1';");
 
         $stmt = $pdo->prepare($query);
+        
         $stmt->bindValue(':id', $id);
         $stmt->bindValue(':selectnum', $selectnum);
         $stmt->execute();
+
+        
+   
+       
         return $stmt;
+       
     }
 
     private function fetchMultipleOwnersData($pdo, $ids, $selectnum)
@@ -659,7 +943,9 @@ class DataTables
             LEFT JOIN catastro_rural car ON p.predio_UR = 'R' AND car.Id_Catastro_Rural = p.Id_Catastro_Rural 
 			INNER JOIN propietario pro ON pro.Id_Predio = p.Id_Predio 
 			INNER JOIN anio an ON an.Id_Anio = p.Id_Anio
-			WHERE pro.Id_Contribuyente IN ($id_cadena) and an.Id_Anio=:selectnum  AND pro.Baja='1' 
+			WHERE pro.Id_Contribuyente IN ($id_cadena)
+             and an.Id_Anio=:selectnum  
+             AND pro.Baja='1' 
 			GROUP BY p.ID_Predio HAVING COUNT(DISTINCT pro.ID_Contribuyente) = " . count($ids) . " ORDER BY p.predio_UR";
 
         $stmt = $pdo->prepare($query);
@@ -668,47 +954,103 @@ class DataTables
         return $stmt;
     }
 
-    private function renderRow($value, $key)
+
+    //HISTORIAL PREDIO
+    private function renderRowHistorial($value, $key)
     {
+        // Verificar si los campos requeridos existen
+        // if (!isset($value['id_predio']) || !isset($value['catastro'])) {
+        //     echo "<tr><td colspan='8'>Error: Datos incompletos en historial</td></tr>";
+        //     return;
+        // }
+    
+        // Si el valor de 'catastro' es NULL, asignar un valor alternativo
+        $catastro = isset($value['catastro']) ? $value['catastro'] : 'No disponible';
+    
+        // Si el tipo de predio es 'U', renderizamos una fila con los datos correspondientes
         if ($value['tipo_ru'] == 'U') {
             echo sprintf(
-                '<tr id="fila" id_predio="%s" id_catastro="%s" id_tipo="%s">
-                <td class="text-center">%d</td>
-                <td class="text-center">%s</td>
-                <td>%s</td>
-                <td class="text-center" style="display:none;">%s</td>
-                <td class="text-center">%s</td>
-                <td class="text-center">%s</td>
-                <td class="text-center">%s</td>
-                <td class="text-center"><i class="bi bi-image" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
-            </tr>',
+                '
+                
+                <tr id="fila" id_predio="%s"  id_catastro="%s" id_tipo="%s" style="background-color:rgb(235, 238, 241); !important" >
+                    <td  class="text-center" >%d</td>
+                    <td class="text-center">%s</td>
+                    <td>%s</td>
+                    <td class="text-center" style="display:none;">%s</td>
+                    <td class="text-center">%s</td>
+                    <td class="text-center">%s</td>
+                    <td class="text-center">%s</td>
+                    <td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+                </tr>
+                
+                ',
                 $value['id_predio'],
-                $value['catastro'],
+                $catastro,
                 $value['tipo_ru'],
                 $key,
                 $value['tipo_ru'],
                 $value['direccion_completo'],
-                $value['catastro'],
+                $catastro, // Aquí se muestra el valor de catastro (o 'No disponible')
                 $value['a_terreno'],
                 $value['a_construccion'],
                 $value['v_predio_aplicar'],
-                $value['id_predio'],
+                $value['id_predio']
             );
         } else {
+            // Si el tipo de predio no es 'U', renderizamos otra fila con los datos
             echo sprintf(
-                '<tr id="fila" id_predio="%s" id_catastro="%s" id_tipo="%s">
-                <td class="text-center">%d</td>
+                '<tr id="fila" id_predio="%s" id_catastro="%s" id_tipo="%s" style="background-color:rgb(235, 238, 241);  !important">
+                    <td class="text-center" >%d</td>
+                    <td class="text-center">%s</td>
+                    <td>%s</td>
+                    <td class="text-center" style="display:none;">%s</td>
+                    <td class="text-center">%s</td>
+                    <td class="text-center">%s</td>
+                    <td class="text-center">%s</td>
+                     <td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+                </tr>',
+                $value['id_predio'],
+                $catastro,
+                $value['tipo_ru'],
+                $key,
+                $value['tipo_ru'],
+                $value['direccion_completo'],
+                $catastro, // Aquí también se maneja el valor de catastro
+                $value['a_terreno'],
+                $value['a_construccion'],
+                $value['v_predio_aplicar'],
+                $value['id_predio']
+            );
+        }
+    }
+    
+
+    private function renderRow($value, $key,$anio_actual )
+    {
+        
+
+        if ($value['tipo_ru'] == 'U') {
+           // $contador_if++;
+            echo sprintf(
+                '<tr id="fila"  id_predio="%s" id_catastro="%s" id_tipo="%s"  >
+                <td class="text-center">
+				    <input type="checkbox" class="checkbox-predio" data-id_predio="%s" data-onstyle="success" data-offstyle="danger" data-size="mini" data-width="110">
+			    </td>
+                <td class="text-center" style="display:none;" >%d</td>
                 <td class="text-center">%s</td>
                 <td>%s</td>
                 <td class="text-center" style="display:none;">%s</td>
                 <td class="text-center">%s</td>
                 <td class="text-center">%s</td>
                 <td class="text-center">%s</td>
-                <td class="text-center"><i class="bi bi-image" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
-            </tr>',
+                <td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+                <td class="text-center"style="display:none;">%s</td> 
+          
+                </tr>',
                 $value['id_predio'],
                 $value['catastro'],
                 $value['tipo_ru'],
+                $value['id_predio'],
                 $key,
                 $value['tipo_ru'],
                 $value['direccion_completo'],
@@ -717,8 +1059,44 @@ class DataTables
                 $value['a_construccion'],
                 $value['v_predio_aplicar'],
                 $value['id_predio'],
+                $anio_actual
+                
+            );
+        } else {
+          //  $contador_else++;
+            echo sprintf(
+                '<tr id="fila" id_predio="%s" id_catastro="%s" id_tipo="%s">
+                <td class="text-center">
+				    <input type="checkbox" class="checkbox-predio" data-id_predio="%s" data-onstyle="success" data-offstyle="danger" data-size="mini" data-width="110">
+			    </td>
+                <td class="text-center"  style="display:none;" >%d</td>
+                <td class="text-center">%s</td>
+                <td>%s</td>
+                <td class="text-center" style="display:none;">%s</td>
+                <td class="text-center">%s</td>
+                <td class="text-center">%s</td>
+                <td class="text-center">%s</td>
+                <td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
+                 <td class="text-center"style="display:none;">%s</td> 
+
+                </tr>',
+                $value['id_predio'],
+                $value['catastro'],
+                $value['tipo_ru'],
+                 $value['id_predio'],
+                $key,
+                $value['tipo_ru'],
+                $value['direccion_completo'],
+                $value['catastro'],
+                $value['a_terreno'],
+                $value['a_construccion'],
+                $value['v_predio_aplicar'],
+                $value['id_predio'],
+                $anio_actual
             );
         }
+
+    
     }
 
     private function renderNoRecordsMessage($pdo, $selectnum)
@@ -730,7 +1108,29 @@ class DataTables
         $anio = $stmt->fetch(PDO::FETCH_ASSOC);
 
         echo sprintf(
-            "<td colspan='10' style='text-align:center;'>No hay Registro de Predio(s) del año <b>%s</b></td>",
+            "
+            <td colspan='10' style='text-align:center;'>No hay Registro de Predio(s) del año hola <b>%s</b></td>
+            
+            
+            ",
+            $anio['NomAnio']
+        );
+    }
+
+    private function renderNoRecordsMessageHistorial($pdo, $selectnum)
+    {
+        $query = "SELECT NomAnio FROM anio WHERE Id_Anio = :selectnum";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':selectnum', $selectnum);
+        $stmt->execute();
+        $anio = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        echo sprintf(
+            "
+            <td colspan='10' style='text-align:center;background-color:rgb(235, 238, 241);  !important'  >No hay Registro de transferencia de predio en <b>%s</b></td>
+            
+            
+            ",
             $anio['NomAnio']
         );
     }
@@ -1378,6 +1778,7 @@ $requestMap = [
     'dpcontribuyente_impuesto' => 'dtaContribuyente_impuesto',
     'recaudacion_dpcontribuyente_impuesto' => 'recaudacion_dtaContribuyente_impuesto',
     'dppredio' => 'dtaPredio',
+    'dppredioh' => 'dtaPredioh',
     'dppredio_propietario' => 'dtaPredio_propietario',
     'dpViacalle' => 'dtaViacalle',
     'dpViacalle_idvia' => 'dtaViacalle_idvia',

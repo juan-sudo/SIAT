@@ -106,6 +106,7 @@ class ModeloCaja
 	}
 	public static function mdlTipo_papel()
 	{
+	
 		$stmt = Conexion::conectar()->prepare("SELECT * FROM tipo_papel WHERE Estado=1; ");
 		//$stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);    
 		$stmt->execute();
@@ -116,6 +117,7 @@ class ModeloCaja
 	//AQUI ENCONTRO
 	public static function mdlRegistro_ingresos($datos)
 	{  
+		
 		try {
 			$ids_cuenta = $datos['id_cuenta'];
 			$array = explode('-',$datos['id_propietarios']);

@@ -39,9 +39,11 @@ class ControladorLicenciaAgua
     $respuesta = ModeloLicenciAgua::mdlLastRegistro($tabla, $item);
     return $respuesta;
   }
+
   public static function ctrCalcular_Agua($datos)
   {
-    
+
+  
 
     $pdo = Conexion::conectar();
     $stmt = $pdo->prepare("SELECT Id_Estado_Cuenta_Agua  from estado_cuenta_agua  where Anio=:anio and Id_Licencia_Agua=:id_licencia");
@@ -96,6 +98,7 @@ class ControladorLicenciaAgua
 	       	 $stmt = $pdo->prepare("DELETE FROM estado_cuenta_agua  where Anio=:anio  and Id_Licencia_Agua=:id_licencia");
             $stmt->bindParam(":anio", $datos['anio']);
             $stmt->bindParam(":id_licencia", $datos['id_licencia']);
+
 		        $stmt->execute();
             $respuesta = ModeloLicenciAgua::mdlCalcular_Agua($datos);
 			        if($respuesta=="ok"){
@@ -132,6 +135,8 @@ class ControladorLicenciaAgua
   }
   public static function ctrUpdateLicence($datos)
   {
+  //var_dump($datos);
+
     $tabla = 'licencia_agua';
     $respuesta = ModeloLicenciAgua::mdlEditarLiciencia($tabla, $datos);
     if ($respuesta == 'ok') {

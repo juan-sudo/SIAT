@@ -15,6 +15,13 @@ $idArray = explode('-', $idParam);
 $idArray = array_filter($idArray);
 // Ahora $idArray contiene los valores sin guiones
 
+$concatenado_id=$idParam;
+//PARA CARPETA PROGRESO
+
+//$codigoCarpeta = isset($_GET['id']) ? $_GET['id'] : '';
+
+//$codigoCarpeta = isset($idArray[2]) ? $idArray[2] : '';
+
 ?>
 
 <!-- Aquí va el link a tu hoja de estilos, fuera del bloque PHP -->
@@ -23,12 +30,69 @@ $idArray = array_filter($idArray);
 
 <div class="content-wrapper panel-medio-principal" >
   <section class="container-fluid panel-medio" >
-    <div class="box container-fluid" style="border:0px; margin-bottom:3px; padding:0px;">
+    <div class="box container-fluid" style="border:0px; margin-bottom:3px; padding:0px;" >
+   
+   
+    <div class="progress" style="width: 100%; height: 10px; border: 0; margin: 0;">
+    <?php
+        // Capturar datos del contribuyente una sola vez
+        $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+
+      
+      
+       
+        // Inicializar el porcentaje
+        $porcentaje = 0;
+        $color = '#ccc'; // Color por defecto
+
+        // Verificar si los datos del contribuyente están disponibles
+        // Verificar si los datos del contribuyente están disponibles
+if (count($datos_contribuyente) > 0) {
+  // Solo mostrar una vez la barra de progreso
+  foreach ($datos_contribuyente as $contribuyentes) {
+      foreach ($contribuyentes as $contribuyente) {
+          // Asignar el valor de Estado_progreso
+          $estado_progreso = $contribuyente['Estado_progreso'];
+
+          // Asignar el porcentaje y color según el estado
+          if ($estado_progreso === 'P') {
+              $porcentaje = 30;
+              $color = 'rgb(255, 193, 7)';
+          } elseif ($estado_progreso === 'E') {
+              $porcentaje = 60;
+              $color = 'rgb(23, 162, 184)';
+          } elseif ($estado_progreso === 'C') {
+              $porcentaje = 100;
+              $color = 'rgb(40, 167, 69)';
+          } elseif ($estado_progreso === NULL) {
+              $porcentaje = 0;
+              $color = '#ccc';
+          }
+
+          // Salir del loop después de obtener el primer valor
+          break 2;
+      }
+  }
+}
+
+    ?>
+
+   <!-- Mostrar la barra de progreso con el porcentaje y color calculado -->
+<div class="progress-bar" role="progressbar" style="width: <?php echo $porcentaje; ?>%; height: 100%; background-color: <?php echo $color; ?>; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+    <?php echo $porcentaje . '%'; ?>
+</div>
+</div>
+
+
+
+
 
     
       <div class="col-lg-7 col-xs-7  "  >
         <?php
-        $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+       // $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+      
+      // var_dump($datos_contribuyente);
         if (count($datos_contribuyente) > 0) {
         ?>
 
@@ -38,8 +102,14 @@ $idArray = array_filter($idArray);
     <table class="miTabla_propietarios" style="width: 100%;">
         <caption>Propietarios</caption>
     </table>
+
+    <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_Predio" >
+        Editar progreso
+    </button>
     <button class="bi bi-person-fill-add btn btn-success btn-sm" id="agregarContribuyente_Predio">  Agregar Contribuyente</button>
-</div>
+
+
+  </div>
 
           <table class="miTabla_propietarios " style=" margin-bottom: 0.3rem;">
          
@@ -53,14 +123,21 @@ $idArray = array_filter($idArray);
             </thead>
             <tbody id="id_propietarios">
               <?php foreach ($datos_contribuyente as $valor => $filas) {
+                
+                
                 foreach ($filas as $fila) {
+               
+
+                  $backgroundColor = $fila['Fallecida'] == 1 ? 'background-color: #333b40; color:rgb(224, 232, 236);' : '';  // Fondo oscuro y texto blanco si está fallecido, vacío si no
+
+
                   echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '">
-                      <td class="text-center">' . $fila['Id_Contribuyente'] . '</td>
-                      <td class="text-center">' . $fila['Documento'] . '</td>
-                      <td class="text-center">' . $fila['Nombre_Completo'] . '</td>
-                      <td class="text-center">' . $fila['Direccion_completo'] . '</td>
-                      <td class="text-center" id="carpeta_contribuyente" id_carpeta="' . $fila['Codigo_Carpeta'] . '">' . $fila['Codigo_Carpeta'] . '</td>
-                     <td class="text-center">
+                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Id_Contribuyente'] . '</td>
+                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Documento'] . '</td>
+                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Nombre_Completo'] . '</td>
+                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Direccion_completo'] . '</td>
+                      <td class="text-center codigo_carpeta_contribuyente_p" id="carpeta_contribuyente" id_carpeta="' . $fila['Codigo_Carpeta'] . '">' . $fila['Codigo_Carpeta'] . '</td>
+                     <td class="text-center"  >
                     <span class="link btnEditarcontribuyente " 
                         title="Editar" 
                         idContribuyente="' . $fila['Id_Contribuyente'] . '" 
@@ -92,14 +169,20 @@ $idArray = array_filter($idArray);
 
       </div>
 
-      <div class="col-lg-2 col-xs-2" style="display: flex; flex-direction: row; justify-content: center; align-items: center; padding-top: 4rem;">
-    <button class="btn btn-secondary btn-sm btn-1" id="anterior_Predio"  style="margin-right: 1rem;">
-    <i class="bi bi-chevron-left"></i>
-    </button>
+      <div class="col-lg-5 col-xs-5" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 4rem;">
+   
+        <div>
+            <button class="btn btn-secondary btn-sm btn-1" id="anterior_Predio" style="margin-bottom: 1rem;">
+                <i class="bi bi-chevron-left"></i>
+            </button>
 
-    <button class=" btn btn-secondary btn-sm btn-1" id="siguiente_Predio" style="margin-left: 1rem;">
-    <i class="bi bi-chevron-right"></i>
-    </button>
+            <button class="btn btn-secondary btn-sm btn-1" id="siguiente_Predio" style="margin-bottom: 1rem;">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+   
+      
+  
 </div>
 
 
@@ -119,6 +202,8 @@ $idArray = array_filter($idArray);
             <div class="row divDetallePredio">
               <div class="col-mod-12">
                 <span class="caption_">Predios del Contribuyente probamdo</span>
+                
+
                 <div class="row pull-right">
                   <input type="hidden" id="perfilOculto_p" value="<?php echo $_SESSION['perfil'] ?>">
 
@@ -133,18 +218,21 @@ $idArray = array_filter($idArray);
                   </select>
                 </div>
               </div>
+              
               <br>
+
               <table class="table-container" id="tablalistapredios">
                 <thead>
                   <tr>
-                    <th class="text-center">N°</th>
+                   
+                    <th class="text-center" style="width: 3rem;"> </th>
                     <th class="text-center">Tipo</th>
                     <th class="text-center">Ubicacion del Predio</th>
                     <th class="text-center" style="display:none;">Id.Catastro</th>
-                    <th class="text-center">A.Terreno</th>
+                    <th class="text-center">A.Terreno n</th>
                     <th class="text-center">A.Const.</th>
                     <th class="text-center">Val.Predio</th>
-                    <th class="text-center">Foto</th>
+                    <th class="text-center" style="width: 3rem;"></th>
                   </tr>
                 </thead>
                 <tbody class='body-predio'>
@@ -152,7 +240,72 @@ $idArray = array_filter($idArray);
                   $listaPredio = ControladorPredio::ctrListarPredio($idArray, $anio_propietario);
                   ?>
                 </tbody>
+
+                
+
+                
+            
+
               </table>
+             
+
+
+            <div style="margin-top: 4rem ;">
+            <span class="caption_" >Predios transferidos</span>
+            </div>
+              
+              <table class="table-container" id="tablalistapredios">
+                <thead>
+                  <tr>
+                    <th class="text-center"  style="background-color: rgb(149, 153, 161)  !important; ">N°</th>
+                    <th class="text-center" style="background-color:rgb(149, 153, 161) !important; ">Tipo</th>
+                    <th class="text-center" style="background-color: rgb(149, 153, 161)  !important; ">Ubicacion del Predio</th>
+                    <th class="text-center" style="display:none;">Id.Catastro</th>
+                    <th class="text-center" style="background-color: rgb(149, 153, 161)  !important; ">A.Terreno n</th>
+                    <th class="text-center" style="background-color: rgb(149, 153, 161)  !important; ">A.Const.</th>
+                    <th class="text-center"style="background-color: rgb(149, 153, 161)  !important; ">Val.Predio</th>
+                    <th class="text-center" style="background-color: rgb(149, 153, 161)  !important; ">Detalle</th>
+                  </tr>
+                </thead>
+               
+                
+                <tbody class='body-predio-historial'>
+                  <?php
+                  $listaPredio = ControladorPredio::ctrListarPredio_historial($idArray, $anio_propietario);
+                  ?>
+                </tbody>
+
+
+              </table>
+
+
+              <!-- <span class="caption_">Predios transferidos</span>
+              <table >
+              
+                <tbody>
+
+                        
+            <?php
+           // $listaPredioo = ControladorPredio::ctrListarPredio_historial($idArray, $anio_propietario);
+            ?>
+            
+
+                  <tr style="background-color:rgb(235, 240, 241);">
+                  <td scope="row">1</td>
+                    <td scope="row">U</td>
+                    <td >JR. MANUEL ESCAJADILLO N°S/N Mz.23 Lt. Cdr.6-URBANIZACION-VISTA ALEGRE</td>
+                    <td scope="row">200.000000</td>
+                    <td scope="row">0.00</td>
+                    <td scope="row">9800.00</td>
+                    <td scope="row">carpeta: 1</td>
+                  
+                    
+                  </tr> -->
+                
+                </tbody>
+              </table> 
+
+
             </div>
             <label class="bltp" id="countpredio"></label>
             <!--======== CONTADOR PREDIOS ===========-->
@@ -206,7 +359,7 @@ $idArray = array_filter($idArray);
           <div class="col-md-5 table-responsive">
             <div class="row divDetallePredio">
               <table class="table-container" id="listaDePisosContainer">
-                <caption>Lista de Pisos</caption>
+                <caption>Lista de Pisos html</caption>
                 <thead>
                   <tr>
                     <th class="text-center">Catastro</th>
@@ -246,6 +399,47 @@ $idArray = array_filter($idArray);
 </div>
 </section>
 </div>
+
+
+
+<!-- MODAL PARA IMÁGENES -->
+
+<!-- MODAL PARA IMÁGENES -->
+<!-- MODAL PARA IMÁGENES -->
+<!-- MODAL PARA IMÁGENES -->
+<!-- MODAL PARA IMÁGENES -->
+<div class="modal fade" id="modalFotosPredio" tabindex="-1" role="dialog" aria-labelledby="modalFotosPredioTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="modalFotosPredioTitle">Historial de predio</h5>
+               
+            </div>
+            <div class="aqui" style="margin-left: 20px; margin-top:10px" >
+
+
+            </div>
+
+            <div class="modal-body">
+                <!-- Mostrar los detalles de las fotos en la línea de tiempo -->
+                <div class="show-historial-predio"></div>
+
+                <!-- Mensaje cuando no hay fotos -->
+                <div id="mensaje-no-fotos" class="alert alert-info" style="display:none;">
+                    No hay fotos disponibles para este predio.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <!--====== MODAL DE TRANSFERIR PREDIO -->
 <div class="modal fade " id="modalTransferenciaPredio" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -362,6 +556,72 @@ $idArray = array_filter($idArray);
 </div>
 <!--====== FIN DEL MODAL TRANSFERIR PREDIO =======-->
 
+
+<!--====== MODAL EDITAR BARRA DE PROGRESO =======-->
+<div class="modal" id="modal_editar_barra_progreso" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <form role="form" id="formCarpetaProgress" method="post" enctype="multipart/form-data">
+      
+      <div class="modal-header">
+        <label class="modal-title">EDITAR BARRA DE PROGRESO</label>
+      </div>
+      <div class="modal-body">
+     
+        <!-- Input oculto para almacenar el valor de Codigo_Carpeta -->
+        <!-- Input oculto para almacenar el valor de Codigo_Carpeta -->
+        <input type="hidden" id="codigo_carpeta" name="codigo_carpeta" value="">
+
+
+
+        <!-- Sección de Estado de Progreso -->
+        <section class="container-fluid panel-medio col-xs-6" id="propietarios" style="width: 100%;">
+            <div class="row">
+                <div class="col-12 col-md-2" style="display: flex; align-items: center;">
+                    <!-- Label para el select -->
+                    <label for="estado_progreso" style="font-weight: bold;">Estado de progreso:</label>
+                </div>
+                <div class="col-12 col-md-2" style="display: flex; align-items: center;">
+                    <!-- Select con las opciones -->
+                    <select id="estado_progreso" name="estado_progreso" class="form-control" style="border-radius: 8px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1);">
+                        <option value="P">Pendiente</option>
+                        <option value="E">En Progreso</option>
+                        <option value="C">Completado</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Barra de Progreso -->
+        <section class="container-fluid panel-medio" id="propietarios" style="width: 100%; margin-top:5rem">
+            <div class="row">
+                <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+                    <!-- Barra de progreso que ocupa el 100% del ancho -->
+                    <div class="progress" style="width: 100%; height: 20px; border-radius: 10px ; background-color: #f0f0f0; border:0">
+                        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background-color: #ffc107; border-radius: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="salir_modal_progreso" data-dismiss="modal">Salir</button>
+        <button style='float:right;' type="sudmit" class="btn btn-primary ">Guardar cambio</button>
+      </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!--====== FIN DEL MODAL REGISTRAR CONTRIBUYENTE A PREDIO EXISTENTE =======-->
+
 <!--====== MODAL REGISTRAR CONTRIBUYENTE A PREDIO EXISTENTE =======-->
 <div class="modal" id="modalAgregarContribuyente_Predio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog modal-lg" role="document">
@@ -438,13 +698,42 @@ $idArray = array_filter($idArray);
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="exampleModalLongTitle">COPIAR PREDIO</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">COPIAR PREDIO m</h5>
       </div>
+
+            
       <div class="modal-body">
         <div class="predio_catastro ">
           <!--CONTENIDO DINAMICO DEL PREDIO A TRANSFERIR -->
         </div>
+        
+        
+        
+       </div>
+
+         <div class="row" style="margin-bottom: 20px;"> 
+      <div class="col-12 col-md-5">
+                  <label for="anioFiscal_e" class="cajalabel2">Año a copiar</label>
+                  <select class="form2" name="anioFiscal_e" id="anioFiscal_e" required="">
+                    <option value="" selected="" disabled="">Seleccione Año</option>
+                    <?php
+                    $anioSiat = 'anio';
+                    $registros = ControladorPredio::ctrMostrarData($anioSiat);
+                    foreach ($registros as $data_d) {
+                        // Asegúrate de añadir el 'NomAnio' en el atributo data-nomanio
+                        echo "<option value='" . $data_d['Id_Anio'] . "' data-nomanio='" . $data_d['NomAnio'] . "'>" . $data_d['NomAnio'] . "</option>";
+                      }
+                    ?>
+                  </select>
+          </div>
       </div>
+
+
+      
+
+
+      
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
         <button type="button" class="btn btn-primary btnCopiarPredio">Copiar</button>
@@ -452,6 +741,7 @@ $idArray = array_filter($idArray);
     </div>
   </div>
 </div>
+
 <!--====== FIN DEL MODAL COPIAR PREDIO URB========-->
 <!--====== MODAL EDITAR PREDIO U==================-->
 <div class="modal fade" id="modalEditarPredio" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -787,6 +1077,23 @@ $idArray = array_filter($idArray);
                                 ?>
                               </select>
                             </div>
+
+                         <div class="row" id="fecha_ini_div" style="display: none; justify-content: flex-end; align-items: center;">
+                              <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px; margin-left:24px">Fecha ini.</label>
+                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaAdqui_e" id="fechaAdqui_e">
+                          </div>
+
+                          <div class="row" id="fecha_fin_div" style="display: none; justify-content: flex-end; align-items: center;">
+                              <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">Fecha fin</label>
+                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaAdqui_e" id="fechaAdqui_e">
+                          </div>
+
+                          <div class="row" id="expediente_div" style="display: none; justify-content: flex-end; align-items: center;">
+                              <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">N° exped.</label>
+                              <input type="text" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaAdqui_e" id="fechaAdqui_e">
+                          </div>
+
+                            
                             <!-- ENTRADA REGIMEN AFECTACION POR COMPAÑIA -->
                             <div class="row">
                               <label for="afecto_e" class="cajalabet"> Inafecto</label>
@@ -1126,7 +1433,7 @@ $idArray = array_filter($idArray);
               <!--====== BOTON GUARDAR Y SALIR ==============-->
               <div class="box box-success" style="border-top: 0px;">
                 <div class="box-footer contenedor-btns-carrito">
-                  <button type="button" class="btn btn-primary" id="btnGuardarPredio_e"><i class="bi bi-floppy2-fill"></i> Guardar Cambios</button>
+                  <button type="button" class="btn btn-primary" id="btnGuardarPredio_e"><i class="bi bi-floppy2-fill"></i> Guardar Cambios s</button>
                 </div>
               </div>
 
@@ -1863,13 +2170,33 @@ $idArray = array_filter($idArray);
 
 
             <div class="col-md-5">
-              <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                <div class="form-group">
                 <label for="e_apellMaterno" class="lbl-text">Coactivo</label>
                 <div class="input-group">
                   <input type="checkbox" data-toggle="toggle" id="usuarioCoactivo" check="1" uncheck="0" data-size="mini" data-width="110">
                 </div>
               </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label for="e_afallecido" class="lbl-text">Fallecido</label>
+                    <div class="input-group">
+                      <input type="checkbox" data-toggle="toggle" id="usuarioFallecida" check="1" uncheck="0" data-size="mini" data-width="110">
+                    </div>
+                  </div>
+
+                </div>
+
+                  </div>
+              
+              
             </div>
+
+            
           </div>
 
 
@@ -1963,9 +2290,9 @@ $idArray = array_filter($idArray);
             <div class="col-md-2">
               <div class="form-group">
                 <label for="" class="lbl-text">N° Celular</label>
-                <div class="input-group-adddon">
-                  <input type="text" class="form-control" id="e_telefono" name="e_telefono" placeholder="Nro  Celular/Telefono...">
-                </div>
+               
+                <input type="text" class="form-control" style="transition: all 0.5s ease; border-radius: 5px;" id="e_telefono" name="e_telefono" placeholder="celular...">
+              
               </div>
             </div>
             <div class="col-md-3">
@@ -2148,7 +2475,9 @@ $idArray = array_filter($idArray);
 
     <!-- Botones para Modificar y Borrar, inicialmente ocultos -->
     <button type="button " id="modificarBtn"  class="btn-elegante mostrar-btn" style="display: none;">Mostrar</button>
+  
     <button type="button" id="borrarBtn"  class="btn-elegante " style="display: none;">Borrar</button>
+
 
 
   </div>

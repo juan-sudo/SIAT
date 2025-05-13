@@ -771,7 +771,7 @@ public static function mdlEstadoCuenta_Orden_historial($datos)
                         FROM 
                             orden_pago op
                         JOIN 
-                            orden_cuenta_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
+                            orden_pago_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
                         WHERE 
                             ocd.Concatenado_idc IN ($placeholders)");
     
@@ -943,7 +943,7 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
                         FROM 
                             orden_pago op
                         JOIN 
-                            orden_cuenta_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
+                            orden_pago_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
                         WHERE 
                             ocd.Concatenado_idc IN ($placeholders) 
                             AND op.Numero_Orden = :numero_orden
@@ -1066,7 +1066,7 @@ public static function mdlEstadoCuenta_Orden_pdf_historial($datosH)
     FROM 
         orden_pago op
     LEFT JOIN 
-        orden_cuenta_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
+        orden_pago_detalle ocd ON op.Orden_Pago = ocd.id_orden_Pago
     WHERE 
         ocd.anio_actual = :anio_actual
 ");
@@ -1134,7 +1134,7 @@ $query->execute();
   
 
     // Insertar en la tabla orden_cuenta_detalle con el id_orden_Pago recién insertado
-    $insert_intermedia_stmt = $pdo->prepare("INSERT INTO orden_cuenta_detalle 
+    $insert_intermedia_stmt = $pdo->prepare("INSERT INTO orden_pago_detalle 
                                             (id_orden_Pago, Concatenado_idc,anio_actual) 
                                             VALUES (:id_orden_Pago, :Concatenado_idc,:anio_actual)");
     
@@ -1320,6 +1320,8 @@ $query->execute();
 		return $stmt->fetchall();
 		$stmt = null;
 	}
+
+    
 	public static function mdlEstadoCuenta_pagados_pdf($propietarios, $id_cuenta)
 	{
 		$valoresSeparadosPorComa = explode(',', $propietarios);
@@ -1380,7 +1382,8 @@ $query->execute();
     $conexion = Conexion::conectar();
     $stmt = $conexion->prepare("SELECT sum(Importe) as importe,
                                        sum(Gasto_Emision) as gasto_emision,
-                                       sum(Saldo) as saldo 
+                                       sum(Saldo) as saldo ,
+                                       sum(Total_Aplicar) as total_aplicar
                                   FROM estado_cuenta_corriente  
                                  WHERE Concatenado_idc = :ids 
                                    AND Anio = :anio 
@@ -1486,6 +1489,9 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 
     return $resultados;
 }
+
+
+
 	public static function mdlPropietario_licencia_pdf($idlicencia)
 	{
 		
@@ -1500,7 +1506,8 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 															m.NumeroManzana as numManzana,
 															cu.Numero_Cuadra as cuadra,
 															z.Nombre_Zona as zona,
-															h.Habilitacion_Urbana as habilitacion
+															h.Habilitacion_Urbana as habilitacion,
+                                                             CONCAT(t.Codigo, ' ', nv.Nombre_Via, ' N°', la.Numero_Ubicacion, ' Mz.', m.NumeroManzana, ' Lt.', la.Lote, ' Nlz.', la.Numero_Ubicacion, ' Cdr.', cu.Numero_Cuadra, '-', z.Nombre_Zona, '-', h.Habilitacion_Urbana) AS direccion_predio
 														    from licencia_agua la 
 													inner join contribuyente c on la.Id_Contribuyente=c.Id_Contribuyente
 			    INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = la.Id_Ubica_Vias_Urbano  
@@ -1515,6 +1522,12 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 			//$stmt->bindParam(":Id_Licencia", $idlicencia);
 			$stmt->execute();
 			// Obtener los resultados y agregarlos al array de resultados
+            //AFECTO
+            // 
+
+
+
+
 			return $stmt->fetch();
 		    $stmt = null;
 	}
@@ -1538,14 +1551,85 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 		 return  $stmt->fetchall();
 		 
 	 }
+     
+     //DIRECCION DE PREDIO PARA PAGO DE AGUA
+
+     	public static function mdlEstadoCuenta_agua_pdf_direccion_predio($idlicencia, $id_cuenta)
+	{
+		$pdo =  Conexion::conectar();
+		$stmt = $pdo->prepare("SELECT ec.*,t.Codigo as tipo_via,
+                                                      nv.Nombre_Via as nombre_calle,
+                                                      m.NumeroManzana as numManzana,
+                                                      cu.Numero_Cuadra as cuadra,
+                                                      z.Nombre_Zona as zona,
+                                                      h.Habilitacion_Urbana as habilitacion,
+                                                      u.Id_Ubica_Vias_Urbano as id
+                                                      
+                                                      FROM estado_cuenta_agua ec 
+                                INNER JOIN licencia_agua l  on l.Id_Licencia_Agua =ec.Id_Licencia_Agua
+                                inner join categoria_agua ca  on ca.Id_Categoria_Agua =l.Id_Categoria_Agua
+                                INNER JOIN ubica_via_urbano u ON u.Id_Ubica_Vias_Urbano = l.Id_Ubica_Vias_Urbano  
+                                INNER JOIN direccion d ON u.Id_Direccion = d.Id_Direccion 
+                                INNER JOIN tipo_via t ON t.Id_Tipo_Via = d.Id_Tipo_Via 
+                                INNER JOIN zona z ON u.Id_Zona = z.Id_Zona
+                                INNER JOIN manzana m ON u.Id_Manzana = m.Id_Manzana 
+                                INNER JOIN cuadra cu ON cu.Id_cuadra = u.Id_Cuadra 
+                                INNER JOIN habilitaciones_urbanas h ON h.Id_Habilitacion_Urbana = z.Id_Habilitacion_Urbana 
+                                INNER JOIN nombre_via nv ON nv.Id_Nombre_Via = d.Id_Nombre_Via  
+                                              
+                                                WHERE l.Id_Licencia_Agua =$idlicencia and ec.Estado='H' and Id_Estado_Cuenta_Agua in ($id_cuenta) ORDER BY ec.Anio");
+       // Ejecutamos la consulta
+        $stmt->execute();
+        
+      //  Volcar el resultado para ver qué datos estamos obteniendo
+        $result = $stmt->fetchAll();
+        
+        
+     //   Mostrar el volcado
+       // var_dump($result);
+
+        return $result;
+	 }
+
+
+
 	public static function mdlEstadoCuenta_agua_pdf($idlicencia, $id_cuenta)
 	{
 		$pdo =  Conexion::conectar();
 		$stmt = $pdo->prepare("SELECT * from estado_cuenta_agua  
 		where Id_Licencia_Agua =$idlicencia AND Estado='H' AND Id_Estado_Cuenta_Agua in ($id_cuenta) ORDER BY Anio");
 		$stmt->execute();
+        
 		return  $stmt->fetchall();
 	}
+
+//  public static function mdlEstadoCuenta_agua_pdf($idlicencia, $id_cuenta)
+// {
+//     $pdo = Conexion::conectar();
+//     $stmt = $pdo->prepare("SELECT * from estado_cuenta_agua  
+//     where Id_Licencia_Agua = :idlicencia AND Estado = 'H' AND Id_Estado_Cuenta_Agua in ($id_cuenta) ORDER BY Anio");
+    
+//     // Vinculamos el parámetro para evitar inyecciones SQL
+//     $stmt->bindParam(':idlicencia', $idlicencia, PDO::PARAM_INT);
+    
+//     // Ejecutamos la consulta
+//     $stmt->execute();
+    
+//     // Volcar el resultado para ver qué datos estamos obteniendo
+//     $result = $stmt->fetchAll();
+    
+//     // Mostrar el volcado
+//     var_dump($result);
+    
+//     return $result;
+// }
+
+
+
+
+
+
+
 	public static function mdlEstadoCuenta_agua_pdf_consulta($idlicencia, $id_cuenta)
 	{
 		//$valoresSeparadosPorComa = explode(',', $propietarios);

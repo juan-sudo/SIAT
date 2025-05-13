@@ -6,6 +6,7 @@ class General {
     this.parametro=null;
     this.init_envio=null;
     this.anio_valor=null;
+    this.coactivo=null;
   }
 
   
@@ -48,7 +49,10 @@ class General {
 }
 
   predio_propietario_f(idContribuyente_pc,parametro_b,init_envio,anio) {
-       
+        let area_usuario = $('#mySpan_area').attr('iso_area');
+        let coactivo = general.coactivo;
+        console.log("valor del area capturado desde general coactivo:"+coactivo);
+
         $.ajax({
           url: "ajax/contribuyente.ajax.php",
           method: "POST",
@@ -58,6 +62,8 @@ class General {
             init_envio:init_envio,
             anio:anio,
             predio_propietario:"predio_propietario",
+            area_usuario:area_usuario,
+            coactivo:coactivo
           },
           beforeSend: function() {
             $(".m_predio_propietario").html(loadingMessage);
@@ -112,18 +118,31 @@ $(document).ready(function(){
       //Modal Propie 
       $(document).on("click", "#predio_propietario", function () {
         general.predio_propietario = $(this).attr("idContribuyente_predio_propietario");
+        
+       
         general.anio_valor =new Date().getFullYear();
         general.parametro = $(this).attr("parametro_b");
         general.init_envio = $(this).attr("init_envio");
+
+
+        console.log("parametro:"+general.parametro);
         // console.log("predio_propietario."+general.predio_propietario);
         general.predio_propietario_f(general.predio_propietario,general.parametro,general.init_envio,general.anio_valor);
         $("#modal_predio_propietario").modal("show");
         console.log("anio propietario:"+general.predio_propietario);
         console.log("anio:"+general.anio_valor);
+        
       });
+
+
 
       $(document).on("dblclick", "#tr_id_contribuyente", function () {
         general.predio_propietario = $(this).attr("idContribuyente_predio_propietario");
+      //  general.coactivo = $(this).attr("coactivo_contribuyente");
+        general.coactivo = $(this).find("#coactivo_contribuyente").text().trim();
+
+      //   console.log("vaor capturado", general.coactivo);
+        
         general.anio_valor = new Date().getFullYear();
         general.parametro = $(this).attr("parametro_b");
         general.init_envio = $(this).attr("init_envio");

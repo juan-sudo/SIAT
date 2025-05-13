@@ -210,6 +210,7 @@ class ConsultaDeudaAguaCajaClass {
 }
 
   imprimirhere_agua() {
+
     let papel=null;
     const Propietarios_ = []; // Declarar un arreglo vacío
     $("#id_propietarios tr").each(function (index){
@@ -231,6 +232,8 @@ class ConsultaDeudaAguaCajaClass {
     datos.append("id_cuenta",idsSeleccionados_);
     datos.append("cobrar_caja_agua","cobrar_caja_agua");
 
+    
+
     let datos_baucher = new FormData();
     datos_baucher.append("idlicencia",this.idlicenciaagua_caja);
     datos_baucher.append("id_cuenta",idsSeleccionados_);
@@ -240,7 +243,18 @@ class ConsultaDeudaAguaCajaClass {
     datos_baucher.append("totalSubtotal",this.totalSubtotal.toFixed(2));
     datos_baucher.append("totalTIM",this.totalTIM.toFixed(2));
     datos_baucher.append("totalTotal",this.totalTotal.toFixed(2));
-    console.log(datos_baucher);
+
+  for (const pair of datos.entries()) {
+    
+      console.log(pair[0] + ", " + pair[1]);
+    }
+
+
+    for (const pair of datos_baucher.entries()) {
+      
+      console.log(pair[0] + ", " + pair[1]);
+    }
+
 
     $.ajax({
       url: "ajax/caja.ajax.php",
@@ -250,11 +264,14 @@ class ConsultaDeudaAguaCajaClass {
       contentType: false,
       processData: false,
       success: function (respuesta) {
+      
         if (respuesta.tipo === "correcto") {
           $("#modalPagar_si_no_agua").modal("hide");
           $("#respuestaAjax_srm").show();
           $("#respuestaAjax_srm").html(respuesta.mensaje);
+          
           agua_caja.MostrarEstadoCuentaAgua_caja(agua_caja.idlicenciaagua_caja);
+
           caja.n_recibo();//se mantiene
           setTimeout(function () {
             $("#respuestaAjax_srm").hide();
@@ -262,37 +279,37 @@ class ConsultaDeudaAguaCajaClass {
         let self=this; 
          //se asigna el tipo de papel en la funcion 
          agua_caja.inicializarTipoPapel()            
-                  if(caja.tipo_papel_valor=='1'){
-                    $.ajax({
-                      url: "./vistas/print/imprimirBoletaAguaA4.php",
-                      method: "POST",
-                      data: datos_baucher,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      success: function (rutaArchivo) {
-                        // Establecer el src del iframe con la ruta relativa del PDF
-                        document.getElementById("iframe_agua_caja").src = 'vistas/print/' + rutaArchivo;
-                        $("#Modalimprimir_cuentaagua_caja").modal("show");
-                      }
-                    });
-                  } 
-                else if(self.tipo_papel_valor=='2'){
-                    $.ajax({
-                      url: "./vistas/print/imprimirBoletaA4_3.php",
-                      method: "POST",
-                      data: datos_baucher,
-                      cache: false,
-                      contentType: false,
-                      processData: false,
-                      success: function (rutaArchivo) {
-                        // Establecer el src del iframe con la ruta relativa del PDF
-                        document.getElementById("iframe_agua_caja").src = 'vistas/print/' + rutaArchivo;
-                        $("#Modalimprimir_cuentaagua_caja").modal("show");
-                      }
-                    });
-                  }
-                  else {
+                  // if(caja.tipo_papel_valor=='1'){
+                  //   $.ajax({
+                  //     url: "./vistas/print/imprimirBoletaAguaA4.php",
+                  //     method: "POST",
+                  //     data: datos_baucher,
+                  //     cache: false,
+                  //     contentType: false,
+                  //     processData: false,
+                  //     success: function (rutaArchivo) {
+                  //       // Establecer el src del iframe con la ruta relativa del PDF
+                  //       document.getElementById("iframe_agua_caja").src = 'vistas/print/' + rutaArchivo;
+                  //       $("#Modalimprimir_cuentaagua_caja").modal("show");
+                  //     }
+                  //   });
+                  // } 
+                // else if(self.tipo_papel_valor=='2'){
+                //     $.ajax({
+                //       url: "./vistas/print/imprimirBoletaA4_3.php",
+                //       method: "POST",
+                //       data: datos_baucher,
+                //       cache: false,
+                //       contentType: false,
+                //       processData: false,
+                //       success: function (rutaArchivo) {
+                //         // Establecer el src del iframe con la ruta relativa del PDF
+                //         document.getElementById("iframe_agua_caja").src = 'vistas/print/' + rutaArchivo;
+                //         $("#Modalimprimir_cuentaagua_caja").modal("show");
+                //       }
+                //     });
+                //   }
+                 // else {
                     $.ajax({
                       url: "ajax/imprimirAgua.php",
                       method: "POST",
@@ -307,14 +324,14 @@ class ConsultaDeudaAguaCajaClass {
                         '<div class="alert success">' +
                           '<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">' +
                           '<span aria-hidden="true" class="letra">×</span>' +
-                          '</button><p class="inner"><strong class="letra">Exito!</strong> <span class="letra">Se genero el recibo correctamente!</span></p></div>'
+                          '</button><p class="inner"><strong class="letra">Exito!</strong> <span class="letra">Se genero el recibo correctamente nn!</span></p></div>'
                       );
                       setTimeout(function () {
                       $("#respuestaAjax_srm").hide();
                        }, 5000);
                       }
                        });
-                  }    
+                //  }    
             
         } else if (respuesta.tipo === "advertencia") {
           $("#modalPagar_si_no").modal("hide");
@@ -328,7 +345,10 @@ class ConsultaDeudaAguaCajaClass {
         }
         
       }
-    });  
+    }); 
+    
+    
+
 
 
   }

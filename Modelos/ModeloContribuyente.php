@@ -94,6 +94,8 @@ class ModeloContribuyente
     return $stmt->fetchAll();
     $stmt = null; // Close the prepared statement
   }
+
+
   public static function mdlEditarContribuyente($tabla, $datos)
   {
     $stmt = Conexion::conectar()->prepare("SELECT t.Codigo as tipo_via, n.Nombre_Via as  nombre_calle, m.NumeroManzana as n_manzana, cu.Numero_Cuadra as cuadra, ld.Lado as Lado, z.Nombre_Zona as zona, h.Habilitacion_Urbana as habilitacion
@@ -114,7 +116,7 @@ class ModeloContribuyente
     $direccion_completa = $direccion['tipo_via'] . ' ' . $direccion['nombre_calle'] . ' N°' . $datos['Numero_Ubicacion'] . ' Mz.' . $direccion['n_manzana'] . ' Lt.' . $datos['Lote'] . ' Nlz.' . $datos['Numero_Luz'] . ' Cdr.' . $direccion['cuadra'] . '-' . $direccion['habilitacion'] . '-' . $direccion['zona'];
 
     $nombreCompleto = $datos['Apellido_Paterno'] . ' ' . $datos['Apellido_Materno'] . ' ' . $datos['Nombres'];
-    $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET Documento = :Documento, Nombres= :Nombres, Apellido_Paterno = :Apellido_Paterno,Apellido_Materno = :Apellido_Materno,Id_Ubica_Vias_Urbano=:Id_Ubica_Vias_Urbano,Numero_Ubicacion=:Numero_Ubicacion,Bloque=:Bloque,Numero_Departamento=:Numero_Departamento,Referencia=:Referencia,Telefono=:Telefono,Correo=:Correo,Observaciones=:Observaciones,Codigo_sa=:Codigo_sa,Id_Tipo_Contribuyente=:Id_Tipo_Contribuyente,Id_Condicion_Predio_Fiscal=:Id_Condicion_Predio_Fiscal,Id_Clasificacion_Contribuyente=:Id_Clasificacion_Contribuyente,Estado=:Estado,Coactivo=:Coactivo,Numero_Luz=:Numero_Luz,Fecha_Modificacion=:Fecha_Modificacion,Lote=:Lote,Id_Tipo_Documento=:Id_Tipo_Documento,usuario_Id_Usuario=:usuario_Id_Usuario,Nombre_Completo=:Nombre_Completo,Direccion_completo=:Direccion_completo WHERE Id_Contribuyente = :Id_Contribuyente");
+    $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET Documento = :Documento, Nombres= :Nombres, Apellido_Paterno = :Apellido_Paterno,Apellido_Materno = :Apellido_Materno,Id_Ubica_Vias_Urbano=:Id_Ubica_Vias_Urbano,Numero_Ubicacion=:Numero_Ubicacion,Bloque=:Bloque,Numero_Departamento=:Numero_Departamento,Referencia=:Referencia,Telefono=:Telefono,Correo=:Correo,Observaciones=:Observaciones,Codigo_sa=:Codigo_sa,Id_Tipo_Contribuyente=:Id_Tipo_Contribuyente,Id_Condicion_Predio_Fiscal=:Id_Condicion_Predio_Fiscal,Id_Clasificacion_Contribuyente=:Id_Clasificacion_Contribuyente,Estado=:Estado,Coactivo=:Coactivo,Numero_Luz=:Numero_Luz,Fecha_Modificacion=:Fecha_Modificacion,Lote=:Lote,Id_Tipo_Documento=:Id_Tipo_Documento,usuario_Id_Usuario=:usuario_Id_Usuario,Nombre_Completo=:Nombre_Completo,Direccion_completo=:Direccion_completo, Fallecida=:Fallecida WHERE Id_Contribuyente = :Id_Contribuyente");
     $stmt->bindParam(":Id_Contribuyente", $datos['Id_Contribuyente']);
     $stmt->bindParam(":Documento", $datos['Documento']);
     $stmt->bindParam(":Nombres", $datos['Nombres']);
@@ -134,6 +136,7 @@ class ModeloContribuyente
     $stmt->bindParam(":Id_Clasificacion_Contribuyente", $datos['Id_Clasificacion_Contribuyente']);
     $stmt->bindParam(":Estado", $datos['Estado']);
     $stmt->bindParam(":Coactivo", $datos['Coactivo']);
+    $stmt->bindParam(":Fallecida", $datos['Fallecida']);
     $stmt->bindParam(":Numero_Luz", $datos['Numero_Luz']);
     $stmt->bindParam(":Fecha_Modificacion", $datos['Fecha_Modificacion']);
     $stmt->bindParam(":Lote", $datos['Lote']);
@@ -148,6 +151,8 @@ class ModeloContribuyente
     }
     $stmt = null;
   }
+
+  
   public static function mdlActualizarClasificador($tabla, $item1, $valor1, $item2, $valor2)
   {
     $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
@@ -219,7 +224,7 @@ class ModeloContribuyente
        Id_Ubica_Vias_Urbano, 
        Documento, 
        Nombre_Completo, 
-       Direccion_completo, Codigo_sa 
+       Direccion_completo, Codigo_sa, Fallecida
         FROM $tabla WHERE Id_Contribuyente = :Id_Contribuyente");
   
       foreach ($valores as $valor) {
@@ -239,13 +244,34 @@ class ModeloContribuyente
           foreach ($resultados as &$contribuyenteArray) {
               foreach ($contribuyenteArray as &$contribuyente) {
                   $contribuyente['Codigo_Carpeta'] = $carpetaResult['Codigo_Carpeta'];
+                 
               }
           }
       }
-  
+
+      //PARA AGREGAR PROGRESO
+
+         // Preparar consulta para obtener el código de carpeta
+         $stmtCarpetap = $conexion->prepare("SELECT Estado_progreso FROM carpeta WHERE Concatenado_id = :carpeta");
+         $stmtCarpetap->bindParam(":carpeta", $carpeta);
+         $stmtCarpetap->execute();
+         $carpetaResult = $stmtCarpetap->fetch(PDO::FETCH_ASSOC);
+     
+         // Agregar Codigo_Carpeta a cada contribuyente
+         if ($carpetaResult) {
+             foreach ($resultados as &$contribuyenteArray) {
+                 foreach ($contribuyenteArray as &$contribuyente) {
+                     $contribuyente['Estado_progreso'] = $carpetaResult['Estado_progreso'];
+                    
+                 }
+             }
+         }
+
+     
       // Cerrar las conexiones
       $stmtContribuyentes = null;
       $stmtCarpeta = null;
+      $stmtCarpetap = null;
       $conexion = null;
 
 

@@ -7,7 +7,7 @@ use Controladores\ControladorCategorias;
    <section class="container-fluid panel-medio">
       <div class="box rounded">
          <div class="box-body row col-mod-12">
-           <span class="caption_">Administración de Predios por Contribuyente</span>
+           <span class="caption_">Administración de Predios por Contribuyente m</span>
            <button class="bi bi-person-fill-add btn btn-secundary btn-1 pull-right" onclick="window.location.href='registrar-contribuyente'">Nuevo Contribuyente</button>
          </div>
 

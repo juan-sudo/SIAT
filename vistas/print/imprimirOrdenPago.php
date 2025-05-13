@@ -221,14 +221,18 @@ $sector_2='<table align="left">
                      <tr>
                        <th colspan="2" align="center"><b>CONSTANCIA DE NOTIFICACIÓN</b></th> 
                      </tr>
+                     
                      <tr>
                        <th width="100" align="left">Fecha de Recepción</th> 
                        <th width="440">: Puquio,....de..................................................del '.$anio_impresion.'</th> 
-                     </tr> <br>
+                     </tr> 
+
+                     <br>
                      <tr>
                        <th width="100"  align="left">Domicilio</th>
                        <th>: ................................................................................................................................................  </th>
-                     </tr><br>
+                     </tr>
+                     <br>
                      <tr>
                        <th width="100"  align="left">Apellidos y Nombres</th>
                        <th>: ................................................................................................................................................  </th>

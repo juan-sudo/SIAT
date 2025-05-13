@@ -35,6 +35,7 @@ class Pisoclass {
     this.baniosC = 0;
     this.instalacionesC = 0;
   }
+
   MostrarPisos(codigoCatastro, idAnioFiscal) {
     const cuerpoTabla = document.getElementById("listaPisos");
     const filas = cuerpoTabla.getElementsByTagName("tr");
@@ -174,9 +175,11 @@ $(document).ready(function () {
   let idAnioFiscalS = $("#selectnum option:selected").val();
 
   $(document).on("click", "#tablalistapredios tbody tr", function () {
+
+    console.log("click en la fila predio");
     nuevoPiso = new Pisoclass();
     pisoEdit = new Pisoclass();
-    nuevoPiso.idCatasttroC = $(this).find("td:nth-child(4)").text();
+    nuevoPiso.idCatasttroC = $(this).find("td:nth-child(5)").text();
     nuevoPiso.anioFiscalC = anioFiscalS;
     nuevoPiso.idAnioFiscalC = idAnioFiscalS;
     filaPredio = true;

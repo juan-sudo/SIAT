@@ -101,6 +101,7 @@ class AjaxPredio
 			echo $respuesta;
 		}
 	}
+	
 	//CAMBIOS PREDIO U
 	public function ajaxCambiosPredio()
 	{
@@ -363,32 +364,118 @@ class AjaxPredio
 	}
 
 	//COPIAR PREDIO A OTROS AÑOS
+
 	public function ajaxCopiarPredio()
-	{
-		if ($_POST["id_predio"] == '' or $_POST["anio_copiar"] == NULL) {
+{
+    if (empty($_POST["predios"]) || $_POST["anio_copiar"] == NULL) {
+        $respuesta = array(
+            'tipo' => 'error',
+            'mensaje' => 'Faltan datos requeridos.'
+        );
+        $respuesta_json = json_encode($respuesta);
+        header('Content-Type: application/json');
+        echo $respuesta_json;
+    } else {
+        // Decodificar el JSON de 'predios'
+        $predios = json_decode($_POST["predios"], true);  // 'true' para convertir a array asociativo
+
+        // Verificar si la decodificación fue exitosa
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $respuesta = array(
+                'tipo' => 'error',
+                'mensaje' => 'Error en los datos de predios.'
+            );
+            $respuesta_json = json_encode($respuesta);
+            header('Content-Type: application/json');
+            echo $respuesta_json;
+            return;
+        }
+
+        // Recoger otros datos
+        // $anio_actual = $_POST["anio_actual"];
+        // $anio_copiar = $_POST["anio_copiar"];
+        // $propietarios = $_POST["propietarios"];
+        // $tipo = $_POST["tipo"];
+        // $forzar_copear = $_POST["forzar"];
+
+        // Procesar y registrar cada predio individualmente
+       foreach ($predios as $predio) {
+    // Procesar cada predio
+    $id_predio = $predio['id_predio'];
+    $id_catastro = $predio['id_catastro'];
+	 $tipo = $predio['tipo'];
+
+    // Aquí llamas a tu método para registrar el predio
+    $datos = array(
+        'id_predio' => $id_predio,
+        'anio_actual' => $_POST["anio_actual"],  // Asegúrate de que no sea null
+        'anio_copiar' => $_POST["anio_copiar"],
+        'propietarios' => $_POST["propietarios"],
+			'id_catastro' => $id_catastro,
+			'tipo' => $tipo,
+			'forzar_copear' => $_POST["forzar"]
+		);
+
+		// Llamada al controlador para registrar el predio
+		$registro = ControladorPredio::ctrCopiarPredio($datos);
+		if (!$registro) {
 			$respuesta = array(
 				'tipo' => 'error',
-				'mensaje' => 'hola'
+				'mensaje' => 'Error al registrar el predio con ID: ' . $id_predio
 			);
 			$respuesta_json = json_encode($respuesta);
 			header('Content-Type: application/json');
 			echo $respuesta_json;
-		} else {
-			$datos = array(
-				'id_predio' => $_POST["id_predio"],
-				'anio_actual' => $_POST["anio_actual"],
-				'anio_copiar' => $_POST["anio_copiar"],
-				'propietarios' => $_POST["propietarios"],
-				'id_catastro' => $_POST["id_catastro"],
-				'tipo' => $_POST["tipo"],
-				'forzar_copear' => $_POST["forzar"]
-			);
-			$respuesta = ControladorPredio::ctrCopiarPredio($datos);
-			$respuesta_json = json_encode($respuesta);
-			header('Content-Type: application/json');
-			echo $respuesta_json;
+			return;
 		}
+
+		
 	}
+
+
+        // Si todo salió bien, enviamos una respuesta de éxito
+        $respuesta = array(
+            'tipo' => 'success',
+            'mensaje' => '<div class="alert success">
+				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true" class="letra">×</span>
+				</button><p class="inner"><strong class="letra">Exito!</strong> 
+				<span class="letra">Se ha copiado los predios correctamente</span></p></div>'
+        );
+
+        $respuesta_json = json_encode($respuesta);
+        header('Content-Type: application/json');
+        echo $respuesta_json;
+    }
+}
+
+
+	// public function ajaxCopiarPredio()
+	// {
+	// 	if ($_POST["id_predio"] == '' or $_POST["anio_copiar"] == NULL) {
+	// 		$respuesta = array(
+	// 			'tipo' => 'error',
+	// 			'mensaje' => 'hola'
+	// 		);
+	// 		$respuesta_json = json_encode($respuesta);
+	// 		header('Content-Type: application/json');
+	// 		echo $respuesta_json;
+	// 	} else {
+	// 		$datos = array(
+	// 			'id_predio' => $_POST["id_predio"],
+	// 			'anio_actual' => $_POST["anio_actual"],
+	// 			'anio_copiar' => $_POST["anio_copiar"],
+	// 			'propietarios' => $_POST["propietarios"],
+	// 			'id_catastro' => $_POST["id_catastro"],
+	// 			'tipo' => $_POST["tipo"],
+	// 			'forzar_copear' => $_POST["forzar"]
+	// 		);
+	// 		$respuesta = ControladorPredio::ctrCopiarPredio($datos);
+	// 		$respuesta_json = json_encode($respuesta);
+	// 		header('Content-Type: application/json');
+	// 		echo $respuesta_json;
+	// 	}
+	// }
 
 	//CONDICIONAR ANIO PARA COPIAR
 	public function ajaxCondicionAnio()
@@ -457,6 +544,16 @@ class AjaxPredio
 		header('Content-Type: application/json');
         echo json_encode($respuesta);
 	}
+
+	//MODAL IMAGEN
+	public function ajaxmostrar_foto_carrusel_modal()
+	{
+		$id_predio = $_POST['id_predio'];
+		$respuesta = ControladorPredio::crtMostrar_foto_carrusel_modal($id_predio);
+		header('Content-Type: application/json');
+        echo json_encode($respuesta);
+	}
+	
 	public function ajaxfoto_guardar()
     {
 			if (!isset($_FILES['images'])) {
@@ -569,6 +666,11 @@ if (isset($_POST['foto_guardar'])) {
 if (isset($_POST['mostrar_foto_carrusel'])) {
 	$predio = new AjaxPredio();
 	$predio->ajaxmostrar_foto_carrusel();
+}
+
+if (isset($_POST['mostrar_foto_carrusel_modal'])) {
+	$predio = new AjaxPredio();
+	$predio->ajaxmostrar_foto_carrusel_modal();
 }
 
 if (isset($_POST['agregar_ContribuyentePredio'])) {

@@ -23,16 +23,7 @@ class ModeloLicenciAgua
         $stmt0->bindParam(":Id_Proveido", $datos['idproveidor']);
         $stmt0->execute();
 
-       /* $catastro = Conexion::conectar()->prepare("SELECT * FROM catastro WHERE Codigo_Catastral = :Codigo_Catastral");
-        $catastro->bindParam(":Codigo_Catastral", $datos['Codigo_Catastral']);
-        $catastro->execute();
-        $resultado = $catastro->fetch(); // Obtener la única fila de resultados
-        //formar el codigoCatastro del predio
-        if ($resultado) {
-          $idCatastro =  $resultado['Id_Catastro'];
-        } else {
-          $idCatastro = 'Id_noExiste';
-        }*/
+   
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(Numero_Licencia,Tipo_Licencia,
                                                            Permanencia, 
                                                            Extension_Suministro, 
@@ -55,6 +46,10 @@ class ModeloLicenciAgua
                                                            Numero_Ubicacion,
                                                            Lote,
                                                            Luz,
+                                                           Descuento_sindicato,
+                                                           Numero_Resolucion_Sindicato,
+                                                           Descuento_pago_servicio,
+                                                           Numero_Pago_Servicio,
                                                            Referencia ) 
                                                            VALUES ( 
                                                            :Numero_Licencia, 
@@ -80,6 +75,10 @@ class ModeloLicenciAgua
                                                            :Numero_Ubicacion,
                                                            :Lote,
                                                            :Luz,
+                                                           :Descuento_sindicato,
+                                                           :Numero_Resolucion_Sindicato,
+                                                           :Descuento_pago_servicio,
+                                                           :Numero_Pago_Servicio,
                                                            :Referencia)");
         $stmt->bindParam(":Numero_Licencia", $datos['Numero_Licencia']);
         $stmt->bindParam(":Tipo_Licencia", $datos['Tipo_Licencia']);
@@ -112,6 +111,12 @@ class ModeloLicenciAgua
         $stmt->bindParam(":Lote", $datos['nroLote']);
         $stmt->bindParam(":Luz", $datos['nroLuz']);
         $stmt->bindParam(":Referencia", $datos['ref']);
+        $stmt->bindParam(":Descuento_sindicato", $datos['Descuento_sindicato']);
+        $stmt->bindParam(":Numero_Resolucion_Sindicato", $datos['Numero_Resolucion_Sindicato']);
+        $stmt->bindParam(":Descuento_pago_servicio", $datos['Descuento_pago_servicio']);
+        $stmt->bindParam(":Numero_Pago_Servicio", $datos['Numero_Pago_Servicio']);
+ 
+
         if ($stmt->execute()) {
           $stmt = null;
           return "ok";
@@ -216,8 +221,13 @@ class ModeloLicenciAgua
     return $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
   }
+ 
+
+
   public static function mdlEditarLiciencia($tabla, $datos)
   {
+    //var_dump( $datos);
+
     $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET Numero_Expediente =:Numero_Expediente,
     Fecha_Expediente =:Fecha_Expediente,
     Fecha_Expedicion =:Fecha_Expedicion,
@@ -232,7 +242,13 @@ class ModeloLicenciAgua
     Numero_Ubicacion=:numeracion,
     Lote=:lote,
     Luz=:luz,
+    Descuento_sindicato=:Descuento_sindicato,
+    Descuento_pago_servicio=:Descuento_pago_servicio,
+    Numero_Resolucion_Sindicato=:Numero_Resolucion_Sindicato,
+    Numero_Pago_Servicio=:Numero_Pago_Servicio,
+    
     Referencia=:referencia  WHERE Id_Licencia_Agua=:Id_Licencia_Agua");
+
     $stmt->bindParam(":Numero_Expediente", $datos['Numero_Expediente']);
     $stmt->bindParam(":Fecha_Expediente", $datos['Fecha_Expediente']);
     $stmt->bindParam(":Fecha_Expedicion", $datos['Fecha_Expedicion']);
@@ -249,14 +265,23 @@ class ModeloLicenciAgua
     $stmt->bindParam(":lote", $datos['lote']);
     $stmt->bindParam(":luz", $datos['luz']);
     $stmt->bindParam(":referencia", $datos['referencia']);
+    $stmt->bindParam(":Descuento_sindicato", $datos['Descuento_sindicato']);
+    $stmt->bindParam(":Descuento_pago_servicio",  $datos['Descuento_pago_servicio']);
+    $stmt->bindParam(":Numero_Resolucion_Sindicato", $datos['Numero_Resolucion_Sindicato']);
+    $stmt->bindParam(":Numero_Pago_Servicio", $datos['Numero_Pago_Servicio']);
+
+
     if ($stmt->execute()) {
       return 'ok';
     } else {
       return 'error';
     }
   }
+
+
   public static function mdlTranferirLiciencia($tabla, $datos)
   {
+
     $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
                                                              Id_Contribuyente=:idcontribuyente_nuevo,
                                                              Observacion=:obs
@@ -284,11 +309,121 @@ class ModeloLicenciAgua
     }
   }
 
+  
   public static function mdlCalcular_Agua($datos)
   {
+
+    
     
     try {
       $pdo = Conexion::conectar();
+
+      //DESCUENTO COACTIVO
+        // Asignación predeterminada
+        // $descuento = 0.00;
+        // $montoAplicar = 0.00;
+        // Verificar si las claves existen antes de acceder a ellas
+      $descuento = isset($datos['descuento']) ? $datos['descuento'] : 0.00;
+
+      if($descuento==0.5){
+
+        $montoAplicar = isset($datos['monto']) ? $datos['monto'] : 0.00;
+
+        // Ahora, puedes usar estas variables sin generar errores
+        
+        
+                // Verificar si las claves existen en el arreglo
+                if (isset($datos['descuento'])) {
+                    $descuento = $datos['descuento'];
+                }
+        
+                if (isset($datos['monto'])) {
+                    $montoAplicar = $datos['monto'];
+                }
+        
+                // Lógica de asignación
+                if ($descuento > 0 ) {
+        
+                    
+                    $descuento = $datos['descuento'];
+        
+                    $montoAplicar = $datos['monto']*$descuento;
+        
+                } else {
+                    $montoAplicar = $datos['monto'] ?? 0.00;  // Asignar 0 si no está definido
+                    $descuento = 0.00;
+                }
+
+      }
+      elseif($descuento ==2.00){
+        
+        $montoAplicar = isset($datos['monto']) ? $datos['monto'] : 0.00;
+
+        // Ahora, puedes usar estas variables sin generar errores
+        
+        
+                // Verificar si las claves existen en el arreglo
+                if (isset($datos['descuento'])) {
+                    $descuento = $datos['descuento'];
+                }
+        
+                if (isset($datos['monto'])) {
+                    $montoAplicar = $datos['monto'];
+                }
+        
+                // Lógica de asignación
+                if ($descuento > 0 ) {
+        
+                    
+                    $descuento = $datos['descuento'];
+        
+                    $montoAplicar = $datos['monto']-$descuento;
+        
+                } else {
+                    $montoAplicar = $datos['monto'] ?? 0.00;  // Asignar 0 si no está definido
+                    $descuento = 0.00;
+                }
+
+
+      }
+      else{
+        
+      $montoAplicar = isset($datos['monto']) ? $datos['monto'] : 0.00;
+
+      // Ahora, puedes usar estas variables sin generar errores
+      
+      
+              // Verificar si las claves existen en el arreglo
+              if (isset($datos['descuento'])) {
+                  $descuento = $datos['descuento'];
+              }
+      
+              if (isset($datos['monto'])) {
+                  $montoAplicar = $datos['monto'];
+              }
+      
+              // Lógica de asignación
+              if ($descuento > 0 ) {
+      
+                  
+                  $descuento = $datos['descuento'];
+      
+                  $montoAplicar = $datos['monto']-$descuento;
+      
+              } else {
+                  $montoAplicar = $datos['monto'] ?? 0.00;  // Asignar 0 si no está definido
+                  $descuento = 0.00;
+              }
+
+
+
+      }
+
+
+     
+
+         //DESCUENTO PAGO SERVICIO
+        
       $fechaString = $datos['fecha_expedicion'];
 
 // Utiliza completamente la clase DateTime de PHP
@@ -348,8 +483,10 @@ $pdo->beginTransaction();
         $stmt->bindParam(":Total", $datos['monto']);
         $stmt->bindValue(":Estado", "D");
         $stmt->bindParam(":Id_Contribuyente", $datos['id_contribuyente']);
-        $stmt->bindValue(":Descuento",0);
-        $stmt->bindParam(":Total_Aplicar", $datos['monto']);
+        $stmt->bindValue(":Descuento", $descuento);
+       // $stmt->bindValue(":Descuento",0);
+        $stmt->bindParam(":Total_Aplicar", $montoAplicar);
+       //  $stmt->bindParam(":Total_Aplicar", $datos['monto']);
         $stmt->bindParam(":DNI", $datos['dni']);
         $stmt->bindParam(":Nombres", $datos['nombres']);
         $stmt->bindParam(":id_licencia", $datos['id_licencia']);
@@ -363,6 +500,7 @@ $pdo->beginTransaction();
       throw new Exception("Error al querer calcular el estado de cuenta de agua: " . $e->getMessage());
     }
   }
+
   //listado de los años de acuerdo a la fecha de expedicion de la licencias
   public static function mdlAnio_Agua($anio,$mes,$dia)
   {

@@ -41,6 +41,7 @@ class AjaxContribuyente
    }
    // EDITAR CONTRIBUYENTE
    public $idContribuyente;
+
    public function ajaxEditarContribuyente()
    {
       $item = 'Id_Contribuyente';
@@ -60,11 +61,15 @@ class AjaxContribuyente
    {
       $idContribuyente = $_POST['idContribuyente_pc'];
       $parametro_b = $_POST['parametro_b'];
-      $init_envio = $_POST['init_envio'];
+      $init_envio = $_POST['init_envio']; 
+      $area_usuario = $_POST['area_usuario']; 
+      $coactivo = $_POST['coactivo']; 
       $anio = $_POST['anio'];
-      $respuesta = ControladorContribuyente::ctrPredio_Propietario($idContribuyente,$parametro_b,$init_envio,$anio);
+      $respuesta = ControladorContribuyente::ctrPredio_Propietario($idContribuyente,$parametro_b,$init_envio,$anio,$area_usuario,$coactivo );
       echo $respuesta;
    }
+
+   
     // Predio Propietario
     public function ajaxGuardar_editar_contribuyente()
     {
@@ -92,6 +97,7 @@ class AjaxContribuyente
               "Id_Clasificacion_Contribuyente" => $_POST["e_clasificacion"],
               "Estado" => "1",
               "Coactivo" => $_POST["usuariocoactivo"],
+              "Fallecida" => $_POST["usuariofallecida"],
               "Numero_Luz" => $_POST["e_nroLuz"],
               "Fecha_Modificacion" => date("Y-m-d H:i:s"),
               "Lote" => $_POST["e_nroLote"],
@@ -123,12 +129,14 @@ if (isset($_POST['validarUsuario'])) {
    $validarUsuario->validarUsuario = $_POST['validarUsuario'];
    $validarUsuario->ajaxValidarUsuario();
 }
+
 // OBJETO EDITAR DATOS CONTRIBUYENTE
 if (isset($_POST['idContribuyente'])) {
    $editar = new AjaxContribuyente();
    $editar->idContribuyente = $_POST['idContribuyente'];
    $editar->ajaxEditarContribuyente();
 }
+
 // OBJETO CALCULAR IMPUESTO
 if (isset($_POST['idContribuyente_impuesto'])) {
    $editar = new AjaxContribuyente();

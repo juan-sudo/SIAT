@@ -36,7 +36,13 @@ class AjaxLicenciaAgua
       'nroUbicacion' => $_POST["nroUbicacion"],
       'nroLote' => $_POST["nroLote"],
       'nroLuz' => $_POST["nroLuz"],
-      'ref' => $_POST["ref"]
+      'ref' => $_POST["ref"],
+      'Descuento_sindicato' => $_POST["descuentoSindicato"],
+      'Numero_Resolucion_Sindicato' => $_POST["resoSinLicAd"],
+      'Descuento_pago_servicio' => $_POST["descuendoServicio"],
+      'Numero_Pago_Servicio' => $_POST["resoPagoLicAd"]
+
+
     );
     $respuesta = ControladorLicenciaAgua::ctrCrearLicencia($datos);
     echo $respuesta;
@@ -120,9 +126,12 @@ class AjaxLicenciaAgua
     $respuesta = ModeloLicenciAgua::mdlMostrarLicencias_calcular($datos);
     echo json_encode($respuesta);
   }
+
   public function ajaxEditarLicencia()
   {
+
     $datos = array(
+     
       'Numero_Expediente' => $_POST["numExpedienteLicEdit"],
       'Fecha_Expediente' => $_POST["fechaExpedienteEdit"],
       'Fecha_Expedicion' => $_POST["fechaExpedLicEdit"],
@@ -138,7 +147,23 @@ class AjaxLicenciaAgua
       'lote' => $_POST["edit_nroLote"],
       'luz' => $_POST["edit_nroLuz"],
       'referencia' => $_POST["edit_ref"],
+
+      // 'Descuento_sindicato'=> $_POST["descuentoSindicatoEdit"],
+      // 'Descuento_pago_servicio'=> $_POST["descuendoServicioEdit"],
+
+      // Asegurarse de que las claves existan antes de acceder a ellas
+      'Descuento_sindicato' => isset($_POST["descuentoSindicatoEdit"]) ? $_POST["descuentoSindicatoEdit"] : 0.00,
+      'Descuento_pago_servicio' => isset($_POST["descuendoServicioEdit"]) ? $_POST["descuendoServicioEdit"] : 0.00,
+  
+      
+      'Numero_Resolucion_Sindicato'=> $_POST["resoSinLicAdEdit"],
+      'Numero_Pago_Servicio'=> $_POST["resoPagoLicAdEdit"],
+      
+
     );
+    
+ 
+
     $respuesta = ControladorLicenciaAgua::ctrUpdateLicence($datos);
     echo $respuesta;
   }
@@ -187,11 +212,16 @@ class AjaxLicenciaAgua
      
   }
 
+
   public function ajaxCalcular_Agua()
   {
     $datos = array(
       'dni' => $_POST["dni"],
       'nombres' => $_POST["nombres"],
+      'monto' => $_POST["monto"],
+      
+      'descuento' => $_POST["descuento"],
+
       'monto' => $_POST["monto"],
       'categoria' => $_POST["categoria"],
       'fecha_expedicion' => $_POST["fecha_expedicion"],
@@ -232,10 +262,15 @@ if (isset($_POST['transferirLicencia'])) {
   $nuevo = new AjaxLicenciaAgua();
   $nuevo->ajaxTraerLiciencia();
 }
+
+//edita licencia de agua oij
 if (isset($_POST['idLicenciEdit'])) {
   $nuevo = new AjaxLicenciaAgua();
   $nuevo->ajaxEditarLicencia();
 }
+
+
+
 if (isset($_POST['transferir_licencia'])) {
   $nuevo = new AjaxLicenciaAgua();
   $nuevo->ajaxTransfLicencia();

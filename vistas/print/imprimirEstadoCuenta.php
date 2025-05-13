@@ -135,6 +135,8 @@ foreach ($propietarios as $valor => $filas) {
     }
 }
 
+
+
 $html_propietario .= '</table>';
 
              $pdf->writeHTML($html_propietario, true, false, false, false, '');
@@ -181,6 +183,7 @@ $html_estado= '<table align="center">
                 $html .= "<th>".$row['Total_Aplicar']."</th>";
                 $html .= "</tr>";
             }
+
             $html .= "<tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>";                    
             $html .= "<tr><th></th><th></th><th></th><th></th>";
             $html .= "<th><b>".$_POST['totalImporte']."</b></th>";

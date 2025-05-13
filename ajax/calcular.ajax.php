@@ -3,20 +3,23 @@ session_start();
 require_once "../vendor/autoload.php";
 
 use Controladores\ControladorCalcular;
+
 class AjaxCalcular
 {
     // EDITAR CONTRIBUYENTE
     public function ajaxRegistro_Impuesto()
-    {   if($_POST['base_imponible']=='null'){
-                    $respuesta = array(
-                    'tipo' => 'correcto',
-                    'mensaje' => '<div class="alert alert-danger" role="alert">El contribuyente no registra Predios en el año '.$_POST['selectnum'].'</div>'
-                    );
-        $respuesta_json = json_encode($respuesta);
-        header('Content-Type: application/json');
-        echo $respuesta_json;                
-         }
-         else{
+    {  
+        
+        // if($_POST['base_imponible']=='null'){
+        //             $respuesta = array(
+        //             'tipo' => 'correcto',
+        //             'mensaje' => '<div class="alert alert-danger" role="alert">El contribuyente no registra Predios en el año '.$_POST['selectnum'].'</div>'
+        //             );
+        // $respuesta_json = json_encode($respuesta);
+        // header('Content-Type: application/json');
+        // echo $respuesta_json;                
+        //  }
+        //  else{
           $datos=array("contribuyente"=>$_POST['idContribuyente_impuesto'],
                      "anio"=>$_POST["selectnum"],
                      "impuesto_anual"=>$_POST["impuesto_anual"],
@@ -26,14 +29,16 @@ class AjaxCalcular
                      "total_pagar"=>$_POST["total_pagar"],
                      "recalcular"=>$_POST["recalcular"],
                      "predio_select"=>$_POST["predio_select"],
-                     "predios_seleccionados"=>$_POST["predios_seleccionados"]
+                     "predios_seleccionados"=>$_POST["predios_seleccionados"],
+                    "id_Regimen_Afecto"=>$_POST["id_Regimen_Afecto"]
+                     
 
                     );
         $respuesta = ControladorCalcular::ctrRegistro_Impuesto($datos);
         $respuesta_json = json_encode($respuesta);
         header('Content-Type: application/json');
         echo $respuesta_json;    
-         }
+         //}
         
     }
     // MOSTRAR CALCULO IMPUESTO 

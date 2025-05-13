@@ -20,7 +20,11 @@ $datos = array(
     'fila' => $fila,
     'configuracion' => $configuracion
 );
-$url_api = 'http://172.16.0.13/cliente/imprimirBoletaAgua.php'; //   CAJA
+
+var_dump($datos);
+exit;
+
+//$url_api = 'http://172.16.0.13/cliente/imprimirBoletaAgua.php'; //   CAJA
 //$url_api = 'http://192.168.1.3/cliente/imprimirBoletaAgua.php'; // prueba
 
 $ch = curl_init($url_api);

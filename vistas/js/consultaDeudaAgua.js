@@ -71,6 +71,7 @@ class ConsultaDeudaAguaClass {
       },
     });
   }
+
   MostrarEstadoCuentaAgua(idlicencia){
     let self=this;
     $.ajax({
@@ -95,6 +96,9 @@ class ConsultaDeudaAguaClass {
     });
 
   }
+
+
+  
 
   MostrarEstadoCuentaAgua_pagados(idlicencia){
     let self=this;
@@ -526,16 +530,24 @@ $(document).on("click", "#tablalistaLicences tbody tr", function() {
 });
 
 $(document).on("click", ".btnEstadoCuentaAgua", function() {
+
     consulta_deuda_agua_lista.reniciar_valor();
+
     consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
-    console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)
+    
     consulta_deuda_agua_lista.MostrarEstadoCuentaAgua(consulta_deuda_agua_lista.idlicenciaagua);
+
+    console.log("iDlicencia agua ahora:"+consulta_deuda_agua_lista.idlicenciaagua);
+
     $('#ModalEstado_cuentaAgua').modal('show');
     //ajustando el total de la columna 
 });
+
+
 $(document).on("click", ".btnEstadoCuentaAgua_pagados", function() {
   consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
   console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)
+  
   consulta_deuda_agua_lista.MostrarEstadoCuentaAgua_pagados(consulta_deuda_agua_lista.idlicenciaagua);
   $('#ModalEstado_cuentaAgua_pagados').modal('show');
   //ajustando el total de la columna 

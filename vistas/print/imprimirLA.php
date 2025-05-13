@@ -256,21 +256,24 @@ $html_propietario='<table align="center">
 $pdf->Ln(1);
 $html_propietario='<table align="center">
                      <tr style="background-color:#ABEBC6;">
-                     <td border="0.1" width="110"><h4>Cuota</h4></td>
-                     <td border="0.1" width="110"><h4>Vencimiento</h4></td>
-                     <td border="0.1" width="110"><h4>Monto Absoluto</h4></td>
-                     <td border="0.1" width="110"><h4>Derecho Emisión</h4></td>
-                     <td border="0.1" width="100"><h4>Total de Pagar</h4></td>
+                     <td border="0.1" ><h4>Cuota</h4></td>
+                     
+                     <td border="0.1" ><h4>Monto Absoluto</h4></td>
+                     <td border="0.1" ><h4>Derecho Emisión</h4></td>
+                     <td border="0.1" ><h4>Descuento</h4></td>
+                     <td border="0.1" ><h4>Total de Pagar n</h4></td>
                      </tr>';
                      $total_pagar=0;
                      foreach ($cuotas as $fila_c) {
-                     $total_pagar+=$fila_c['Total']; 
+                     $total_pagar+=$fila_c['Total_Aplicar']; 
 $html_propietario.='<tr>
-                     <td style=" border-left: 0.1px solid black;" width="110">'.$fila_c['Periodo'].'</td>
-                     <td width="110">'.$fila_c['Fecha_Vence'].'</td>
-                     <td  width="110">'.$fila_c['Importe'].'</td>
-                     <td  width="110">'.$fila_c['Gasto_Emision'].'</td>
-                     <td style=" border-right: 0.1px solid black;" width="100">'.$fila_c['Total'].'</td>
+                     <td style=" border-left: 0.1px solid black;" >'.$fila_c['Periodo'].'</td>
+                    
+
+                     <td  >'.$fila_c['Importe'].'</td>
+                     <td  >'.$fila_c['Gasto_Emision'].'</td>
+                     <td  >'.$fila_c['descuento'].'</td>
+                     <td style=" border-right: 0.1px solid black;" >'.$fila_c['Total_Aplicar'].'</td>
                      </tr>';
                      }
 $html_propietario.='<tr>

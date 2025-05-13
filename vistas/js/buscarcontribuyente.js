@@ -22,6 +22,7 @@ class buscarcontribuyente {
         }
       });
   }
+
   editarContribuyente(idContribuyente){
 
     let idDireccion;
@@ -59,13 +60,24 @@ class buscarcontribuyente {
         $("#e_correo").val(respuesta["Correo"]);
         $("#e_observacion").val(respuesta["Observaciones"]);
         $("#usuarioCoactivo").prop('checked',respuesta["Coactivo"]==='1');
+        $("#usuarioFallecida").prop('checked',respuesta["Fallecida"]==='1');
         let idDireccion = respuesta["Id_Ubica_Vias_Urbano"];
       },
     });
   }
+
+
+
   loadcontribuyente_filtro(page,searchClass,init_envio){
+
+
+    let area_usuario = $('#mySpan_area').attr('iso_area');
+    
       let searchContribuyente = $("." + searchClass).val();
-      console.log("valor:"+searchContribuyente);
+
+      console.log("valor estas aqui---:"+searchContribuyente);
+      console.log("valor estas aqui--mm-:"+area_usuario);
+
       let parametros = {
         action: "ajax",
         page: page,
@@ -74,6 +86,8 @@ class buscarcontribuyente {
         init_envio:init_envio,
         dpcontribuyente: "dpcontribuyente",
         perfilOculto_c: perfilOculto_c,
+        area_usuario: area_usuario
+
       };
 
       $.ajax({
@@ -212,17 +226,24 @@ $(document).on("click", ".btndeuda", function () {
 
 
 $(document).on("click", ".btnEditarcontribuyente", function () {
+
   buscarcontribuyente_.idContribuyente = $(this).attr("idContribuyente");
   buscarcontribuyente_.editarContribuyente(buscarcontribuyente_.idContribuyente);
   buscarcontribuyente_.traerDireccion(buscarcontribuyente_.idContribuyente);
 });
+
+
 $(document).on("click", ".btnEliminarContribuyente", function () {
   buscarcontribuyente_.eliminarcontribuyente();
 });
 $(document).on("click", "btnModalRegistrarCambios", function () {
   alert("REGISTRO CAMBIOS");
 });
+
 let perfilOculto_c = $("#perfilOculto_c").val();
+
+
+
 function loadContribuyente(page, searchClass,init_envio) {
     if (event.keyCode === 13) {
       buscarcontribuyente_.loadcontribuyente_filtro(page,searchClass,init_envio);
@@ -233,10 +254,38 @@ function loadContribuyente(page, searchClass,init_envio) {
 $('#formEmpresa').on('submit', function(event) {
   event.preventDefault();
     var datosFormulario = $(this).serialize(); // Serializa los datos del formulario
+
     let isChecked = $('#usuarioCoactivo').prop('checked');
     let value= isChecked ? $('#usuarioCoactivo').attr('check') : $('#usuarioCoactivo').attr('uncheck');//extraemoes el valor del estado del check coactivo
     datosFormulario += '&usuariocoactivo='+value;
+ //USUARIO FALLECIDO
+    let isCheckedf = $('#usuarioFallecida').prop('checked');
+    let valuef= isCheckedf ? $('#usuarioFallecida').attr('check') : $('#usuarioFallecida').attr('uncheck');//extraemoes el valor del estado del check coactivo
+    datosFormulario += '&usuariofallecida='+valuef;
+
     datosFormulario += '&guardar_editar_contribuyente=guardar_editar_contribuyente'; 
+   
+  
     console.log(datosFormulario); 
   buscarcontribuyente_.guardar_editar_contribuyente(datosFormulario);
 })
+
+
+
+// $(document).ready(function() {
+//   // Obtener el valor del campo 'area_oculta'
+//   var area = $('#mySpan_area').attr('iso_area');
+  
+//   console.log("El área es ahora desde modal: " + area);  // Verificar el valor del área
+
+//   // Mostrar el div solo si el valor del área es "SUBGERENCIA DE SERVICIOS MUNICIPALES"
+//   if (area === "SUBGERENCIA DE SERVICIOS MUNICIPALES") {
+//     console.log("Mostrando el div");
+//     $(".ocultar_predio").show();  // Mostrar el div
+//   } else {
+//     console.log("No se muestra el div");
+//     $(".ocultar_predio").hide();  // Ocultar el div
+//   }
+// });
+
+

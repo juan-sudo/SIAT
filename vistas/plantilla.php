@@ -158,6 +158,7 @@ $tiem = time();
 	<script src="vistas/js/tim.js"></script>
 	<script src="vistas/js/viascalles.js"></script>
 	<script src="vistas/js/registrarcontribuyente.js"></script>
+	<script src="vistas/js/carpeta.js"></script>
 	<script src="vistas/js/predio.js"></script>
 	<script src="vistas/js/pisos.js"></script>
 	<script src="vistas/js/prediodetalle.js"></script>
@@ -203,7 +204,10 @@ $tiem = time();
 			$(".reload-all").hide();
 		})
 	</script>
-    <div id="respuestaAjax_srm"></div>
+
+    <div id="respuestaAjax_srm" ></div>
+
+
 	<span  id="mySpan" iso='<?php echo $_SESSION['id']; ?>'></span>
 	<span  id="mySpan_user" iso_usuario='<?php echo $_SESSION['usuario']; ?>'></span>
 	<span  id="mySpan_area" iso_area='<?php echo $_SESSION['area']; ?>'></span>

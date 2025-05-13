@@ -234,7 +234,7 @@ $html_propietario .='<td style=" border-left: 0.1px solid black; vertical-align:
 $html_propietario .='<th  width="85">'.$fila_t['importe'].'</th>';
 $html_propietario .='<th  width="85">'.$fila_t['gasto_emision'].'</th>';
 $html_propietario .='<th  width="85">0</th>';
-$html_propietario .='<th  width="90">'.$fila_t['saldo'].'</th>';
+$html_propietario .='<th  width="90">'.$fila_t['total_aplicar'].'</th>';
 $html_propietario .='<th  style=" border-right: 0.1px solid black;" width="110">'.$fecha_vencimiento.'</th>';
 $html_propietario .='</tr>';
                      }                
@@ -254,7 +254,19 @@ $html_firma='<table align="center"><tr>
                        <th border="0.1" colspan="4"><br>DECLARO QUE LOS DATOS CONSIGNADOS EN LA PRESENTE DECLARACION SON VERDADERO<br><br><br><br><br>
                        ....................................................................................<br>
                        Firma del Contribuyente o Representante Legal<br>
-                       N° Dni:<br><br>
+                       N° Dni:<br>
+
+                     <table align="left">
+                        <tr><td style="padding-bottom: 10px;">Nombre y apellido: ............................................................................</td></tr>
+                        <tr><td style="padding-bottom: 10px;">N° Dni: ..............................................................................................</td></tr>
+                        <tr><td style="padding-bottom: 10px;">Parentesco: ......................................................................................</td></tr>
+                        <tr><td style="padding-bottom: 10px;">Celular: ................................./...........................</td></tr>
+                    </table>
+
+                        
+                        <br>
+
+
                        Fecha:'.$fechaActual.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Distrito:'.$configuracion['Lugar'].'</th>
                     </tr>
              </table>';

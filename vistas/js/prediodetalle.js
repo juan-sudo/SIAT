@@ -375,13 +375,19 @@ $(document).ready(function () {
 
   const predioEdit = new PredioClass();
 
+  //SELEICON DE PREDIOS
   $(document).on("click", "#tablalistapredios tbody tr", function () {
+
+    console.log("diste click en predio");
     predioSelect = true;
     predioEdit.idPredioC = $(this).attr("id_predio");
     predioEdit.idAnioFiscalC= $("#selectnum").val();
   });
 
+  
+
   $("#btnEditarPredioU").click(function () {
+
     if (predioSelect) {
       let datos = new FormData();
       datos.append("idPredio", predioEdit.idPredioC);
@@ -396,7 +402,9 @@ $(document).ready(function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
+
           console.log(respuesta);
+
           predioEdit.idPredioC = respuesta.Id_Predio;
           predioEdit.fechaAdquisicionC = respuesta.Fecha_Adquisicion;
           predioEdit.numeroLuzC = respuesta.Numero_Luz;
@@ -649,12 +657,18 @@ $(document).ready(function () {
     predioEdit.valorPredioC = $("#valorPredioAnio_e").text();
   }
   
+
+  //GUARDAR EDIATR PREDIO
+
   $(document).on("click", "#btnGuardarPredio_e", function () {
+   
     if (predioEdit.predioURC === "U") {
           capturarValoresUrbanosE();
           // =========== REGISTRO PREDIO =============================
           predioEdit.idViaC = $("#idvia_Predio").text();
+
           let formd = new FormData();
+          
           formd.append("predio_UR", predioEdit.predioURC); //16
           formd.append("tipoDocInscripcion", predioEdit.idDocInscripcionC); //16
           formd.append("nroDocIns", predioEdit.numDocInscripC); //13
@@ -831,9 +845,12 @@ $(document).ready(function () {
       $("#afecto_e").prop("disabled", false); // habilita el segundo select
     }
   });
+
   $(document).on("click", "#agregarContribuyente_Predio", function () {
     $("#modalAgregarContribuyente_Predio").show();
   });
+
+
 
   $(document).on("click", ".btnAgregarContribuyente_predio", function () {
     var contribuyentes = [];
@@ -926,5 +943,7 @@ $(document).ready(function () {
   $(document).on("click", "#salir_AgregarContribuyente", function () {
     $("#modalAgregarContribuyente_Predio").hide();
   });
+
+
 
 });

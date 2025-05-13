@@ -37,9 +37,13 @@ $pdf->AddPage('P','A4');
 $idlicencia=$_POST['idlicencia'];
 $id_cuenta=$_POST['id_cuenta']; //Viene un array pero se convierte en un string ('36,37') -> convertir en un array en el servidor
 $estado_cuenta = ModeloEstadoCuenta::mdlEstadoCuenta_agua_pdf($idlicencia,$id_cuenta);
+
+echo json_encode($estado_cuenta);
+exit;
 //$predio_licencia=ModeloEstadoCuenta::mdlPredio_Licencia($idlicencia);
 $fila = ModeloEstadoCuenta::mdlPropietario_licencia_pdf($idlicencia);
 $configuracion = ControladorConfiguracion::ctrConfiguracion();
+
 // Inicio de la tabla HTML
 $pdf->SetCreator($configuracion['Nombre_Empresa']);
 $pdf->SetAuthor('GRUPO HANCCO');
@@ -90,6 +94,7 @@ $html_propietario .='<td width="40">'.$fila['id_contribuyente'].'</td>';
 $html_propietario .='<th width="37">'.$fila['documento'].'</th>';
 $html_propietario .='<th width="160">'.$fila['nombre'].' ' . $fila['a_paterno'] . ' ' . $fila['a_materno'] . '</th>';
 $html_propietario .='<td  width="160">'. $fila['tipo_via'] . ' ' . $fila['nombre_calle'] . ' N° ' . $fila['numero_ubicacion'] . ' Mz. ' . $fila['n_manzana'] . ' Lote. ' . $fila['lote'] . ' Blo. ' . $fila['bloque'] . ' Nd ' . $fila['n_departamento'] . ' Luz ' . $fila['luz'] . ' C. ' . $fila['cuadra']  .' - ' . $fila['habilitacion'] . ' - ' . $fila['zona'].'</td>';
+
 $html_propietario .='<td  width="40">'.$fila['numero_licencia'].'</td>';
 
 $html_propietario .='</tr>';

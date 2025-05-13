@@ -50,12 +50,16 @@ $idArray = array_filter($idArray);
         </div>
     </section>  
 
+
   <section class="container-fluid panel-medio">
+
     <div class="box rounded">
+
+
       <div class="row">
             <div class="col-md-6 table-responsive divDetallePredio">
                 <table class="table-container" id="tablalistaprediosAgua_consulta">
-                  <caption>Predios del Contribuyente</caption>
+                  <caption>Predios del Contribuyente AQUI</caption>
                   <thead>
                     <tr>
                       <th class="text-center">N°</th>
@@ -90,6 +94,8 @@ $idArray = array_filter($idArray);
               </div>
             </div>     
       </div>
+
+      
     </div>  
   </section>
 </div>
