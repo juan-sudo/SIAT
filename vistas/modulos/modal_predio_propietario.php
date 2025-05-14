@@ -8,7 +8,7 @@ use Controladores\ControladorPredio;
       <div class="modal-body">
      
           <div class="col-mod-12">
-                <span class="caption_">Propietario - Predio</span>
+                <span class="caption_">Propietario - Predio m</span>
                 <div class="row pull-right">
                 <select class="busqueda_filtros_anio" id="anio_propietario" name="anio_propietario">
                                         <?php

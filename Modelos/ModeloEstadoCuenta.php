@@ -1451,6 +1451,8 @@ $query->execute();
 
     return $resultados;
 }*/
+
+
 public static function mdlPropietarios_pdf($propietarios) //optimizado
 {
     // Convertir la cadena de propietarios en un array

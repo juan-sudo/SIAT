@@ -2299,7 +2299,7 @@ if (count($datos_contribuyente) > 0) {
               <div class="form-group">
                 <label for="" class="lbl-text">Correo</label>
                 <div class="input-group-adddon">
-                  <input type="text" class="form-control" id="e_correo" name="e_correo" placeholder="Correo Electronico...">
+                  <input type="text" class="form-control" style="transition: all 0.5s ease; border-radius: 5px;"  id="e_correo" name="e_correo" placeholder="Correo Electronico...">
                 </div>
               </div>
             </div>

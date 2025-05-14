@@ -291,6 +291,8 @@ class AjaxCaja
         header('Content-Type: application/json');
         echo $respuesta_json;
     }
+
+    
     //registro de ingreso de proveido
     public function ajaxCobrar_caja_proveido()
     {

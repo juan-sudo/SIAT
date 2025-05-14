@@ -139,6 +139,7 @@ $(document).ready(function(){
       $(document).on("dblclick", "#tr_id_contribuyente", function () {
         general.predio_propietario = $(this).attr("idContribuyente_predio_propietario");
       //  general.coactivo = $(this).attr("coactivo_contribuyente");
+      
         general.coactivo = $(this).find("#coactivo_contribuyente").text().trim();
 
       //   console.log("vaor capturado", general.coactivo);

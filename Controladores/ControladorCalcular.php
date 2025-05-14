@@ -92,30 +92,34 @@ class ControladorCalcular
 					);
 				}
 			}
-		} else {
-			$stmt = $pdo->prepare("DELETE FROM estado_cuenta_corriente  where Concatenado_idc=:ids and Anio=:anio");
-			$stmt->bindParam(":ids", $ids);
-			$stmt->bindParam(":anio", $datos['anio']);
-			$stmt->execute();
-
-			$respuesta = ModeloCalcular::mdlRegistrarimpuesto($datos);
-			if ($respuesta == "ok") {
-				$respuesta = array(
-					'tipo' => 'correcto',
-					'mensaje' => '<div class="alert alert-success" role="alert">Se RECALCULO el impuesto y Arbitrios con exito del año ' . $datos['anio'] . '</div>'
-				);
 			} else {
-				$respuesta = array(
-					'tipo' => 'correcto',
-					'mensaje' => '<div class="alert alert-danger" role="alert">Algo salio Mal,comunicarce con el Administrador</div>'
-				);
+				$stmt = $pdo->prepare("DELETE FROM estado_cuenta_corriente  where Concatenado_idc=:ids and Anio=:anio");
+				$stmt->bindParam(":ids", $ids);
+				$stmt->bindParam(":anio", $datos['anio']);
+				$stmt->execute();
+
+				$respuesta = ModeloCalcular::mdlRegistrarimpuesto($datos);
+				if ($respuesta == "ok") {
+					$respuesta = array(
+						'tipo' => 'correcto',
+						'mensaje' => '<div class="alert alert-success" role="alert">Se RECALCULO el impuesto y Arbitrios con exito del año ' . $datos['anio'] . '</div>'
+					);
+				} else {
+					$respuesta = array(
+						'tipo' => 'correcto',
+						'mensaje' => '<div class="alert alert-danger" role="alert">Algo salio Mal,comunicarce con el Administrador</div>'
+					);
+				}
 			}
-		}
-	 }
+		 }
+
 
 	 
 	 elseif($datos["predio_select"]=="si"){
+
 		 if ($datos['recalcular'] == 'si') {
+
+
 
  			if ($id_regiemen_afecto == 'AFECTO') {
 			
@@ -139,6 +143,30 @@ class ControladorCalcular
 					);
 				}
 			}
+
+				if ($id_regiemen_afecto == 'INAFECTO') {
+				$stmt = $pdo->prepare("DELETE FROM estado_cuenta_corriente  where Concatenado_idc=:ids and Anio=:anio");
+				$stmt->bindParam(":ids", $ids);
+				$stmt->bindParam(":anio", $datos['anio']);
+				$stmt->execute();
+
+				$respuesta = ModeloCalcular::mdlRegistrarimpuestoInafecto($datos);
+				if ($respuesta == "ok") {
+					$respuesta = array(
+						'tipo' => 'correcto',
+						'mensaje' => '<div class="alert alert-success" role="alert">Se Calculo el impuesto y Arbitrios con exito del año ' . $datos['anio'] . '</div>'
+					);
+				} else {
+					$respuesta = array(
+						'tipo' => 'correcto',
+						'mensaje' => '<div class="alert alert-danger" role="alert">Algo salio Mal,comunicarce con el Administrador</div>'
+					);
+				}
+
+
+			}
+
+			
 			if ($id_regiemen_afecto == 'EXONERADO PARCIALMENTE') {
 				$stmt = $pdo->prepare("DELETE FROM estado_cuenta_corriente  where Concatenado_idc=:ids and Anio=:anio");
 				$stmt->bindParam(":ids", $ids);
@@ -160,27 +188,7 @@ class ControladorCalcular
 
 
 			}
-			if ($id_regiemen_afecto == 'INAFECTO') {
-				$stmt = $pdo->prepare("DELETE FROM estado_cuenta_corriente  where Concatenado_idc=:ids and Anio=:anio");
-				$stmt->bindParam(":ids", $ids);
-				$stmt->bindParam(":anio", $datos['anio']);
-				$stmt->execute();
-
-				$respuesta = ModeloCalcular::mdlRegistrarimpuestoInafecto($datos);
-				if ($respuesta == "ok") {
-					$respuesta = array(
-						'tipo' => 'correcto',
-						'mensaje' => '<div class="alert alert-success" role="alert">Se Calculo el impuesto y Arbitrios con exito del año ' . $datos['anio'] . '</div>'
-					);
-				} else {
-					$respuesta = array(
-						'tipo' => 'correcto',
-						'mensaje' => '<div class="alert alert-danger" role="alert">Algo salio Mal,comunicarce con el Administrador</div>'
-					);
-				}
-
-
-			}
+		
 
 		}
 	 }

@@ -2378,5 +2378,128 @@ color: white;
 
  /* PARA COMOAMODAR CHAKCBOX DE SLECIONAR */
 
+   /* Animación de movimiento llamativo */
+  
+  
+    @keyframes attentionShadow {
+    0% {
+      box-shadow: 0 0 3px rgba(255, 87, 51, 0.5); /* Sombra ligera */
+    }
+    50% {
+      box-shadow: 0 0 10px rgba(255, 87, 51, 1); /* Sombra intensa */
+    }
+    100% {
+      box-shadow: 0 0 3px rgba(255, 87, 51, 0.5); /* Regresa a sombra ligera */
+    }
+  }
 
 
+  /* INPUT NUMERO TELEFONO */
+  #e_telefono {
+    animation: none; /* Sin animación inicialmente */
+  }
+
+  /* Borde azul al tener foco */
+  #e_telefono:focus {
+    border-color: #2a06a1; /* Azul cuando tiene foco */
+    box-shadow: 0px 0px 10px rgba(42, 6, 161, 0.5); /* Sombra azul */
+    animation: none; /* Detener la animación al hacer foco */
+  }
+
+  /* Bordes cuando el valor es incorrecto */
+  #e_telefono {
+    border-color: #FF5733;
+  }
+
+   /* Estilos del input con sombra */
+  #e_telefono {
+    animation: none; /* Sin animación inicialmente */
+  }
+
+  /* Borde azul al tener foco */
+  #e_telefono:focus {
+    border-color: #2a06a1; /* Azul cuando tiene foco */
+    box-shadow: 0px 0px 10px rgba(42, 6, 161, 0.5); /* Sombra azul */
+    animation: none; /* Detener la animación al hacer foco */
+  }
+
+  /* Bordes cuando el valor es incorrecto */
+  #e_telefono {
+    border-color: #FF5733;
+  }
+ /* INPUT CORREO */
+   #e_correo {
+    animation: none; /* Sin animación inicialmente */
+  }
+
+  /* Borde azul al tener foco */
+  #e_correo:focus {
+    border-color: #2a06a1; /* Azul cuando tiene foco */
+    box-shadow: 0px 0px 10px rgba(42, 6, 161, 0.5); /* Sombra azul */
+    animation: none; /* Detener la animación al hacer foco */
+  }
+
+  /* Bordes cuando el valor es incorrecto */
+  #e_correo {
+    border-color: #FF5733;
+  }
+
+   /* Estilos del input con sombra */
+  #e_correo {
+    animation: none; /* Sin animación inicialmente */
+  }
+
+  /* Borde azul al tener foco */
+  #e_correo:focus {
+    border-color: #2a06a1; /* Azul cuando tiene foco */
+    box-shadow: 0px 0px 10px rgba(42, 6, 161, 0.5); /* Sombra azul */
+    animation: none; /* Detener la animación al hacer foco */
+  }
+
+  /* Bordes cuando el valor es incorrecto */
+  #e_correo {
+    border-color: #FF5733;
+  }
+
+  
+
+  
+
+  
+  /* INPUT NUMERO TELEFONO */
+  #e_referencia {
+    animation: none; /* Sin animación inicialmente */
+  }
+
+  /* Borde azul al tener foco */
+  #e_referencia:focus {
+    border-color: #2a06a1; /* Azul cuando tiene foco */
+    box-shadow: 0px 0px 10px rgba(42, 6, 161, 0.5); /* Sombra azul */
+    animation: none; /* Detener la animación al hacer foco */
+  }
+
+  /* Bordes cuando el valor es incorrecto */
+  #e_referencia {
+    border-color: #FF5733;
+  }
+
+   /* Estilos del input con sombra */
+  #e_referencia {
+    animation: none; /* Sin animación inicialmente */
+  }
+
+  /* Borde azul al tener foco */
+  #e_referencia:focus {
+    border-color: #2a06a1; /* Azul cuando tiene foco */
+    box-shadow: 0px 0px 10px rgba(42, 6, 161, 0.5); /* Sombra azul */
+    animation: none; /* Detener la animación al hacer foco */
+  }
+
+  /* Bordes cuando el valor es incorrecto */
+  #e_referencia {
+    border-color: #FF5733;
+  }
+ /* INPUT CORREO */
+   #e_referencia {
+    animation: none; /* Sin animación inicialmente */
+  }

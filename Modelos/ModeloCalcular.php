@@ -1148,6 +1148,8 @@ class ModeloCalcular
 		}
 	}
 	
+
+
 	//Registrar impuesto calculado
 	public static function mdlRegistrarimpuesto($datos)
 	{
@@ -1214,6 +1216,9 @@ class ModeloCalcular
 						$stmt->bindParam(":anio", $datos['anio']);
 						$stmt->execute();
 				}
+
+
+
 				$campos = $stmt->fetchall();
 
 				
@@ -1417,8 +1422,10 @@ class ModeloCalcular
 				}
 			} 
 			
-			//
+			// VARIOS CONTRIBUYENTES
 			else {
+
+				
 				// Cuando $valor tiene más de un valor
 				$ids_array = implode(",", $valor); // Convierte el array en una cadena de IDs separados por comas
 				
@@ -1458,6 +1465,8 @@ class ModeloCalcular
 					$stmt->bindParam(":anio", $datos['anio']);
 					$stmt->execute();
 				}
+
+
 				$campos = $stmt->fetchall();
 				foreach ($campos as $campo) {
 					if ($campo['area_construccion'] == 0) {

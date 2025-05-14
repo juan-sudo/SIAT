@@ -63,6 +63,7 @@ class ImpuestoCalculator {
     });
   }
 
+  
   calcularImpuesto() {
     const self = this;
     let datos = new FormData();
@@ -596,6 +597,8 @@ $(document).on("click", ".boton_calcular", function () {
       // Manejo de errores si es necesario
     });
 });
+
+
 //registra el impuesto calculado
 $(document).on("click", ".registrar_impuesto_arbitrios", function () {
   var recalculo = "no";
@@ -756,56 +759,224 @@ $(document).ready(function() {
 //     }, 2000); // 2000ms = 2 segundos
 //   });
 
- $(document).ready(function() {
-    // Función para mover el input hacia arriba
-    function moveInput() {
+
+
+
+//  $(document).ready(function() {
+//     // Función para mover el input hacia arriba
+//     function moveInput() {
+//       var currentColor = $('#e_telefono').css('border-color');
+      
+//       // Mueve hacia arriba solo cuando no está en focus, el borde es rojo y el valor tiene menos de 9 dígitos
+//       if (currentColor == 'rgb(255, 87, 51)' && !$('#e_telefono').is(':focus') && ($('#e_telefono').val().length < 9)) { 
+//         $('#e_telefono').css({
+//           'transform': 'translateY(-10px)', // Mueve hacia arriba
+//           'box-shadow': '0px 0px 5px rgba(255, 87, 51, 1)' // Sombra más intensa
+//         });
+
+//         // Después de 0.5 segundos, vuelve a su posición original
+//         setTimeout(function() {
+//           $('#e_telefono').css({
+//             'transform': 'translateY(0)' // Vuelve a su posición original (abajo)
+//           });
+//         }, 500); // Mantén el movimiento hacia arriba por 500ms
+//       }
+//     }
+
+//     // Cambia el color del borde a rojo cuando no tiene foco y tiene menos de 9 dígitos
+//     setInterval(function() {
+//       if (!$('#e_telefono').is(':focus') && $('#e_telefono').val().length < 9) { // Solo cambia el borde si no tiene foco y tiene menos de 9 dígitos
+//         $('#e_telefono').css({
+//           'border-color': '#FF5733' // Cambia el borde a rojo
+//         });
+//         moveInput(); // Llama a la función para mover el input
+//       }
+//     }, 2000); // 2000ms = 2 segundos para cada ciclo
+
+//     // Cambia el borde a azul cuando el input tiene foco o tiene 9 dígitos
+//     $('#e_telefono').on('focus', function() {
+//       $('#e_telefono').css({
+//         'border-color': '#2a06a1' // Cambia el borde a azul cuando tiene foco
+//       });
+//     });
+
+//     // Cambia el borde a azul si el input tiene valor (cuando pierde el foco) y tiene exactamente 9 dígitos
+//     $('#e_telefono').on('blur', function() {
+//       var telefonoValue = $('#e_telefono').val();
+//       if (telefonoValue.length == 9) { // Si tiene exactamente 9 dígitos
+//         $('#e_telefono').css({
+//           'border-color': '#2a06a1' // Cambia el borde a azul
+//         });
+//       } else {
+//         $('#e_telefono').css({
+//           'border-color': '#FF5733' // Cambia el borde a rojo si no tiene 9 dígitos
+//         });
+//       }
+//     });
+
+//   });
+
+
+
+$(document).ready(function() {
+    // Función para aplicar sombra cuando tiene borde rojo y menos de 9 dígitos
+    function applyShadow() {
       var currentColor = $('#e_telefono').css('border-color');
       
-      // Mueve hacia arriba solo cuando no está en focus, el borde es rojo y el valor tiene menos de 9 dígitos
-      if (currentColor == 'rgb(255, 87, 51)' && !$('#e_telefono').is(':focus') && ($('#e_telefono').val().length < 9)) { 
+      // Aplica la sombra solo cuando no está en focus, el borde es rojo y el valor tiene menos de 9 dígitos
+      if (currentColor == 'rgb(255, 87, 51)' && !$('#e_telefono').is(':focus') && ($('#e_telefono').val().length < 9)) {
         $('#e_telefono').css({
-          'transform': 'translateY(-10px)', // Mueve hacia arriba
-          'box-shadow': '0px 0px 5px rgba(255, 87, 51, 1)' // Sombra más intensa
+          'animation': 'attentionShadow 1s ease-in-out infinite' // Sombra dinámica
         });
-
-        // Después de 0.5 segundos, vuelve a su posición original
-        setTimeout(function() {
-          $('#e_telefono').css({
-            'transform': 'translateY(0)' // Vuelve a su posición original (abajo)
-          });
-        }, 500); // Mantén el movimiento hacia arriba por 500ms
       }
     }
 
     // Cambia el color del borde a rojo cuando no tiene foco y tiene menos de 9 dígitos
     setInterval(function() {
-      if (!$('#e_telefono').is(':focus') && $('#e_telefono').val().length < 9) { // Solo cambia el borde si no tiene foco y tiene menos de 9 dígitos
+      if (!$('#e_telefono').is(':focus') && $('#e_telefono').val().length < 9) {
         $('#e_telefono').css({
-          'border-color': '#FF5733' // Cambia el borde a rojo
+          'border-color': '#FF5733', // Cambia el borde a rojo
         });
-        moveInput(); // Llama a la función para mover el input
+        applyShadow(); // Llama a la función para aplicar la sombra
       }
     }, 2000); // 2000ms = 2 segundos para cada ciclo
 
     // Cambia el borde a azul cuando el input tiene foco o tiene 9 dígitos
     $('#e_telefono').on('focus', function() {
       $('#e_telefono').css({
-        'border-color': '#2a06a1' // Cambia el borde a azul cuando tiene foco
+        'border-color': '#2a06a1', // Cambia el borde a azul cuando tiene foco
+        'animation': 'none' // Detener la animación al hacer foco
       });
     });
 
     // Cambia el borde a azul si el input tiene valor (cuando pierde el foco) y tiene exactamente 9 dígitos
     $('#e_telefono').on('blur', function() {
       var telefonoValue = $('#e_telefono').val();
-      if (telefonoValue.length == 9) { // Si tiene exactamente 9 dígitos
+      if (telefonoValue.length == 9) {
         $('#e_telefono').css({
-          'border-color': '#2a06a1' // Cambia el borde a azul
+          'border-color': '#2a06a1', // Cambia el borde a azul
+          'animation': 'none' // Detener la animación al perder el foco
         });
       } else {
         $('#e_telefono').css({
-          'border-color': '#FF5733' // Cambia el borde a rojo si no tiene 9 dígitos
+          'border-color': '#FF5733', // Cambia el borde a rojo si no tiene 9 dígitos
+          'animation': 'attentionShadow 1s ease-in-out infinite' // Aplicar la sombra dinámica
         });
       }
     });
+  });
 
+
+  
+$(document).ready(function() {
+    // Expresión regular para validar el formato de un correo electrónico
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    // Función para aplicar sombra cuando tiene borde rojo y el correo no es válido
+    function applyShadow() {
+      var currentColor = $('#e_correo').css('border-color');
+      
+      // Aplica la sombra solo cuando el correo es inválido
+      if (currentColor == 'rgb(255, 87, 51)' && !$('#e_correo').is(':focus') && !emailRegex.test($('#e_correo').val())) {
+        $('#e_correo').css({
+          'animation': 'attentionShadow 1s ease-in-out infinite' // Sombra dinámica
+        });
+      }
+    }
+
+    // Cambia el color del borde a rojo cuando el correo no es válido
+    setInterval(function() {
+      if (!$('#e_correo').is(':focus') && !emailRegex.test($('#e_correo').val())) {
+        $('#e_correo').css({
+          'border-color': '#FF5733', // Cambia el borde a rojo
+        });
+        applyShadow(); // Llama a la función para aplicar la sombra
+      } else {
+        // Detiene la animación si el correo es válido
+        $('#e_correo').css({
+          'animation': 'none' // Detener la animación de sombra
+        });
+      }
+    }, 2000); // 2000ms = 2 segundos para cada ciclo
+
+    // Cambia el borde a azul cuando el input tiene foco
+    $('#e_correo').on('focus', function() {
+      $('#e_correo').css({
+        'border-color': '#2a06a1', // Cambia el borde a azul cuando tiene foco
+        'animation': 'none' // Detener la animación al hacer foco
+      });
+    });
+
+    // Cambia el borde a azul si el correo es válido
+    $('#e_correo').on('blur', function() {
+      var correoValue = $('#e_correo').val();
+      if (emailRegex.test(correoValue)) { // Si el correo tiene un formato válido
+        $('#e_correo').css({
+          'border-color': '#2a06a1', // Cambia el borde a azul
+          'animation': 'none' // Detener la animación de sombra
+        });
+      } else {
+        $('#e_correo').css({
+          'border-color': '#FF5733', // Cambia el borde a rojo si el correo no es válido
+          'animation': 'attentionShadow 1s ease-in-out infinite' // Aplicar la sombra dinámica
+        });
+      }
+    });
+  });
+
+  
+$(document).ready(function() {
+    // Expresión regular para validar el formato de un correo electrónico
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    // Función para aplicar sombra cuando tiene borde rojo y el correo no es válido
+    function applyShadow() {
+      var currentColor = $('#e_referencia').css('border-color');
+      
+      // Aplica la sombra solo cuando el correo es inválido
+      if (currentColor == 'rgb(255, 87, 51)' && !$('#e_referencia').is(':focus') && !emailRegex.test($('#e_referencia').val())) {
+        $('#e_referencia').css({
+          'animation': 'attentionShadow 1s ease-in-out infinite' // Sombra dinámica
+        });
+      }
+    }
+
+    // Cambia el color del borde a rojo cuando el correo no es válido
+    setInterval(function() {
+      if (!$('#e_referencia').is(':focus') && !emailRegex.test($('#e_referencia').val())) {
+        $('#e_corree_referenciao').css({
+          'border-color': '#FF5733', // Cambia el borde a rojo
+        });
+        applyShadow(); // Llama a la función para aplicar la sombra
+      } else {
+        // Detiene la animación si el correo es válido
+        $('#e_referencia').css({
+          'animation': 'none' // Detener la animación de sombra
+        });
+      }
+    }, 2000); // 2000ms = 2 segundos para cada ciclo
+
+    // Cambia el borde a azul cuando el input tiene foco
+    $('#e_referencia').on('focus', function() {
+      $('#e_referencia').css({
+        'border-color': '#2a06a1', // Cambia el borde a azul cuando tiene foco
+        'animation': 'none' // Detener la animación al hacer foco
+      });
+    });
+
+    // Cambia el borde a azul si el correo es válido
+    $('#e_referencia').on('blur', function() {
+      var correoValue = $('#e_referencia').val();
+      if (emailRegex.test(correoValue)) { // Si el correo tiene un formato válido
+        $('#e_referencia').css({
+          'border-color': '#2a06a1', // Cambia el borde a azul
+          'animation': 'none' // Detener la animación de sombra
+        });
+      } else {
+        $('#e_referencia').css({
+          'border-color': '#FF5733', // Cambia el borde a rojo si el correo no es válido
+          'animation': 'attentionShadow 1s ease-in-out infinite' // Aplicar la sombra dinámica
+        });
+      }
+    });
   });

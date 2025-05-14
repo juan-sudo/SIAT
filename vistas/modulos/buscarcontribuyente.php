@@ -32,7 +32,7 @@ use Controladores\ControladorCategorias;
                   <thead>
                      <tr>
                         <th class="text-center" style="width:10px;">N°</th>
-                        <th class="text-center">Codigo</th>
+                        <th class="text-center">Codigo m</th>
                         <th class="text-center">Tipo</th>
                         <th class="text-center">DNI</th>
                         <th class="text-center">Nombres</th>
