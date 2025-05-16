@@ -285,48 +285,58 @@ class ControladorPredio
 	// COPIAR PREDIO
 	public static function ctrCopiarPredio($datos)
 	{ 
-
-		
+		// var_dump($datos);
+		// exit;
 
 
 		$catastro = $datos['id_catastro'];
 		$anio_copear = $datos['anio_copiar']; 
 
+		$propietario = $datos['propietarios']; 
+
 		$pdo = Conexion::conectar();
 		//NO FORSAR PREDIO
 		if($datos['forzar_copear']=='noforzar'){
-	       if($datos["tipo"]=="U"){
-					$stmt = $pdo->prepare("SELECT Id_Predio FROM predio 
-										inner join anio on anio.Id_Anio=predio.Id_Anio 
-										inner join catastro ca on ca.Id_Catastro=predio.Id_Catastro 
-										WHERE ca.Codigo_Catastral =:catastro and anio.NomAnio=$anio_copear");
-										$stmt->bindParam(":catastro", $catastro);
-					$stmt->execute();
-					$id_predio = $stmt->fetch();
-		   }
-		   else{
-					$stmt = $pdo->prepare("SELECT Id_Predio FROM predio 
-					inner join anio on anio.Id_Anio=predio.Id_Anio 
-					inner join catastro_rural ca on ca.Id_Catastro_Rural=predio.Id_Catastro_Rural 
-					WHERE ca.Codigo_Catastral =:catastro and anio.NomAnio=$anio_copear");
-					$stmt->bindParam(":catastro", $catastro);
-					$stmt->execute();
-					$id_predio = $stmt->fetch();
-		   }
-			if (($stmt->rowCount() > 0)) {
-				$respuesta = array(
-					'tipo' => 'advertencia',
-					'mensaje' => '<div class="alert error">
-					<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
-			        <span aria-hidden="true" class="letra_error">×</span>
-			        </button><p class="inner"><strong class="letra_error">Error!</strong> 
-					<span class="letra_error">El predio ya esta registrado en el año <b> '.$anio_copear.'</b></span></p></div>'
-				);
-				return $respuesta;
+			
+
+
+	    //    if($datos["tipo"]=="U"){
+		// 			$stmt = $pdo->prepare("SELECT Id_Predio FROM predio 
+		// 								inner join anio on anio.Id_Anio=predio.Id_Anio 
+		// 								inner join catastro ca on ca.Id_Catastro=predio.Id_Catastro 
+		// 								WHERE ca.Codigo_Catastral =:catastro and anio.NomAnio=$anio_copear");
+		// 								$stmt->bindParam(":catastro", $catastro);
+		// 			$stmt->execute();
+		// 			$id_predio = $stmt->fetch();
+		//    }
+		//    else{
+		// 			$stmt = $pdo->prepare("SELECT Id_Predio FROM predio 
+		// 			inner join anio on anio.Id_Anio=predio.Id_Anio 
+		// 			inner join catastro_rural ca on ca.Id_Catastro_Rural=predio.Id_Catastro_Rural 
+		// 			WHERE ca.Codigo_Catastral =:catastro and anio.NomAnio=$anio_copear");
+		// 			$stmt->bindParam(":catastro", $catastro);
+		// 			$stmt->execute();
+		// 			$id_predio = $stmt->fetch();
+		//    } 
+			// if (($stmt->rowCount() > 0)) {
+			// 	$respuesta = array(
+			// 		'tipo' => 'advertencia',
+			// 		'mensaje' => '<div class="alert error">
+			// 		<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+			//         <span aria-hidden="true" class="letra_error">×</span>
+			//         </button><p class="inner"><strong class="letra_error">Error!</strong> 
+			// 		<span class="letra_error">El predio ya esta registrado en el año nnnnn <b> '.$anio_copear.'</b></span></p></div>'
+			// 	);
+			// 	return $respuesta;
 
 				
 		
-			} else {
+			// }
+			
+			
+			//else {
+
+			//if{
 				$respuesta = ModeloPredio::mdlCopiarPredio($datos,'null');
 				if ($respuesta == "ok") {
 					$respuesta = array(
@@ -335,7 +345,7 @@ class ControladorPredio
 						<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
 						<span aria-hidden="true" class="letra">×</span>
 						</button><p class="inner"><strong class="letra">Exito!</strong> 
-						<span class="letra">Se copeo con exito el predio con N° catastro <b>'.$catastro.'</b>  al año <b> '.$anio_copear.'</b></span></p></div>'
+						<span class="letra">Se copeo jjjj khjkcon exito el predio con N° catastro <b>'.$catastro.'</b>  al año <b> '.$anio_copear.'</b></span></p></div>'
 					);
 					return $respuesta;
 				} else {
@@ -350,7 +360,7 @@ class ControladorPredio
 					return $respuesta;
 				}
 			
-			}
+			//}
 		}
 
 		//FORSAR PREDIO
@@ -389,7 +399,7 @@ class ControladorPredio
 					
 					$respuesta = ModeloPredio::mdlCopiarPredio($datos,$id_predio);
 
-					var_dump($respuesta);
+					
 					
 					if ($respuesta == "ok") {
 							$respuesta = array(
@@ -398,7 +408,7 @@ class ControladorPredio
 								<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
 								<span aria-hidden="true" class="letra">×</span>
 								</button><p class="inner"><strong class="letra">Exito!</strong> 
-								<span class="letra">Se copeo con exito el predio con N° catastro <b>'.$catastro.'</b>  al año <b> '.$anio_copear.'</b></span></p></div>'
+								<span class="letra">Se copeo con exito el huhuijhjk predio con N° catastro <b>'.$catastro.'</b>  al año <b> '.$anio_copear.'</b></span></p></div>'
 							);
 							return $respuesta;
 						} else {

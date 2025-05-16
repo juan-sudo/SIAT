@@ -1467,407 +1467,15 @@ private static function generateRowHTMLHistorial($value, $key)
 
 
 	// EDITAR TRANSFERIR PREDIO
-	public static function mdlEditarTransferirPredio($datos)
-	{
-		$ano_actual = date("Y");
-		$ano_pasado = $datos['anio'];
-		$array_anios = range($ano_pasado, $ano_actual);
-		$propietarios = $datos['propietarios'];
-		$propietarios_array = explode(",", $propietarios);
-	 	$propietarios_antiguos=$datos['propietarios_antiguos'];
-		$propietarios_nuevo = $datos['propietarios'];
-
-		try {
-			$pdo = Conexion::conectar();
-			// Bloquear la tabla
-			//$pdo->query("LOCK TABLES detalle_transferencia WRITE");
-			//$pdo->beginTransaction();
-			// Realizar la inserción en detalle_transferencia
-			$stmt = $pdo->prepare("INSERT INTO detalle_transferencia
-				                       (Id_Documento_Inscripcion, 
-									   Numero_Documento_Inscripcion, 
-									   Id_Tipo_Escritura, 
-									   Fecha_Escritura) 
-									   VALUES
-									   (:Id_Documento_Inscripcion, 
-									   :Numero_Documento_Inscripcion,
-									   :Id_Tipo_Escritura,
-									   :Fecha_Escritura)");
-			$stmt->bindParam(":Id_Documento_Inscripcion", $datos['tipo_documento']);
-			$stmt->bindParam(":Numero_Documento_Inscripcion", $datos['n_documento']);
-			$stmt->bindParam(":Id_Tipo_Escritura", $datos['tipo_escritura']);
-			$stmt->bindParam(":Fecha_Escritura", $datos['fecha_escritura']);
-			$stmt->execute();
-			$id_ultimo = $pdo->lastInsertId();
-			$Fecha_Transferencia = date("Y-m-d H:i:s");
-			// Realizar la actualización
-			for ($i = 0; $i < count($array_anios); $i++) {
-
-				if ($datos['tipo'] == 'U') {
-					$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
-				FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
-				JOIN catastro AS c ON pr.Id_Catastro = c.Id_Catastro 
-				JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
-				WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
-					$stmt->bindParam(":catastro", $datos['catastro']);
-					$stmt->bindParam(":anio", $array_anios[$i]);
-					$stmt->execute();
-				} else {
-					$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
-				FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
-				JOIN catastro_rural AS c ON pr.Id_Catastro_Rural = c.Id_Catastro_Rural 
-				JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
-				WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
-					$stmt->bindParam(":catastro", $datos['catastro']);
-					$stmt->bindParam(":anio", $array_anios[$i]);
-					$stmt->execute();
-				}
-
-				if ($stmt->rowCount() > 0) {
-					if ($datos['tipo'] == 'U') {
-						// Realizar la primera consulta
-						$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
-							FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
-							JOIN catastro AS c ON pr.Id_Catastro = c.Id_Catastro 
-							JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
-							WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
-						$stmt->bindParam(":catastro", $datos['catastro']);
-						$stmt->bindParam(":anio", $array_anios[$i]);
-						$stmt->execute();
-						$resultado = $stmt->fetch();
-						$id_predio = $resultado['id_predio'];
-					} else {
-						// Realizar la primera consulta
-						$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
-							FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
-							JOIN catastro_rural AS c ON pr.Id_Catastro_Rural = c.Id_Catastro_Rural 
-							JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
-							WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
-						$stmt->bindParam(":catastro", $datos['catastro']);
-						$stmt->bindParam(":anio", $array_anios[$i]);
-						$stmt->execute();
-						$resultado = $stmt->fetch();
-						$id_predio = $resultado['id_predio'];
-					}
-
-
-					if ($datos['tipo'] == 'U') {
-						$stmt = $pdo->prepare("UPDATE propietario AS p
-					JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio
-					JOIN catastro AS c ON pr.Id_Catastro = c.Id_Catastro
-					JOIN anio AS a ON a.Id_Anio=pr.Id_Anio
-					SET p.Estado_Transferencia ='O',p.Fecha_Transferencia=:Fecha_Transferencia,
-					p.Baja='0'
-					WHERE c.Codigo_Catastral = :catastro and a.NomAnio = :anio");
-						$stmt->bindParam(":catastro", $datos['catastro']);
-						$stmt->bindParam(":anio", $array_anios[$i]);
-						$stmt->bindParam(":Fecha_Transferencia", $Fecha_Transferencia);
-						$stmt->execute();
-					} else {
-						$stmt = $pdo->prepare("UPDATE propietario AS p
-					JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio
-					JOIN catastro_rural AS c ON pr.Id_Catastro_Rural = c.Id_Catastro_Rural
-					JOIN anio AS a ON a.Id_Anio=pr.Id_Anio
-					SET p.Estado_Transferencia ='O',p.Fecha_Transferencia=:Fecha_Transferencia,
-					p.Baja='0'
-					WHERE c.Codigo_Catastral = :catastro and a.NomAnio = :anio");
-						$stmt->bindParam(":catastro", $datos['catastro']);
-						$stmt->bindParam(":anio", $array_anios[$i]);
-						$stmt->bindParam(":Fecha_Transferencia", $Fecha_Transferencia);
-						$stmt->execute();
-					}
-
-
-					//START CARPETA ORIGEN
-
-
-					
-				
-				
-	// 				//CONCULTAR CARPETAS ORIGEN
-										
-						$propietarios_array_an = explode(",", $propietarios_antiguos);  // Se convierte en un array ['12', '13']
-
-						// Convierte el array en un string con el formato '12-13'
-						$concatenado_id_an = implode("-", $propietarios_array_an);
-
-						// Ahora, la consulta SQL puede usar ese string concatenado
-						$stmt = $pdo->prepare("SELECT c.Codigo_Carpeta as codigo_carpeta 
-							FROM carpeta AS c
-							WHERE c.Concatenado_id = :propietarios_antiguos");
-
-						$stmt->bindParam(":propietarios_antiguos", $concatenado_id_an);  // Pasamos el string '12-13'
-						$stmt->execute();
-						$resultado = $stmt->fetch();
-
-						$codigo_carpeta_origen = $resultado ? $resultado['codigo_carpeta'] : null;
-
-					echo "carpeat origenj : " . $codigo_carpeta_origen . "<br>";  // Depuración  
-
-					
-	// 				//CONUSLTAR CARPETA ORIGEN
-
-	// 				//CONSULTAR CARPETA DESTINO
-						$propietarios_array_de = explode(",", $propietarios_nuevo);  // Se convierte en un array ['12', '13']
-						$propietarios_array_ded = array_map('trim', $propietarios_array_de);  // Elimina los espacios en cada valor del array
-
-
-						$concatenado_id_nue = implode("-", $propietarios_array_ded);
-			
-						//echo "carpeat destino id: " . $concatenado_id_nue . "<br>";  // Depuración  
-
-								// Ahora, la consulta SQL puede usar ese string concatenado
-								$stmt = $pdo->prepare("SELECT c.Codigo_Carpeta as codigo_carpeta 
-								FROM carpeta AS c
-								WHERE c.Concatenado_id = :propietarios_nuevo");
-									$stmt->bindParam(":propietarios_nuevo", $concatenado_id_nue);  // Pasamos el string '12-13'
-									$stmt->execute();
-									$resultado1 = $stmt->fetch();
-
-
-									$codigo_carpeta_destino = $resultado1 ? $resultado1['codigo_carpeta'] : null;
-
-									echo "historiual de destino capeta: " . $codigo_carpeta_destino . "<br>";  // Depuración  
-
-	// 			//CONUSLTAR CARPETA DESTINO
-
-	// 				//INSERTAR TABLA HISTORIAL ESA REGISTRABA
-
-					//$anio_p='2024';
-
-					$stmt_historial = $pdo->prepare("
-					INSERT INTO historial_predio 
-					(carpeta_origen, carpeta_destino,anio) 
-					VALUES (:carpeta_origen, :carpeta_destino,:anio)
-				");
-				
-				$stmt_historial->bindParam(":carpeta_origen", $codigo_carpeta_origen);
-				$stmt_historial->bindParam(":carpeta_destino", $codigo_carpeta_destino);
-				$stmt_historial->bindParam(":anio", $ano_pasado);
-				
-
-				$stmt_historial->execute();
-
-				 // Capturar el último Id_Propietario insertado
-				// $Id_Propietario = $pdo->lastInsertId();  
-				// echo "Id_Propietario insertado: " . $Id_Propietario . "<br>";  // Depuración  
-
-				// Capturar el último Id insertado en la tabla historial_predio
-				$ultimo_id_historial = $pdo->lastInsertId();
-
-				echo "historial_predio de ultimo capeta: " . $ultimo_id_historial . "<br>";  // Depuración  
-
-				
-	 		//	var_dump("historial predio registardo",$ultimo_id_historial );
-
-			
-					
-
-					//END CARPETA ORIGEN
-
-
-
-
-
-					//AQUI TAMBIEN AGRRGEUE PARA HISOTIAL PREDIO
-				//	$ultimo_id_historial = 2;
-					// Asigna valores antes de ejecutar
-					$estado_transferencia = 'T';
-					$baja = '1';
-					
-					// Insertar los nuevos propietarios relacionados con el registro en detalle_transferencia
-					foreach ($propietarios_array as $valor) {
-						try {
-							// Preparamos la consulta SQL
-							$stmt = $pdo->prepare("INSERT INTO propietario
-													   (Id_Predio, 
-														Id_Contribuyente,
-														Estado_Transferencia, 
-														Id_Detalle_Transferencia, 
-														Baja,
-														id_historial_predio) 
-													   VALUES
-													   (:Id_Predio, 
-														:Id_Contribuyente,
-														:Estado_Transferencia, 
-														:Id_Detalle_Transferencia,
-														:Baja,
-														:id_historial_predio)");
-					
-							// Vinculamos los parámetros
-							$stmt->bindParam(":Id_Predio", $id_predio);
-							$stmt->bindParam(":Id_Contribuyente", $valor);
-							$stmt->bindParam(":Estado_Transferencia", $estado_transferencia);
-							$stmt->bindParam(":Id_Detalle_Transferencia", $id_ultimo);
-							$stmt->bindParam(":Baja", $baja);
-							$stmt->bindParam(":id_historial_predio", $ultimo_id_historial);
-					
-							// Imprimir los valores para depuración
-							echo "Insertando: Id_Predio = " . $id_predio . ", Id_Contribuyente = " . $valor . ", Estado_Transferencia = " . $estado_transferencia . ", Id_Detalle_Transferencia = " . $id_ultimo . ", Baja = " . $baja . ", id_historial_predio = " . $ultimo_id_historial . "\n";
-					
-							// Ejecutamos la consulta
-							$stmt->execute();
-						} catch (\PDOException $e) {  // Aquí agregamos el '\' para usar la clase global
-							echo "Error: " . $e->getMessage();
-						}
-
-
-						//AQUI TAMBIEN AGRRGEUE PARA HISOTIAL PREDIO
-					}
-					
-
-					/* Generando el codigo de carpeta*/
-					$stmt = $pdo->prepare("
-								SELECT 
-									(SELECT Codigo_Carpeta FROM Configuracion) AS Codigo_Carpeta, 
-									(SELECT COUNT(*) FROM carpeta WHERE Concatenado_id =:concatenado_id) AS con
-											");
-
-					sort($propietarios_array);
-					$propietarios_array = array_map('trim', $propietarios_array);
-					$propietarios_array = array_filter($propietarios_array);
-					//	$propietarios_array = array_map('trim', $propietarios_array);
-					$propietarios_carpeta = implode("-", $propietarios_array);
-					$stmt->bindParam(':concatenado_id', $propietarios_carpeta);
-					$stmt->execute();
-					$result = $stmt->fetch(PDO::FETCH_ASSOC);
-					$codigo_carpeta = $result['Codigo_Carpeta'];
-
-
-					$exists = $result['con'];
-
-			
-					
-
-					if ($exists == 0) {
-						$codigo_carpeta += 1;
-
-						try {
-							// Insertar el nuevo registro en la tabla carpeta
-							$stmt_insert = $pdo->prepare("INSERT INTO carpeta (Concatenado_id,Codigo_Carpeta) VALUES (:concatenado_id,:codigo_carpeta)");
-							$stmt_insert->bindParam(':concatenado_id', $propietarios_carpeta);
-							$stmt_insert->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
-							$stmt_insert->execute();
-							$stmt_update = $pdo->prepare("UPDATE Configuracion SET Codigo_Carpeta =:codigo_carpeta");
-							$stmt_update->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
-							$stmt_update->execute();
-
-
-								//INSERTAR TABLA HISTORIAL
-						$stmt = $pdo->prepare("
-						INSERT INTO historial_predio 
-						(Id_Predio, Fecha_Hora_Registro, Estado, Numero_Carpeta) 
-						VALUES (:Id_Predio, :Fecha_Hora_Registro, :Estado, :Numero_Carpeta)
-						");
-						$stmt->bindParam(":Id_Predio", $id_predio);
-						$stmt->bindParam(":Fecha_Hora_Registro", date("Y-m-d H:i:s"));
-						$stmt->bindValue(":Estado", 'T');  // 'T' para indicar que está transferido
-						$stmt->bindParam(":Numero_Carpeta", $codigo_carpeta);
-						$stmt->execute();
-						//END TABLA HISTORIAL
-
-						} catch (Exception $e) {
-							// Revertir la transacción en caso de error
-							$pdo->rollBack();
-							throw $e;
-						}
-				
-						} 
-						if ($exists != 0) {
-							try {
-								
-
-					/* Generando el codigo de carpeta*/
-					$stmt = $pdo->prepare("
-								SELECT 
-									(SELECT Codigo_Carpeta FROM Configuracion) AS Codigo_Carpeta, 
-									(SELECT COUNT(*) FROM carpeta WHERE Concatenado_id =:concatenado_id) AS con
-											");
-
-							sort($propietarios_array);
-							$propietarios_array = array_map('trim', $propietarios_array);
-							$propietarios_array = array_filter($propietarios_array);
-							//	$propietarios_array = array_map('trim', $propietarios_array);
-							$propietarios_carpeta = implode("-", $propietarios_array);
-							$stmt->bindParam(':concatenado_id', $propietarios_carpeta);
-							$stmt->execute();
-							$result = $stmt->fetch(PDO::FETCH_ASSOC);
-							$codigo_carpeta = $result['Codigo_Carpeta'];
-
-
-
-							//INSERTAR TABLA HISTORIAL
-						$stmt = $pdo->prepare("
-						INSERT INTO historial_predio 
-						(Id_Predio, Fecha_Hora_Registro, Estado, Numero_Carpeta) 
-						VALUES (:Id_Predio, :Fecha_Hora_Registro, :Estado, :Numero_Carpeta)
-						");
-						$stmt->bindParam(":Id_Predio", $id_predio);
-						$stmt->bindParam(":Fecha_Hora_Registro", date("Y-m-d H:i:s"));
-						$stmt->bindValue(":Estado", 'T');  // 'T' para indicar que está transferido
-
-						 // Asigna el valor a una variable antes de usar bindParam
-						 $numero_carpeta = '7';  
-						$stmt->bindParam(":Numero_Carpeta", $numero_carpeta);
-						$stmt->execute();
-						} catch (Exception $e) {
-							// Revertir la transacción en caso de error
-							$pdo->rollBack();
-							throw $e;
-						}
-						//END TABLA HISTORIAL
-						}
-						
-					/* fin de generacion de codigo de carpeta */
-				}
-			}
-
-
-			// Después de la generación del código de carpeta
-			
-
-
-			//LEYEN O->OTORGADO -> no debe mostrar por ya son los antiguos dueños
-			// T TRANSFERIDO  -> si debe mostrar ya que es el nuevo propietario
-			// R REGISTRADO   -> si debe mostrar por que se registro el predio
-			// E ELIMINADO  -> no debe mostrar ya que fue eliminado el predio
-			// Liberar el bloqueo de la tabla
-			//	$pdo->query("UNLOCK TABLES");
-
-			//	$pdo->commit();
-			return 'ok';
-		} catch (Exception $e) {
-			// Manejo de errores
-			//	$pdo->rollBack();
-			$pdo = Null;
-			return '<div>Error: ' . $e->getMessage() . '</div>';
-		}
-	}
-
-
-	
-
-
-	// EDITAR TRANSFERIR PREDIO
 	// public static function mdlEditarTransferirPredio($datos)
 	// {
-
-	// 	//  // Mostrar los datos recibidos para depuración
-	// 	//  var_dump($datos);
-	// 	//  exit; // Detiene la ejecución del script después de mostrar los datos
-		 
 	// 	$ano_actual = date("Y");
 	// 	$ano_pasado = $datos['anio'];
 	// 	$array_anios = range($ano_pasado, $ano_actual);
 	// 	$propietarios = $datos['propietarios'];
 	// 	$propietarios_array = explode(",", $propietarios);
-
-	// 	$propietarios_antiguos=$datos['propietarios_antiguos'];
+	//  	$propietarios_antiguos=$datos['propietarios_antiguos'];
 	// 	$propietarios_nuevo = $datos['propietarios'];
-	// //	$propietarios_array_an = explode(",", $propietarios_antiguos);
-
-
-
 
 	// 	try {
 	// 		$pdo = Conexion::conectar();
@@ -1970,10 +1578,13 @@ private static function generateRowHTMLHistorial($value, $key)
 	// 				}
 
 
+	// 				//START CARPETA ORIGEN
+
+
 					
 				
 				
-	// 				//CONCULTAR CARPETAS ORIGEN
+	// // 				//CONCULTAR CARPETAS ORIGEN
 										
 	// 					$propietarios_array_an = explode(",", $propietarios_antiguos);  // Se convierte en un array ['12', '13']
 
@@ -1991,12 +1602,12 @@ private static function generateRowHTMLHistorial($value, $key)
 
 	// 					$codigo_carpeta_origen = $resultado ? $resultado['codigo_carpeta'] : null;
 
-	// 				//	echo "carpeat origenj : " . $codigo_carpeta_origen . "<br>";  // Depuración  
+	// 				echo "carpeat origenj : " . $codigo_carpeta_origen . "<br>";  // Depuración  
 
 					
-	// 				//CONUSLTAR CARPETA ORIGEN
+	// // 				//CONUSLTAR CARPETA ORIGEN
 
-	// 				//CONSULTAR CARPETA DESTINO
+	// // 				//CONSULTAR CARPETA DESTINO
 	// 					$propietarios_array_de = explode(",", $propietarios_nuevo);  // Se convierte en un array ['12', '13']
 	// 					$propietarios_array_ded = array_map('trim', $propietarios_array_de);  // Elimina los espacios en cada valor del array
 
@@ -2016,23 +1627,26 @@ private static function generateRowHTMLHistorial($value, $key)
 
 	// 								$codigo_carpeta_destino = $resultado1 ? $resultado1['codigo_carpeta'] : null;
 
+	// 								echo "historiual de destino capeta: " . $codigo_carpeta_destino . "<br>";  // Depuración  
+
 									
-				
-	// 			//CONUSLTAR CARPETA DESTINO
+	// // 			//CONUSLTAR CARPETA DESTINO
 
-	// 				//INSERTAR TABLA HISTORIAL ESA REGISTRABA
+	// // 				//INSERTAR TABLA HISTORIAL ESA REGISTRABA
 
-				
+	// 				//$anio_p='2024';
 
 	// 				$stmt_historial = $pdo->prepare("
 	// 				INSERT INTO historial_predio 
-	// 				(Id_Propietario, Estado, carpeta_origen, carpeta_destino) 
-	// 				VALUES (:Id_Propietario, :Estado, :carpeta_origen, :carpeta_destino)
+	// 				(carpeta_origen, carpeta_destino,anio) 
+	// 				VALUES (:carpeta_origen, :carpeta_destino,:anio)
 	// 			");
-	// 			$stmt_historial->bindParam(":Id_Propietario", $Id_Propietario);
-	// 			$stmt_historial->bindValue(":Estado", 'T');  // 'T' para indicar que está transferido
+				
 	// 			$stmt_historial->bindParam(":carpeta_origen", $codigo_carpeta_origen);
 	// 			$stmt_historial->bindParam(":carpeta_destino", $codigo_carpeta_destino);
+	// 			$stmt_historial->bindParam(":anio", $ano_pasado);
+				
+
 	// 			$stmt_historial->execute();
 
 	// 			 // Capturar el último Id_Propietario insertado
@@ -2041,51 +1655,67 @@ private static function generateRowHTMLHistorial($value, $key)
 
 	// 			// Capturar el último Id insertado en la tabla historial_predio
 	// 			$ultimo_id_historial = $pdo->lastInsertId();
+
+	// 			echo "historial_predio de ultimo capeta: " . $ultimo_id_historial . "<br>";  // Depuración  
+
 				
-	// 			var_dump("historial predio registardo",$ultimo_id_historial );
+	//  		//	var_dump("historial predio registardo",$ultimo_id_historial );
 
 			
-			
-
-	// 	//END INSERTAR TABLA HISTORIAL PREDIO
 					
-	// 			if ($ultimo_id_historial) {
+
+	// 				//END CARPETA ORIGEN
+
+
+
+
+
+	// 				//AQUI TAMBIEN AGRRGEUE PARA HISOTIAL PREDIO
+	// 			//	$ultimo_id_historial = 2;
+	// 				// Asigna valores antes de ejecutar
+	// 				$estado_transferencia = 'T';
+	// 				$baja = '1';
 					
 	// 				// Insertar los nuevos propietarios relacionados con el registro en detalle_transferencia
 	// 				foreach ($propietarios_array as $valor) {
-	// 					$stmt = $pdo->prepare("INSERT INTO propietario
-	// 				                                   (Id_Predio, 
-	// 												   Id_Contribuyente,
-	// 												   Estado_Transferencia, 
-	// 												   Id_Detalle_Transferencia, 
-	// 												   Baja) 
+	// 					try {
+	// 						// Preparamos la consulta SQL
+	// 						$stmt = $pdo->prepare("INSERT INTO propietario
+	// 												   (Id_Predio, 
+	// 													Id_Contribuyente,
+	// 													Estado_Transferencia, 
+	// 													Id_Detalle_Transferencia, 
+	// 													Baja,
+	// 													id_historial_predio) 
 	// 												   VALUES
 	// 												   (:Id_Predio, 
-	// 												   :Id_Contribuyente,
-	// 												   :Estado_Transferencia, 
-	// 												   :Id_Detalle_Transferencia,
-	// 												   '1')");
-	// 					$stmt->bindParam(":Id_Predio", $id_predio);
-	// 					$stmt->bindParam(":Id_Contribuyente", $valor);
-	// 					$stmt->bindValue(":Estado_Transferencia", 'T');
-	// 					$stmt->bindParam(":Id_Detalle_Transferencia", $id_ultimo);
-	// 					$stmt->bindParam(":id_historial_predio", $ultimo_id_historial);
+	// 													:Id_Contribuyente,
+	// 													:Estado_Transferencia, 
+	// 													:Id_Detalle_Transferencia,
+	// 													:Baja,
+	// 													:id_historial_predio)");
+					
+	// 						// Vinculamos los parámetros
+	// 						$stmt->bindParam(":Id_Predio", $id_predio);
+	// 						$stmt->bindParam(":Id_Contribuyente", $valor);
+	// 						$stmt->bindParam(":Estado_Transferencia", $estado_transferencia);
+	// 						$stmt->bindParam(":Id_Detalle_Transferencia", $id_ultimo);
+	// 						$stmt->bindParam(":Baja", $baja);
+	// 						$stmt->bindParam(":id_historial_predio", $ultimo_id_historial);
+					
+	// 						// Imprimir los valores para depuración
+	// 						echo "Insertando: Id_Predio = " . $id_predio . ", Id_Contribuyente = " . $valor . ", Estado_Transferencia = " . $estado_transferencia . ", Id_Detalle_Transferencia = " . $id_ultimo . ", Baja = " . $baja . ", id_historial_predio = " . $ultimo_id_historial . "\n";
+					
+	// 						// Ejecutamos la consulta
+	// 						$stmt->execute();
+	// 					} catch (\PDOException $e) {  // Aquí agregamos el '\' para usar la clase global
+	// 						echo "Error: " . $e->getMessage();
+	// 					}
 
-	// 					$stmt->execute();
 
-
-
-						
-
-
-			
-
-
+	// 					//AQUI TAMBIEN AGRRGEUE PARA HISOTIAL PREDIO
 	// 				}
 					
-
-	// 			}  
-
 
 	// 				/* Generando el codigo de carpeta*/
 	// 				$stmt = $pdo->prepare("
@@ -2125,16 +1755,16 @@ private static function generateRowHTMLHistorial($value, $key)
 
 
 	// 							//INSERTAR TABLA HISTORIAL
-	// 					// $stmt = $pdo->prepare("
-	// 					// INSERT INTO historial_predio 
-	// 					// (Id_Predio, Fecha_Hora_Registro, Estado, Numero_Carpeta) 
-	// 					// VALUES (:Id_Predio, :Fecha_Hora_Registro, :Estado, :Numero_Carpeta)
-	// 					// ");
-	// 					// $stmt->bindParam(":Id_Predio", $id_predio);
-	// 					// $stmt->bindParam(":Fecha_Hora_Registro", date("Y-m-d H:i:s"));
-	// 					// $stmt->bindValue(":Estado", 'T');  // 'T' para indicar que está transferido
-	// 					// $stmt->bindParam(":Numero_Carpeta", $codigo_carpeta);
-	// 					// $stmt->execute();
+	// 					$stmt = $pdo->prepare("
+	// 					INSERT INTO historial_predio 
+	// 					(Id_Predio, Fecha_Hora_Registro, Estado, Numero_Carpeta) 
+	// 					VALUES (:Id_Predio, :Fecha_Hora_Registro, :Estado, :Numero_Carpeta)
+	// 					");
+	// 					$stmt->bindParam(":Id_Predio", $id_predio);
+	// 					$stmt->bindParam(":Fecha_Hora_Registro", date("Y-m-d H:i:s"));
+	// 					$stmt->bindValue(":Estado", 'T');  // 'T' para indicar que está transferido
+	// 					$stmt->bindParam(":Numero_Carpeta", $codigo_carpeta);
+	// 					$stmt->execute();
 	// 					//END TABLA HISTORIAL
 
 	// 					} catch (Exception $e) {
@@ -2144,38 +1774,48 @@ private static function generateRowHTMLHistorial($value, $key)
 	// 					}
 				
 	// 					} 
-
-	// 				if ($exists != 0) {
+	// 					if ($exists != 0) {
 	// 						try {
 								
 
-	// 							/* Generando el codigo de carpeta*/
-	// 							$stmt = $pdo->prepare("
-	// 										SELECT 
-	// 											(SELECT Codigo_Carpeta FROM Configuracion) AS Codigo_Carpeta, 
-	// 											(SELECT COUNT(*) FROM carpeta WHERE Concatenado_id =:concatenado_id) AS con
-	// 													");
+	// 				/* Generando el codigo de carpeta*/
+	// 				$stmt = $pdo->prepare("
+	// 							SELECT 
+	// 								(SELECT Codigo_Carpeta FROM Configuracion) AS Codigo_Carpeta, 
+	// 								(SELECT COUNT(*) FROM carpeta WHERE Concatenado_id =:concatenado_id) AS con
+	// 										");
 
-	// 									sort($propietarios_array);
-	// 									$propietarios_array = array_map('trim', $propietarios_array);
-	// 									$propietarios_array = array_filter($propietarios_array);
-	// 									//	$propietarios_array = array_map('trim', $propietarios_array);
-	// 									$propietarios_carpeta = implode("-", $propietarios_array);
-	// 									$stmt->bindParam(':concatenado_id', $propietarios_carpeta);
-	// 									$stmt->execute();
-
-
-	// 									$result = $stmt->fetch(PDO::FETCH_ASSOC);
-	// 									$codigo_carpeta = $result['Codigo_Carpeta'];
+	// 						sort($propietarios_array);
+	// 						$propietarios_array = array_map('trim', $propietarios_array);
+	// 						$propietarios_array = array_filter($propietarios_array);
+	// 						//	$propietarios_array = array_map('trim', $propietarios_array);
+	// 						$propietarios_carpeta = implode("-", $propietarios_array);
+	// 						$stmt->bindParam(':concatenado_id', $propietarios_carpeta);
+	// 						$stmt->execute();
+	// 						$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 						$codigo_carpeta = $result['Codigo_Carpeta'];
 
 
-										
 
-	// 								} catch (Exception $e) {
-	// 									// Revertir la transacción en caso de error
-	// 									$pdo->rollBack();
-	// 									throw $e;
-	// 								}
+	// 						//INSERTAR TABLA HISTORIAL
+	// 					$stmt = $pdo->prepare("
+	// 					INSERT INTO historial_predio 
+	// 					(Id_Predio, Fecha_Hora_Registro, Estado, Numero_Carpeta) 
+	// 					VALUES (:Id_Predio, :Fecha_Hora_Registro, :Estado, :Numero_Carpeta)
+	// 					");
+	// 					$stmt->bindParam(":Id_Predio", $id_predio);
+	// 					$stmt->bindParam(":Fecha_Hora_Registro", date("Y-m-d H:i:s"));
+	// 					$stmt->bindValue(":Estado", 'T');  // 'T' para indicar que está transferido
+
+	// 					 // Asigna el valor a una variable antes de usar bindParam
+	// 					 $numero_carpeta = '7';  
+	// 					$stmt->bindParam(":Numero_Carpeta", $numero_carpeta);
+	// 					$stmt->execute();
+	// 					} catch (Exception $e) {
+	// 						// Revertir la transacción en caso de error
+	// 						$pdo->rollBack();
+	// 						throw $e;
+	// 					}
 	// 					//END TABLA HISTORIAL
 	// 					}
 						
@@ -2206,6 +1846,196 @@ private static function generateRowHTMLHistorial($value, $key)
 	// }
 
 
+	
+
+
+	// EDITAR TRANSFERIR PREDIO
+
+
+// EDITAR TRANSFERIR PREDIO
+	public static function mdlEditarTransferirPredio($datos)
+	{
+		$ano_actual = date("Y");
+		$ano_pasado = $datos['anio'];
+		$array_anios = range($ano_pasado, $ano_actual);
+		$propietarios = $datos['propietarios'];
+		$propietarios_array = explode(",", $propietarios);
+
+
+		try {
+			$pdo = Conexion::conectar();
+			// Bloquear la tabla
+			//$pdo->query("LOCK TABLES detalle_transferencia WRITE");
+			//$pdo->beginTransaction();
+			// Realizar la inserción en detalle_transferencia
+			$stmt = $pdo->prepare("INSERT INTO detalle_transferencia
+				                       (Id_Documento_Inscripcion, 
+									   Numero_Documento_Inscripcion, 
+									   Id_Tipo_Escritura, 
+									   Fecha_Escritura) 
+									   VALUES
+									   (:Id_Documento_Inscripcion, 
+									   :Numero_Documento_Inscripcion,
+									   :Id_Tipo_Escritura,
+									   :Fecha_Escritura)");
+			$stmt->bindParam(":Id_Documento_Inscripcion", $datos['tipo_documento']);
+			$stmt->bindParam(":Numero_Documento_Inscripcion", $datos['n_documento']);
+			$stmt->bindParam(":Id_Tipo_Escritura", $datos['tipo_escritura']);
+			$stmt->bindParam(":Fecha_Escritura", $datos['fecha_escritura']);
+			$stmt->execute();
+			$id_ultimo = $pdo->lastInsertId();
+			$Fecha_Transferencia = date("Y-m-d H:i:s");
+			// Realizar la actualización
+			for ($i = 0; $i < count($array_anios); $i++) {
+
+				if ($datos['tipo'] == 'U') {
+					$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
+				FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
+				JOIN catastro AS c ON pr.Id_Catastro = c.Id_Catastro 
+				JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
+				WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
+					$stmt->bindParam(":catastro", $datos['catastro']);
+					$stmt->bindParam(":anio", $array_anios[$i]);
+					$stmt->execute();
+				} else {
+					$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
+				FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
+				JOIN catastro_rural AS c ON pr.Id_Catastro_Rural = c.Id_Catastro_Rural 
+				JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
+				WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
+					$stmt->bindParam(":catastro", $datos['catastro']);
+					$stmt->bindParam(":anio", $array_anios[$i]);
+					$stmt->execute();
+				}
+
+				if ($stmt->rowCount() > 0) {
+					if ($datos['tipo'] == 'U') {
+						// Realizar la primera consulta
+						$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
+							FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
+							JOIN catastro AS c ON pr.Id_Catastro = c.Id_Catastro 
+							JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
+							WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
+						$stmt->bindParam(":catastro", $datos['catastro']);
+						$stmt->bindParam(":anio", $array_anios[$i]);
+						$stmt->execute();
+						$resultado = $stmt->fetch();
+						$id_predio = $resultado['id_predio'];
+					} else {
+						// Realizar la primera consulta
+						$stmt = $pdo->prepare("SELECT pr.Id_Predio as id_predio 
+							FROM propietario AS p JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio 
+							JOIN catastro_rural AS c ON pr.Id_Catastro_Rural = c.Id_Catastro_Rural 
+							JOIN anio AS a ON a.Id_Anio=pr.Id_Anio 
+							WHERE c.Codigo_Catastral =:catastro and a.NomAnio=:anio");
+						$stmt->bindParam(":catastro", $datos['catastro']);
+						$stmt->bindParam(":anio", $array_anios[$i]);
+						$stmt->execute();
+						$resultado = $stmt->fetch();
+						$id_predio = $resultado['id_predio'];
+					}
+
+
+					if ($datos['tipo'] == 'U') {
+						$stmt = $pdo->prepare("UPDATE propietario AS p
+					JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio
+					JOIN catastro AS c ON pr.Id_Catastro = c.Id_Catastro
+					JOIN anio AS a ON a.Id_Anio=pr.Id_Anio
+					SET p.Estado_Transferencia ='O',p.Fecha_Transferencia=:Fecha_Transferencia,
+					p.Baja='0'
+					WHERE c.Codigo_Catastral = :catastro and a.NomAnio = :anio");
+						$stmt->bindParam(":catastro", $datos['catastro']);
+						$stmt->bindParam(":anio", $array_anios[$i]);
+						$stmt->bindParam(":Fecha_Transferencia", $Fecha_Transferencia);
+						$stmt->execute();
+					} else {
+						$stmt = $pdo->prepare("UPDATE propietario AS p
+					JOIN predio AS pr ON p.Id_Predio = pr.Id_Predio
+					JOIN catastro_rural AS c ON pr.Id_Catastro_Rural = c.Id_Catastro_Rural
+					JOIN anio AS a ON a.Id_Anio=pr.Id_Anio
+					SET p.Estado_Transferencia ='O',p.Fecha_Transferencia=:Fecha_Transferencia,
+					p.Baja='0'
+					WHERE c.Codigo_Catastral = :catastro and a.NomAnio = :anio");
+						$stmt->bindParam(":catastro", $datos['catastro']);
+						$stmt->bindParam(":anio", $array_anios[$i]);
+						$stmt->bindParam(":Fecha_Transferencia", $Fecha_Transferencia);
+						$stmt->execute();
+					}
+
+					// Insertar los nuevos propietarios relacionados con el registro en detalle_transferencia
+					foreach ($propietarios_array as $valor) {
+						$stmt = $pdo->prepare("INSERT INTO propietario
+					                                   (Id_Predio, 
+													   Id_Contribuyente,
+													   Estado_Transferencia, 
+													   Id_Detalle_Transferencia, 
+													   Baja) 
+													   VALUES
+													   (:Id_Predio, 
+													   :Id_Contribuyente,
+													   :Estado_Transferencia, 
+													   :Id_Detalle_Transferencia,
+													   '1')");
+						$stmt->bindParam(":Id_Predio", $id_predio);
+						$stmt->bindParam(":Id_Contribuyente", $valor);
+						$stmt->bindValue(":Estado_Transferencia", 'T');
+						$stmt->bindParam(":Id_Detalle_Transferencia", $id_ultimo);
+						$stmt->execute();
+					}
+
+					/* Generando el codigo de carpeta*/
+					$stmt = $pdo->prepare("
+								SELECT 
+									(SELECT Codigo_Carpeta FROM Configuracion) AS Codigo_Carpeta, 
+									(SELECT COUNT(*) FROM carpeta WHERE Concatenado_id =:concatenado_id) AS con
+											");
+					sort($propietarios_array);
+					$propietarios_array = array_map('trim', $propietarios_array);
+					$propietarios_array = array_filter($propietarios_array);
+					//	$propietarios_array = array_map('trim', $propietarios_array);
+					$propietarios_carpeta = implode("-", $propietarios_array);
+					$stmt->bindParam(':concatenado_id', $propietarios_carpeta);
+					$stmt->execute();
+					$result = $stmt->fetch(PDO::FETCH_ASSOC);
+					$codigo_carpeta = $result['Codigo_Carpeta'];
+					$exists = $result['con'];
+					if ($exists == 0) {
+						$codigo_carpeta += 1;
+
+						try {
+							// Insertar el nuevo registro en la tabla carpeta
+							$stmt_insert = $pdo->prepare("INSERT INTO carpeta (Concatenado_id,Codigo_Carpeta) VALUES (:concatenado_id,:codigo_carpeta)");
+							$stmt_insert->bindParam(':concatenado_id', $propietarios_carpeta);
+							$stmt_insert->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
+							$stmt_insert->execute();
+							$stmt_update = $pdo->prepare("UPDATE Configuracion SET Codigo_Carpeta =:codigo_carpeta");
+							$stmt_update->bindParam(':codigo_carpeta', $codigo_carpeta, PDO::PARAM_INT);
+							$stmt_update->execute();
+						} catch (Exception $e) {
+							// Revertir la transacción en caso de error
+							$pdo->rollBack();
+							throw $e;
+						}
+					}
+					/* fin de generacion de codigo de carpeta */
+				}
+			}
+			//LEYEN O->OTORGADO -> no debe mostrar por ya son los antiguos dueños
+			// T TRANSFERIDO  -> si debe mostrar ya que es el nuevo propietario
+			// R REGISTRADO   -> si debe mostrar por que se registro el predio
+			// E ELIMINADO  -> no debe mostrar ya que fue eliminado el predio
+			// Liberar el bloqueo de la tabla
+			//	$pdo->query("UNLOCK TABLES");
+
+			//	$pdo->commit();
+			return 'ok';
+		} catch (Exception $e) {
+			// Manejo de errores
+			//	$pdo->rollBack();
+			$pdo = Null;
+			return '<div>Error: ' . $e->getMessage() . '</div>';
+		}
+	}
 
 
 	// ELIMINAR PREDIO
@@ -2247,14 +2077,27 @@ private static function generateRowHTMLHistorial($value, $key)
 			return '<div>Error: ' . $e->getMessage() . '</div>';
 		}
 	}
+
+
+
 	// COPIAR PREDIO
+
+
+
+	
 	public static function mdlCopiarPredio($datos, $id_predio)
+
+	
 	{
+		//var_dump($datos);
+		//exit;
+
 		$anoActual = $datos['anio_actual'];
 		$anoCopiar = $datos['anio_copiar'];
 		$propietarios = $datos['propietarios'];
 		$propietarios_array = explode(",", $propietarios);
 		sort($propietarios_array);
+
 		try {
 			$pdo = Conexion::conectar();
 			if ($datos['forzar_copear'] == 'forzar') {
@@ -2574,6 +2417,10 @@ private static function generateRowHTMLHistorial($value, $key)
 		}
 	}
 
+
+
+
+
 	
 	public static function mdlMostrarPredio($tabla, $item1, $valor1)
 	{
@@ -2714,7 +2561,8 @@ private static function generateRowHTMLHistorial($value, $key)
     c.Apellido_Materno,
 	   CONCAT(c.Nombres, ' ', c.Apellido_Paterno, ' ', c.Apellido_Materno) AS Nombre_Completo,
 	   c.Documento,
-	     pr.Direccion_completo
+	     pr.Direccion_completo,
+		 u.usuario
     
     
 FROM 
@@ -2732,6 +2580,8 @@ LEFT JOIN
     LEFT JOIN predio pr
     
     ON pr.Id_Predio=p.Id_Predio
+	LEFT JOIN usuarios u
+	ON u.id=pr.id_usuario
 	WHERE 
 
     p.Id_Predio= :id_predio

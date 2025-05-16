@@ -53,6 +53,7 @@ class Predio {
     var tabla = document.getElementById("tablalistapredios");
     var tbody = tabla.querySelector("tbody");
     var filas = tbody.getElementsByTagName("tr");
+
     for (let i = 0; i < filas.length; i++) {
       filas[i].addEventListener("click", function () {
         self.anio_predio = $("#selectnum").val();
@@ -484,7 +485,9 @@ class Predio {
           $("#modalTransferenciaPredio").modal("hide");
           $("#respuestaAjax_srm").show();
           $("#modal_transferir_si_no").modal("hide");
+
           predio.lista_predio(self.anio_predio);
+
           //var parametrosActuales = window.location.search;
           setTimeout(function () {
             $("#respuestaAjax_srm").hide();
@@ -555,6 +558,7 @@ class Predio {
   console.log(predio.Propietarios);
 
   formd.append("predios", JSON.stringify(predio.predios)); 
+  
   //formd.append("id_predio", predio.id_predio);
   formd.append("anio_actual", predio.nom_anio_predio);
   formd.append("anio_copiar", predio.anio_copear);
@@ -722,6 +726,8 @@ $(document).ready(function () {
   });
 
 
+
+
   //HITORIAL DE PREDIO
   $(document).on("change", "#selectnum", function () {
 
@@ -830,6 +836,7 @@ $(document).ready(function () {
     
     // Mostrar la tabla en el modal
     $("#modalCopiarPredio .modal-body").html(html_predios_seleccionados);
+
     $("#modalCopiarPredio").modal("show");
 
 
@@ -919,7 +926,7 @@ $(document).ready(function () {
 });
 
 
-$(document).on("change", "#anioFiscal_e", function () {
+$(document).on("change", "#anioFiscal_e", function () {  
  //predio.anio_copear = $(this).find("option:selected").text();
   var selectedOption = $(this).find("option:selected");  // Obtiene la opción seleccionada
 
@@ -927,6 +934,7 @@ $(document).on("change", "#anioFiscal_e", function () {
   var nomAnio = selectedOption.text(); // Obtiene el 'NomAnio' (el texto del option)
 
   predio.anio_copear = nomAnio; // Almacena el nombre del año seleccionado
+
   console.log("Año seleccionado:", predio.anio_copear);  // Muestra el nombre del año
   console.log("ID del Año seleccionado:", idAnio);  // Muestra el ID del año
 });
@@ -941,6 +949,8 @@ $(".btnCopiarPredio").on("click", function (e) {
   e.preventDefault();
   predio.copear_predio("noforzar");
 });
+
+
 //copear predio forzosamente 
 $(".confirmar_copear_forzosamente_si").on("click", function (e) {
   e.preventDefault();

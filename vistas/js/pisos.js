@@ -183,6 +183,7 @@ $(document).ready(function () {
     nuevoPiso.anioFiscalC = anioFiscalS;
     nuevoPiso.idAnioFiscalC = idAnioFiscalS;
     filaPredio = true;
+    
     $("#idCatastroRow").val(nuevoPiso.idCatasttroC);
     $("#anioFiscal").val(nuevoPiso.anioFiscalC);
     nuevoPiso.MostrarPisos(nuevoPiso.idCatasttroC, nuevoPiso.idAnioFiscalC);

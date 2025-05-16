@@ -418,6 +418,9 @@ class AjaxPredio
 
 		// Llamada al controlador para registrar el predio
 		$registro = ControladorPredio::ctrCopiarPredio($datos);
+		//  var_dump($registro);
+		//  exit();
+
 		if (!$registro) {
 			$respuesta = array(
 				'tipo' => 'error',
@@ -440,7 +443,7 @@ class AjaxPredio
 				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
 				<span aria-hidden="true" class="letra">×</span>
 				</button><p class="inner"><strong class="letra">Exito!</strong> 
-				<span class="letra">Se ha copiado los predios correctamente</span></p></div>'
+				<span class="letra">Se ha copiado los predios correctamente mmm</span></p></div>'
         );
 
         $respuesta_json = json_encode($respuesta);

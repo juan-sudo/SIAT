@@ -728,8 +728,6 @@ class DataTables
             $perfilUsuario = $_POST['perfilOculto_p'];
             $ids = explode(",", $propietario);
             $selectnum = $_POST['selectnum']; // anio
-
-            
             $pdo = Conexion::conectar();
 
             if (count($ids) === 1) {
@@ -754,6 +752,7 @@ class DataTables
             $anio_actual = $resultado->fetch(PDO::FETCH_ASSOC);
 
 
+            var_dump( $anio_actual );
 
 
 
@@ -1044,7 +1043,7 @@ LEFT JOIN
                 <td class="text-center">%s</td>
                 <td class="text-center">%s</td>
                 <td class="text-center"><i class="bi bi-three-dots" id="id_predio_foto" data-id_predio_foto="%s"></i></td>
-                <td class="text-center"style="display:none;">%s</td> 
+                <td class="text-center"style="display:none;">%s</td>  
           
                 </tr>',
                 $value['id_predio'],

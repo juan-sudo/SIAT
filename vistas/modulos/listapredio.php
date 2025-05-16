@@ -408,6 +408,9 @@ if (count($datos_contribuyente) > 0) {
 <!-- MODAL PARA IMÁGENES -->
 <!-- MODAL PARA IMÁGENES -->
 <!-- MODAL PARA IMÁGENES -->
+
+
+
 <div class="modal fade" id="modalFotosPredio" tabindex="-1" role="dialog" aria-labelledby="modalFotosPredioTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -711,8 +714,10 @@ if (count($datos_contribuyente) > 0) {
         
        </div>
 
+
+
          <div class="row" style="margin-bottom: 20px;"> 
-      <div class="col-12 col-md-5">
+           <div class="col-12 col-md-5">
                   <label for="anioFiscal_e" class="cajalabel2">Año a copiar</label>
                   <select class="form2" name="anioFiscal_e" id="anioFiscal_e" required="">
                     <option value="" selected="" disabled="">Seleccione Año</option>
@@ -2855,7 +2860,7 @@ if (count($datos_contribuyente) > 0) {
                         <th class="text-center" style="width:100px;">Fecha Pago</th>
                         <th class="text-center" style="width:50px;">Estado</th>
                         <th class="text-center" style="width:50px;">Importe</th>
-                        <th class="text-center" style="width:50px;">Gasto</th>
+                        <th class="text-center" style="width:50px;">Gasto M</th>
                         <th class="text-center" style="width:50px;">Subtotal</th>
                         <th class="text-center" style="width:50px;">T.I.M</th>
                         <th class="text-center" style="width:50px;">Total</th>

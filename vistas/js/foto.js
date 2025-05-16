@@ -116,8 +116,9 @@ MostrarFotosPredioModal(id_predio) {
             $('#mensaje-no-fotos').hide(); // Ocultar el mensaje de no fotos
 
             let estado_t=response[0].Direccion_completo;
-            
+            let usuario_Actual = response[response.length - 1].usuario;
 
+           
                // Crear el botón y agregarlo al div '.aqui'
                $('.aqui').html(`
                 <div style="padding: 5px;  display: flex; align-items: center;" class="text-muted" >
@@ -219,6 +220,11 @@ MostrarFotosPredioModal(id_predio) {
                             <div class="panel-body"  style="padding: 20px;">
                                 ${panelBodyContent}
                             </div>
+                               <div style="width: 100%;text-align: right; padding-right: 15px;">
+                           
+                             <div class="text-muted" > <strong> Usuario: </strong>  ${foto.usuario === null ? 'No registra' : foto.usuario}</div>
+                       
+                        </div>
                         </article>
                     </div>
                 `;
@@ -236,12 +242,17 @@ MostrarFotosPredioModal(id_predio) {
                             </div>
                        
                         </div>
+
+                       
+
                          <div style="width: 100%;">
                           
                               <div class="text-muted" > <strong> Fecha registro: </strong>  ${foto.Fecha_Registro === null ? 'No registra' : foto.Fecha_Registro}</div>
                        
                          
                               </div>
+                             
+
                               <div style="width: 100%; display: ${foto.carpeta_origen === null ? 'none' : 'block'};">
                                 <div class="text-muted">
                                     <strong> Carpeta origen: </strong>  
@@ -279,7 +290,10 @@ MostrarFotosPredioModal(id_predio) {
 
                         </table>
                     </div>
+
+                    
                 </div>
+              
             `;
         }
 
@@ -305,6 +319,11 @@ MostrarFotosPredioModal(id_predio) {
                     <div class="panel-body"  style="padding: 20px;">
                         ${panelBodyContent}
                     </div>
+                       <div style="width: 100%;text-align: right; padding-right: 15px;">
+                           
+                             <div class="text-muted" > <strong> Usuario: </strong>  ${usuario_Actual}</div>
+                       
+                        </div>
                 </article>
                 
             </div>
@@ -456,7 +475,10 @@ const foto = new Foto();
 
 // Evento de clic para el icono de imagen
 // Evento de clic para el icono de imagen
+
+
 $(document).on("click", "#id_predio_foto", function () {
+    console.log("has hecho clikckkkk")
 
     // Obtener el id_predio de la propiedad data-id_predio_foto del icono
     var id_predio = $(this).data("id_predio_foto"); // Usamos .data() para obtener el atributo data-id_predio_foto
