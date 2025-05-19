@@ -68,6 +68,49 @@ class buscarcontribuyente {
 
 
 
+  loadcontribuyente_filtro_m(page,searchClass,init_envio){
+
+
+    let area_usuario = $('#mySpan_area').attr('iso_area');
+    
+      let searchContribuyente = $("." + searchClass).val();
+
+      console.log("valor estas aqui mobil---:"+searchContribuyente);
+      console.log("valor estas aqui mobil--mm-:"+area_usuario);
+
+      let parametros = {
+        action: "ajax",
+        page: page,
+        searchContribuyente: searchContribuyente,
+        tipo: searchClass,
+        init_envio:init_envio,
+        dpcontribuyentem: "dpcontribuyentem",
+        perfilOculto_c: perfilOculto_c,
+        area_usuario: area_usuario
+
+      };
+
+      Object.entries(parametros).forEach(([key, value]) => {
+        console.log(key + " : " + value);
+      });
+     
+
+      $.ajax({
+        url: "vistas/tables/dataTables.php",
+        data: parametros,
+        beforeSend: function() {
+          $(".body-contribuyente").html(loadingMessage);
+        },
+        success: function (data) {
+          $(".body-contribuyente").html(data);
+        },
+        error: function() {
+          $(".body-contribuyente").html(errordata);
+        }
+      });
+  }
+
+
   loadcontribuyente_filtro(page,searchClass,init_envio){
 
 
@@ -104,6 +147,9 @@ class buscarcontribuyente {
         }
       });
   }
+
+
+
   traerDireccion(idContribuyente) {
     // OPTENIENDO LA DIRECCION DEL CONTRIBUYENTE
     $.ajax({
@@ -245,8 +291,29 @@ let perfilOculto_c = $("#perfilOculto_c").val();
 
 
 function loadContribuyente(page, searchClass,init_envio) {
+  console.log("loadContribuyente----------------");
+
     if (event.keyCode === 13) {
+      
+
+
+
       buscarcontribuyente_.loadcontribuyente_filtro(page,searchClass,init_envio);
+     
+      event.preventDefault();
+    }
+}
+
+//MODO MOBIL BUSQUEDA
+
+function loadContribuyenteM(page, searchClass,init_envio) {
+ // console.log("loadContribuyente-------MOBIL");
+
+
+    if (event.keyCode === 13) {
+      
+      console.log("sehecr",searchClass);
+      buscarcontribuyente_.loadcontribuyente_filtro_m(page,searchClass,init_envio);
       event.preventDefault();
     }
 }
@@ -289,3 +356,6 @@ $('#formEmpresa').on('submit', function(event) {
 // });
 
 
+$('#btnTakePhoto').on('click', function() {
+  $('#imageInput').click();
+});

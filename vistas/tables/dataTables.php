@@ -6,6 +6,197 @@ use Conect\Conexion;
 
 class DataTables
 {
+
+       /* buscar contribuyente MODO MOBIL */
+    public function dtaContribuyenteM()
+{
+    $action = ($_REQUEST['action'] ?? null) ? $_REQUEST['action'] : '';
+    if ($action == 'ajax') {
+        $area_usuario = $_REQUEST['area_usuario'];
+        $perfilUsuario = $_REQUEST['perfilOculto_c'];
+        $tipoBusqueda = strtolower($_REQUEST['tipo']);
+        $searchProducto = $_GET['searchContribuyente'];
+
+        // Definir el campo de búsqueda basado en el tipo de búsqueda
+        switch ($tipoBusqueda) {
+            case 'search_codigo_m':
+                $campoBusqueda = 'Id_Contribuyente';
+                break;
+            case 'search_dni_m':
+                $campoBusqueda = 'Documento';
+                break;
+            case 'search_codigo_sa_m':
+                $campoBusqueda = 'Codigo_sa';
+                break;
+            case 'search_direccion_m':
+                    $campoBusqueda = 'Direccion_completo';
+                 break;    
+            default:
+                $campoBusqueda = 'Nombre_Completo';
+                break;
+        }
+
+        $sWhere = "";
+        $idContribuyentesString = ""; // Variable para almacenar IDs separados por guiones
+
+        if (!empty($searchProducto)) {
+            if ($tipoBusqueda == 'search_codigo_m' || $tipoBusqueda == 'search_dni_m') {
+                $sWhere = "WHERE $campoBusqueda = :searchProducto";
+            } else if ($tipoBusqueda == 'search_nombres_m') {
+                $sWhere = "WHERE $campoBusqueda LIKE :searchProducto";
+                $searchProducto = "%$searchProducto%";
+            }
+            else if ($tipoBusqueda == 'search_direccion_m') {
+                $sWhere = "WHERE $campoBusqueda LIKE :searchProducto";
+                $searchProducto = "%$searchProducto%";
+            }
+
+            $pdo = Conexion::conectar();
+
+            if ($tipoBusqueda == 'search_codigo_sa_m') {
+                $stmt = $pdo->prepare("SELECT Concatenado_id FROM carpeta WHERE Codigo_Carpeta = :carpeta");
+                $stmt->bindParam(":carpeta", $searchProducto);
+                $stmt->execute();
+                $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if (!empty($registros)) {
+                    $codigoCarpeta = $registros[0]['Concatenado_id'];
+                    $codigosArray = explode('-', $codigoCarpeta);
+                    $placeholders = implode(',', array_fill(0, count($codigosArray), '?'));
+                    $sWhere = "WHERE c.Id_Contribuyente IN ($placeholders)";
+                } else {
+                    echo "<td colspan='12' style='text-align:center;'>El código de carpeta no se encontró</td>";
+                    $pdo = null;
+                    return;
+                }
+            }
+
+            // Preparar y ejecutar la consulta principal
+            $stmt = $pdo->prepare("SELECT 
+                                    c.Id_Ubica_Vias_Urbano as ubicacionvia,
+                                    c.Estado as Estado,
+                                    c.Id_Contribuyente as id_contribuyente,
+                                    td.descripcion as tipo_documento,
+                                    c.Documento as documento,
+                                    c.Nombre_Completo as nombre_completo,
+                                    c.Direccion_completo as direccion_completo,
+                                    c.Coactivo as coactivo
+                                    FROM contribuyente c 
+                                    INNER JOIN tipo_documento_siat td ON td.Id_Tipo_Documento = c.Id_Tipo_Documento
+                                    $sWhere");
+
+            if ($tipoBusqueda == 'search_codigo_sa_m') {
+                $stmt->execute($codigosArray);
+            } else {
+                $stmt->execute(['searchProducto' => $searchProducto]);
+            }
+
+            $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Construir la cadena con id_contribuyente separados por guiones
+            if (!empty($registros)) {
+                $idContribuyentes = array();
+                foreach ($registros as $registro) {
+                    $idContribuyentes[] = $registro['id_contribuyente'];
+                }
+                $idContribuyentesString = implode('-', $idContribuyentes);
+            }
+
+            // Obtener el Código_Carpeta y agregarlo a cada contribuyente
+            if ($tipoBusqueda == 'search_codigo_sa' && !empty($codigosArray)) {
+                foreach ($registros as &$contribuyente) {
+                    $stmtCarpeta = $pdo->prepare("SELECT Codigo_Carpeta FROM carpeta WHERE Concatenado_id = :concatenado_id");
+                    $stmtCarpeta->bindParam(":concatenado_id", $codigoCarpeta);
+                    $stmtCarpeta->execute();
+                    $carpetaResult = $stmtCarpeta->fetch(PDO::FETCH_ASSOC);
+
+                    if ($carpetaResult) {
+                        $contribuyente['Codigo_Carpeta'] = $carpetaResult['Codigo_Carpeta'];
+                    } else {
+                        $contribuyente['Codigo_Carpeta'] = ''; // Si no encuentra el código de carpeta, asigna una cadena vacía
+                    }
+                }
+            } else if (!empty($idContribuyentesString)) {
+                foreach ($registros as &$contribuyente) {
+                    $stmtCarpeta = $pdo->prepare("SELECT Codigo_Carpeta FROM carpeta WHERE Concatenado_id = :concatenado_id");
+                    $stmtCarpeta->bindParam(":concatenado_id", $idContribuyentesString);
+                    $stmtCarpeta->execute();
+                    $carpetaResult = $stmtCarpeta->fetch(PDO::FETCH_ASSOC);
+
+                    if ($carpetaResult) {
+                        $contribuyente['Codigo_Carpeta'] = $carpetaResult['Codigo_Carpeta'];
+                    } else {
+                        $contribuyente['Codigo_Carpeta'] = ''; // Si no encuentra el código de carpeta, asigna una cadena vacía
+                    }
+                }
+            }
+
+            $pdo = null;
+
+            if (!empty($registros)) {
+                foreach ($registros as $key => $value) {
+                    $activo = ($value['Estado'] == '1') ? 'checked' : '';
+                    ?>
+                    <tr class="<?= $value['coactivo'] === '1' ? 'color_coactivo': '' ?>" id="tr_id_contribuyente" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario" title="Predio">
+                        <td class="text-center"><?= ++$key ?></td>
+                        <td class="text-center"><?= $value['id_contribuyente'] ?></td>
+                        <td class="text-center"><?= $value['tipo_documento'] ?></td>
+                        <td class="text-center"><?= $value['documento'] ?></td>
+                        <td><?= $value['nombre_completo'] ?></td>
+                        <td><?= $value['direccion_completo'] ?></td>
+                        <!-- si esta en coactivo se pintara de color la persona -->
+                        <td class="text-center" id="coactivo_contribuyente"><?= $value['coactivo'] === '1' ? 'Si': 'No' ?></td> 
+
+                        <td class="text-center">
+                            <?php 
+                            if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$value['coactivo'] === '1') :
+                                // Si coactivo es '1', no se muestra el ícono
+                            ?>
+                                <!-- No se muestra ícono en este caso -->
+                            <?php 
+                            elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($value['coactivo'] !== '1'|| $value['coactivo'] === '0')) :
+                                // Si el área es 'OFICINA DE EJECUCION COACTIVA' y coactivo no es '1', muestra el ícono
+                            ?>
+                                <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
+                            <?php 
+                            else :
+                                // En todos los demás casos, muestra el ícono
+                            ?>
+                                <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
+                            <?php 
+                            endif; 
+                            ?>    
+                        </td>
+
+
+                        
+                        <td class="text-center">
+                            <div class="modo-contenedor-selva">
+                                <input type="checkbox" data-toggle="toggle" data-on="Activado" data-off="Desactivado" data-onstyle="success" data-offstyle="danger" id="usuarioEstado" name="usuarioEstado<?= $value['Estado'] ?>" value="<?= $value['Estado'] ?>" data-size="mini" data-width="110" idUsuario="<?= $value['id_contribuyente'] ?>" <?= $activo ?>>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <i class="bi bi-pencil-fill lis_ico_con btnEditarcontribuyente" title="Editar" idContribuyente="<?= $value['id_contribuyente'] ?>" idDireccionnu="<?= $value['ubicacionvia'] ?>" data-toggle="modal" data-target="#modalEditarcontribuyente"></i>
+                                <?php if ($perfilUsuario == 'Administrador') : ?>
+                                    <i class="bi bi-trash3-fill btnEliminarContribuyente ico_eli_contri" title="Eliminar" idContribuyente="<?= $value['id_contribuyente'] ?>"></i>
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            } else {
+                echo "<td colspan='12' style='text-align:center;'>El contribuyente no está registrado</td>";
+            }
+        } else {
+            echo "<td colspan='12' style='text-align:center;'>Digite en el filtro</td>";
+        }
+    }
+}
+
+
+
     /* buscar contribuyente */
     public function dtaContribuyente()
 {
@@ -1771,6 +1962,7 @@ LEFT JOIN
 $requestMap = [
     'dpLicenciaAgua' => 'dtaContribuyentesAgua',
     'dpcontribuyente' => 'dtaContribuyente',
+     'dpcontribuyentem' => 'dtaContribuyenteM',
     'dpcontribuyente_caja' => 'dtaContribuyente_caja',
     'dpLicenciaAguaLista' => 'dtaContribuyente_agua_lista',
     'dpLicenciaAguaLista_caja' => 'dtaContribuyente_agua_lista_caja',

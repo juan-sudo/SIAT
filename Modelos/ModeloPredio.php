@@ -2577,11 +2577,12 @@ LEFT JOIN
 	ON c.Id_Contribuyente=p.Id_Contribuyente
 
 	  
-    LEFT JOIN predio pr
-    
+    LEFT JOIN predio pr 
     ON pr.Id_Predio=p.Id_Predio
+
 	LEFT JOIN usuarios u
 	ON u.id=pr.id_usuario
+
 	WHERE 
 
     p.Id_Predio= :id_predio

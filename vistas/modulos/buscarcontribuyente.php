@@ -12,19 +12,57 @@ use Controladores\ControladorCategorias;
          </div>
 
          <div class="box-body table-user">
-            <div class="contenedor-busqueda">
+
+
+
+            <div class="contenedor-busqueda hidden-xs hidden-sm">
                <div class="input-group-search">
                   <div class="input-search">
-                     <input type="search" class="search_codigo" id="searchContribuyente" name="searchContribuyente" placeholder="Codigo" onkeyup="loadContribuyente(1,'search_codigo','')">
-                     <input type="search" class="search_dni" id="searchContribuyente" name="searchContribuyente" placeholder="Documento DNI" onkeyup="loadContribuyente(1,'search_dni','')">
+                    
+                  
+                  <input type="search" class="search_codigo" id="searchContribuyente" name="searchContribuyente" placeholder="Codigo" onkeyup="loadContribuyente(1,'search_codigo','')">
+                  <input type="search" class="search_dni" id="searchContribuyente" name="searchContribuyente" placeholder="Documento DNI" onkeyup="loadContribuyente(1,'search_dni','')">
+            
+
                      <input type="search" class="search_nombres" id="searchContribuyente" name="searchContribuyente" placeholder="Nombres y Apellidos" onkeyup="loadContribuyente(1,'search_nombres','')">
+                    
                      <input type="search" class="search_codigo_sa" id="searchContribuyente_caja" name="searchContribuyente_caja" placeholder="Codigo Carpeta" onkeyup="loadContribuyente(1,'search_codigo_sa','caja')">
                      <input type="search" class="search_direccion" id="searchContribuyente_direccion" name="searchContribuyente_direccion" placeholder="direccion" onkeyup="loadContribuyente(1,'search_direccion','')">
+                     
+                     
                      <input type="hidden" id="perfilOculto_c" value="<?php echo $_SESSION['perfil'] ?>">
                   </div>
                   <br>
                </div>
          </div>
+        
+
+
+<div class="container visible-xs" style="padding: 0 !important;" >
+  
+  <div class="row">
+    <div class="col-xs-12 col-sm-12" style="padding: 0 !important;" >
+      <input type="search" class="form-control search_nombres_m"  id="searchContribuyente" name="searchContribuyente" placeholder="Nombres y Apellidos" onkeyup="loadContribuyenteM(1,'search_nombres_m','')">
+    </div>
+  </div>
+  
+
+  <div class="row" style="margin-bottom: 15px;">
+    <div class="col-xs-4 col-sm-4" style="padding: 0 !important;">
+      <input type="search" class="form-control search_codigo_m" id="searchContribuyente" name="searchContribuyente"  placeholder="Codigo" onkeyup="loadContribuyenteM(1,'search_codigo_m','')">
+    </div>
+    <div class="col-xs-4 col-sm-4" style="padding: 0 !important;">
+      <input type="search" class="form-control search_dni_m" id="searchContribuyente" name="searchContribuyente"  placeholder="Dni" onkeyup="loadContribuyenteM(1,'search_dni_m','')">
+    </div>
+   <div class="col-xs-4 col-sm-4" style="padding: 0 !important;">
+      <input type="search" class="form-control search_codigo_sa_m" id="searchContribuyente_caja" name="searchContribuyente_caja"  placeholder="Carpeta" onkeyup="loadContribuyenteM(1,'search_codigo_sa_m','caja')">
+    </div>
+  </div>
+
+  
+</div>
+
+         
 
                <!-- table-bordered table-striped  -->
                <div class="row divLista_contribuyente_p">

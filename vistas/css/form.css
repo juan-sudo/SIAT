@@ -1156,6 +1156,20 @@ title {
   height: 20PX;
 }
 
+.search_dni_m {
+  background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
+  background-size: 20px;
+  width: 100%;
+  height: 27px;
+  border: none;
+  border-radius: 20px; /* Borde redondeado */
+  padding: 10px 10px 10px 28px; /* Ajuste del padding para dar espacio al icono */
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color:  #D0E1F9;
+  border-color: black;
+  padding-left: 25px !important;
+}
 
 .search_dni {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
@@ -1170,6 +1184,19 @@ title {
   background-color:  #D0E1F9;
   border-color: black;
 }
+/* .search_codigo_m {
+  background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; 
+  background-size: 20px;
+  width: 200px;
+  height: 27px;
+  border: none;
+  border-radius: 20px; 
+  padding: 10px 10px 10px 28px; 
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  background-color:  #D0E1F9;
+  border-color: black;
+} */
 
 .search_nombres {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
@@ -1184,6 +1211,20 @@ title {
   background-color:  #D0E1F9;
   border-color: black;
 }
+.search_nombres_m {
+  background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
+  background-size: 20px;
+  width: 100%;
+  height: 27px;
+  border: none;
+  border-radius: 20px; /* Borde redondeado */
+  padding: 10px 10px 10px 28px; /* Ajuste del padding para dar espacio al icono */
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color:  #D0E1F9;
+  border-color: black;
+  padding-left: 25px !important;
+}
 .search_codigo {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
   background-size: 20px;
@@ -1197,6 +1238,35 @@ title {
   background-color:  #D0E1F9;
   border-color: black;
 }
+.search_codigo_m {
+  background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
+  background-size: 20px;
+  width: 100%;
+  height: 27px;
+  border: none;
+  border-radius: 20px; /* Borde redondeado */
+  padding: 10px 10px 10px 28px; /* Ajuste del padding para dar espacio al icono */
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color:  #D0E1F9;
+  border-color: black;
+  padding-left: 25px !important;
+}
+
+/* .search_codigo_m {
+  background: url('../img/iconos/buscar_codigo.png') no-repeat 5px 5px;
+  background-size: 20px;
+  width:20px;
+  height: 27px;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 10px 10px 28px;
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  background-color: #D0E1F9;
+  border-color: black;
+} */
+
 .search_codigo_sa {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
   background-size: 20px;
@@ -1209,6 +1279,20 @@ title {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra */
   background-color:  #f9d0dc;
   border-color: black;
+}
+.search_codigo_sa_m {
+  background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
+  background-size: 20px;
+  width: 90%;
+  height: 27px;
+  border: none;
+  border-radius: 20px; /* Borde redondeado */
+  padding: 10px 10px 10px 100px; /* Ajuste del padding para dar espacio al icono */
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color:  #f9d0dc;
+  border-color: black;
+   padding-left: 25px !important;
 }
 
 .filtro_tabla {
@@ -1257,6 +1341,22 @@ title {
   margin-bottom: 10px;
 
 }
+.search_direccion_m {
+  background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
+  background-size: 20px;
+  width: 100%;
+  height: 30px;
+  border: none;
+  border-radius: 20px; /* Borde redondeado */
+  padding: 10px 10px 10px 28px; /* Ajuste del padding para dar espacio al icono */
+  outline: none;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color:  rgb(205, 231, 245);
+  border-color: black;
+  margin-bottom: 10px;
+
+}
+
 
 
 .search_direccion:focus {
@@ -2503,3 +2603,27 @@ color: white;
    #e_referencia {
     animation: none; /* Sin animación inicialmente */
   }
+
+
+  /* LOS BOTONES PARAQ EU ACONMODEN */
+
+  .icon-container {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 0;
+  }
+
+  @media (max-width: 767px) {
+    .icon-container {
+      justify-content: center !important; /* Centrar en móviles */
+    }
+  }
+
+ .full-width-input {
+    width: 100%;
+    display: block;
+    margin-bottom: 15px; /* espacio entre inputs */
+    box-sizing: border-box;
+  }
+
+  

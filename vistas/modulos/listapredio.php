@@ -85,106 +85,112 @@ if (count($datos_contribuyente) > 0) {
 
 
 
+<div class="row">
 
-
-    
-      <div class="col-lg-7 col-xs-7  "  >
+   <div class="col-12  col-lg-7 "  >
         <?php
        // $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
-      
-      // var_dump($datos_contribuyente);
-        if (count($datos_contribuyente) > 0) {
-        ?>
-
-
-
-<div style="display: flex; justify-content: space-between; align-items: center; width: 100%;  margin-bottom: 0.3rem; margin-top: 0.3rem;">
-    <table class="miTabla_propietarios" style="width: 100%;">
-        <caption>Propietarios</caption>
-    </table>
-
-    <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_Predio" >
-        Editar progreso
-    </button>
-    <button class="bi bi-person-fill-add btn btn-success btn-sm" id="agregarContribuyente_Predio">  Agregar Contribuyente</button>
-
-
-  </div>
-
-          <table class="miTabla_propietarios " style=" margin-bottom: 0.3rem;">
-         
-            <thead>
-              <th class="text-center">Codigo</th>
-              <th class="text-center">Documento</th>
-              <th class="text-center">Nombres</th>
-              <th class="text-center">Direccion</th>
-              <th class="text-center">Carpeta</th>
-              <th class="text-center">Accion</th>
-            </thead>
-            <tbody id="id_propietarios">
-              <?php foreach ($datos_contribuyente as $valor => $filas) {
-                
-                
-                foreach ($filas as $fila) {
-               
-
-                  $backgroundColor = $fila['Fallecida'] == 1 ? 'background-color: #333b40; color:rgb(224, 232, 236);' : '';  // Fondo oscuro y texto blanco si está fallecido, vacío si no
-
-
-                  echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '">
-                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Id_Contribuyente'] . '</td>
-                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Documento'] . '</td>
-                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Nombre_Completo'] . '</td>
-                      <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Direccion_completo'] . '</td>
-                      <td class="text-center codigo_carpeta_contribuyente_p" id="carpeta_contribuyente" id_carpeta="' . $fila['Codigo_Carpeta'] . '">' . $fila['Codigo_Carpeta'] . '</td>
-                     <td class="text-center"  >
-                    <span class="link btnEditarcontribuyente " 
-                        title="Editar" 
-                        idContribuyente="' . $fila['Id_Contribuyente'] . '" 
-                        idDireccionnu="' . $fila['Id_Ubica_Vias_Urbano'] . '" 
-                        data-toggle="modal" 
-                        data-target="#modalEditarcontribuyente">
-                    Editar
-                  </span> | 
- 
-                      <span class=" btnEliminarcontribuyente text-danger" 
-                            title="Eliminar" 
-                            idContribuyente="' . $fila['Id_Contribuyente'] . '" 
-                            idDireccionnu="' . $fila['Id_Ubica_Vias_Urbano'] . '" 
-                            data-toggle="modal" 
-                            data-target="#modalEliminarcontribuyente">
-                        Eliminar
-                      </span>
-                    </td>
-
-                      
-                      
-                      ';
-               
-                    }
-              }
+            
+            // var_dump($datos_contribuyente);
+              if (count($datos_contribuyente) > 0) {
               ?>
-            <tbody>
-          </table>
 
+
+
+          <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 0.3rem; margin-top: 0.3rem;">
+          <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_Predio">
+            Editar progreso
+          </button>
+          <button class="bi bi-person-fill-add btn btn-success btn-sm" id="agregarContribuyente_Predio">
+            Agregar Contribuyente
+          </button>
+        </div>
+
+
+           <table class="miTabla_propietarios" style="width: 100%;">
+                    <caption>Propietarios j</caption>
+                </table>
+
+
+                <div class="table-responsive">
+                <table class="miTabla_propietarios table-sm" style=" margin-bottom: 0.3rem;">
+              
+                  <thead>
+                    <th class="text-center">Codigo</th>
+                    <th class="text-center">Documento</th>
+                    <th class="text-center">Nombres</th>
+                    <th class="text-center">Direccion</th>
+                    <th class="text-center">Carpeta</th>
+                    <th class="text-center">Accion</th>
+                  </thead>
+                  <tbody id="id_propietarios">
+                    <?php foreach ($datos_contribuyente as $valor => $filas) {
+                      
+                      
+                      foreach ($filas as $fila) {
+                    
+
+                        $backgroundColor = $fila['Fallecida'] == 1 ? 'background-color: #333b40; color:rgb(224, 232, 236);' : '';  // Fondo oscuro y texto blanco si está fallecido, vacío si no
+
+
+                        echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '">
+                            <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Id_Contribuyente'] . '</td>
+                            <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Documento'] . '</td>
+                            <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Nombre_Completo'] . '</td>
+                            <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Direccion_completo'] . '</td>
+                            <td class="text-center codigo_carpeta_contribuyente_p" id="carpeta_contribuyente" id_carpeta="' . $fila['Codigo_Carpeta'] . '">' . $fila['Codigo_Carpeta'] . '</td>
+                          <td class="text-center"  >
+                          <span class="link btnEditarcontribuyente " 
+                              title="Editar" 
+                              idContribuyente="' . $fila['Id_Contribuyente'] . '" 
+                              idDireccionnu="' . $fila['Id_Ubica_Vias_Urbano'] . '" 
+                              data-toggle="modal" 
+                              data-target="#modalEditarcontribuyente">
+                          Editar
+                        </span> | 
+      
+                            <span class=" btnEliminarcontribuyente text-danger" 
+                                  title="Eliminar" 
+                                  idContribuyente="' . $fila['Id_Contribuyente'] . '" 
+                                  idDireccionnu="' . $fila['Id_Ubica_Vias_Urbano'] . '" 
+                                  data-toggle="modal" 
+                                  data-target="#modalEliminarcontribuyente">
+                              Eliminar
+                            </span>
+                          </td>
+
+                            
+                            
+                            ';
+                    
+                          }
+                    }
+                    ?>
+                  <tbody>
+                </table>
+          </div>
       </div>
 
-      <div class="col-lg-5 col-xs-5" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 4rem;">
+      <div class="col-12 col-lg-5 d-flex flex-column justify-content-center align-items-center pt-lg-5" style="display: flex; flex-direction: column; justify-content: center; align-items: center; ">
    
-        <div>
-            <button class="btn btn-secondary btn-sm btn-1" id="anterior_Predio" style="margin-bottom: 1rem;">
-                <i class="bi bi-chevron-left"></i>
-            </button>
+            <div>
+                <button class="btn btn-secondary btn-sm btn-1" id="anterior_Predio" style="margin-bottom: 1rem;">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
 
-            <button class="btn btn-secondary btn-sm btn-1" id="siguiente_Predio" style="margin-bottom: 1rem;">
-                <i class="bi bi-chevron-right"></i>
-            </button>
-        </div>
+                <button class="btn btn-secondary btn-sm btn-1" id="siguiente_Predio" style="margin-bottom: 1rem;">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+      </div>
+
+
+
+
+    </div>
+
+    
    
-      
-  
-</div>
-
 
 
 
@@ -193,6 +199,15 @@ if (count($datos_contribuyente) > 0) {
 
 
     </div>
+
+
+
+
+
+
+
+
+
   </section>
   <section class="container-fluid panel-medio">
     <div class="box rounded">
@@ -309,50 +324,67 @@ if (count($datos_contribuyente) > 0) {
             </div>
             <label class="bltp" id="countpredio"></label>
             <!--======== CONTADOR PREDIOS ===========-->
-            <div class="row">
+           
+
+                  <div class="row">
+
+                 <div class="col-xs-12 col-md-6 icon-container " style="display: flex; justify-content: flex-end; padding-right:0; padding-left:0">
+                 
+                      <div class="col-xs-2  text-center">
+                        <img src="./vistas/img/iconos/transferir.png" id="abrirPopupButton" class="t-icon-tbl-imprimir" data-target="#modalTransferenciaPredio" data-toggle="tooltip" alt="Transferir" title="Transferir de Predio">
+                      </div>
+                      <div class="col-xs-2  text-center">
+                        <img src="./vistas/img/iconos/copiar.svg" id="abrirPopupButton_copiar" class="t-icon-tbl-imprimir" data-target="#modalCopiarPredio" alt="Copiar" title="Copiar Predio">
+                      </div>
+                      <div class="col-xs-2  text-center">
+                        <img src="./vistas/img/iconos/editar.png" id="btnEditarPredioU" class="t-icon-tbl-imprimir" data-target="#modalEditarPredio" alt="Editar" title="Editar Predio">
+                      </div>
+                      <div class="col-xs-2  text-center">
+                        <img src="./vistas/img/iconos/orden_pago.png" id="abrirOrdenPago" class="t-icon-tbl-imprimir" data-target="#modalOrdenPago" alt="Orden Pago" title="Orden Pago">
+                      </div>
+                      <div class="col-xs-2  text-center">
+                        <img src="./vistas/img/iconos/icono_coactivo.png" id="abrirEstadoCoactivo" class="t-icon-tbl-imprimir" data-target="#modalEstadoCuentaC" alt="Coactivo" title="Coactivo">
+                      </div>
+
+                 </div> 
 
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/transferir.png" class="t-icon-tbl-imprimir" id="abrirPopupButton" data-target="#modalTransferenciaPredio" data-toggle="tooltip" title="Transferir de Predio"></img>
+                 <div class="col-xs-12 col-md-6 icon-container  " style="display: flex; justify-content: flex-start; padding-right:0; padding-left:0">
+
+                    <div class=" col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/deuda.png" id="abrirEstadoCuenta" class="t-icon-tbl-imprimir" data-target="#modalEstadoCuenta" alt="Deuda" title="Estado Cuenta">
+                    </div>
+
+                    <div class=" col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/pagos_.png" id="abrirPagosImpuestoArbitrios" class="t-icon-tbl-imprimir" data-target="#modalPagosImpuestoArbitrios" alt="Pagos" title="Pagos Impuesto Arbitrios">
+                    </div>
+
+                    <div class="col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/calcular.png" id="obciones_calcular" class="t-icon-tbl-imprimir" alt="Calcular" title="Calcular Impuesto" data-target="#modal_predio_propietario_">
+                    </div>
+
+                    <div class="col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/delete.png" id="abrirEliminar_Predio" class="t-icon-tbl-imprimir" data-target="#modalEliminarPredio" alt="Eliminar" title="Eliminar Predio">
+                    </div>
+
+                    <div class="col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/foto.png" id="abrirFoto" class="t-icon-tbl-imprimir" data-target="#modal_foto" alt="Foto" title="Gestionar Foto">
+                    </div>
               </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/copiar.svg" class="t-icon-tbl-imprimir" id="abrirPopupButton_copiar" data-target="#modalCopiarPredio" title="Copiar Predio"></i>
+
+
+
+  
               </div>
 
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/editar.png" class="t-icon-tbl-imprimir" id="btnEditarPredioU" data-target="#modalEditarPredio" title="Editar Predio">
-              </div>
-
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/orden_pago.png" class="t-icon-tbl-imprimir" id="abrirOrdenPago" data-target="#modalOrdenPago" title="Orden Pago">
-              </div>
-                <div class="col-md-1">
-                    <img src="./vistas/img/iconos/icono_coactivo.png" class="t-icon-tbl-imprimir" id="abrirEstadoCoactivo" data-target="#modalEstadoCuentaC" title="Coactivo">
-                </div>
-
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/deuda.png" class="t-icon-tbl-imprimir" id="abrirEstadoCuenta" data-target="#modalEstadoCuenta" title="Estado Cuenta">
-              </div>
-
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/pagos_.png" class="t-icon-tbl-imprimir" id="abrirPagosImpuestoArbitrios" data-target="#modalPagosImpuestoArbitrios" title="Pagos Impuesto Arbitrios">
-              </div>
-
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/calcular.png" class="t-icon-tbl-imprimir" id="obciones_calcular" title="Calcular Impuesto" data-target="#modal_predio_propietario_">
-              </div>
-
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/delete.png" class="t-icon-tbl-imprimir" id="abrirEliminar_Predio" data-target="#modalEliminarPredio" title="Elimar Predio">
-              </div>
-
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/foto.png" class="t-icon-tbl-imprimir" id="abrirFoto" data-target="#modal_foto" title="Gestionar Foto">
-              </div>
+            
 
 
-            </div>
+<!-- Si quieres que la décima imagen (foto.png) también aparezca, la puedes colocar en una tercera fila o dentro de la segunda con otra lógica -->
+
+
+
 
           </div>
           <!--DETALLE PREDIOS - PISOS-->
@@ -374,21 +406,29 @@ if (count($datos_contribuyente) > 0) {
                 <!-- Aqui Aparecen los Pisos del Predio-->
               </table>
             </div>
-            <div class="row">
-              <br>
-              <!-- Boton Casita Registrar Piso-->
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/nuevo_piso.png" class="t-icon-tbl-imprimir" id="btnAbrirRegistrarPiso" data-target="#modalAgregarPiso" title="Nuevo Piso"></img>
-              </div>
-              <!-- Boton Tarjeta Editar-->
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/editar.png" class="t-icon-tbl-imprimir" id="btnAbrirEditarPiso" data-target="#modalEditarPiso" title="Editar Piso"></img>
-              </div>
-              <!-- Boton Eliminar Piso -->
-              <div class="col-md-1">
-                <img src="./vistas/img/iconos/delete.png" class="t-icon-tbl-imprimir" id="btnEliminarPiso" title="Eliminar Piso"></img> <!-- data-toggle="modal" -->
-              </div>
 
+            <div class="row">
+                  </br>
+
+              <div class="col-xs-12 col-md-6 icon-container " style="display: flex; justify-content: flex-start; padding-right:0; padding-left:0" >
+                 
+                 
+                    <!-- Boton Casita Registrar Piso-->
+                    <div class="col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/nuevo_piso.png" class="t-icon-tbl-imprimir" id="btnAbrirRegistrarPiso" data-target="#modalAgregarPiso" title="Nuevo Piso"></img>
+                    </div>
+                    <!-- Boton Tarjeta Editar-->
+                    <div class="col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/editar.png" class="t-icon-tbl-imprimir" id="btnAbrirEditarPiso" data-target="#modalEditarPiso" title="Editar Piso"></img>
+                    </div>
+                    <!-- Boton Eliminar Piso -->
+                    <div class="col-xs-2  text-center">
+                      <img src="./vistas/img/iconos/delete.png" class="t-icon-tbl-imprimir" id="btnEliminarPiso" title="Eliminar Piso"></img> <!-- data-toggle="modal" -->
+                    </div>
+
+
+
+                </div>
             </div>
 
           </div>
@@ -397,6 +437,10 @@ if (count($datos_contribuyente) > 0) {
     </div>
 
 </div>
+
+
+
+
 </section>
 </div>
 
@@ -459,7 +503,7 @@ if (count($datos_contribuyente) > 0) {
         </div>
         <div class="col-md-6 table-responsive">
           <table class="table-container">
-            <caption>Propietarios</caption>
+            <caption>Propietarios </caption>
             <thead>
               <tr>
                 <th class="text-center">Código</th>
@@ -637,7 +681,7 @@ if (count($datos_contribuyente) > 0) {
           <section class="container-fluid panel-medio col-xs-6" id="propietarios" style='width: 100%;'>
             <div class="box container-fluid">
               <div class="text-bordeada">
-                Propietarios
+                Propietarios 
               </div>
               <table id="tabla_contribuyente_predio" class="table-container">
                 <thead>
@@ -2988,7 +3032,11 @@ if (count($datos_contribuyente) > 0) {
       <div class="modal-body">
         <span>Sube tus imágenes (máximo 3)</span>
         <input type="file" id="imageInput" multiple accept="image/*">
-        <div class="image-container" id="imageContainer"></div>
+       
+       <button type="button" id="btnTakePhoto" class="visible-xs">Tomar foto</button>
+      <input type="file" id="imageInput" accept="image/*" capture="environment" style="display:none;">
+
+       <div class="image-container" id="imageContainer"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
