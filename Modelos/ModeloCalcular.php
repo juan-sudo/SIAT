@@ -1469,7 +1469,9 @@ class ModeloCalcular
 
 				$campos = $stmt->fetchall();
 				foreach ($campos as $campo) {
+
 					if ($campo['area_construccion'] == 0) {
+						
 						if($datos['anio']>2016){
 							if ($campo['categoria'] === 'A') {
 								$campo['monto'] = 5;

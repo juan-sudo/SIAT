@@ -646,6 +646,12 @@ async function urlToBlob(imageUrl) {
 $("#popiguardarfoto").on("click", function (e) {
   foto.cargar_foto();
 });
+
+//tomar foto
+$('#btnTakePhoto').on('click', function() {
+  $('#imageInput').click();
+});
+
  
 
 //  $("#id_predio_foto").on("click", function (e) {

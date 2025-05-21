@@ -857,6 +857,10 @@ $(document).ready(function () {
     var predios= [];
     var tabla_predio = document.getElementById('tablalistapredios2');
     var tabla_contribuyente = document.getElementById('tabla_contribuyente_predio');  
+
+    console.log("predio selecionado",tabla_predio);
+
+
     const style = document.createElement("style");
     style.textContent = `
         .swal2-container {
@@ -864,14 +868,36 @@ $(document).ready(function () {
         }
         `;
     document.head.appendChild(style);
-    for(var i=1, row;row =tabla_predio.rows[i];i++){
-      var id_predio = row.getAttribute('id_predio');
-      predios.push(id_predio);
-      }
+
+    // for(var i=1, row;row =tabla_predio.rows[i];i++){
+    //   var id_predio = row.getAttribute('id_predio');
+    //   predios.push(id_predio);
+
+    // }
+
+  //   for(var i = 1, row; row = tabla_predio.rows[i]; i++) {
+  //   // Verificar que no sea la última fila (que es el total)
+  //   if(!row.querySelector('td.caption_')) {
+  //       var id_predio = row.getAttribute('id_predio');
+  //       predios.push(id_predio);
+  //   }
+  // }
+  for (var i = 1, row; row = tabla_predio.rows[i]; i++) {
+    // Verifica que la fila no sea el total (ejemplo: si tiene un colspan)
+    if (!row.querySelector('td[colspan]')) {
+        var id_predio = row.getAttribute('id_predio');
+        if (id_predio) { // Asegúrate de que no sea undefined o vacío
+            predios.push(id_predio);
+        }
+    }
+}
+
     for(var i=1, row;row =tabla_contribuyente.rows[i];i++){
       var id_contribuyente = row.getAttribute('id').trim();
       contribuyentes.push( id_contribuyente);
       }
+
+
     var id_propietario = predio.id_propietario;
     var carpeta = $('#carpeta_contribuyente').attr('id_carpeta');
     var select = document.getElementById('selectnum');
@@ -905,10 +931,17 @@ $(document).ready(function () {
       }else{
     let formd = new FormData();
     formd.append('contribuyentes',contribuyentes);
-    formd.append('predios',predios);
+   // formd.append('predios',predios);
+    formd.append('predios', predios.join(','));
     formd.append('id_propietario',id_propietario);
     formd.append('carpeta',carpeta);
     formd.append('agregar_ContribuyentePredio','agregar_ContribuyentePredio');
+
+        // Para imprimir el contenido de formd
+    for (let pair of formd.entries()) {
+      console.log(pair[0]+ ': '+ pair[1]);
+    }
+
     $.ajax({
       type: "POST",
       url: "ajax/predio.ajax.php",

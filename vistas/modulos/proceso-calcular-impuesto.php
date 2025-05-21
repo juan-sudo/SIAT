@@ -202,7 +202,7 @@ error_reporting(0);
             <span class="caption_">Lista de Predios afectos al impuesto y arbitrios</span>
           </div>
           <div class="col-md-6 text-right">
-          <span class="caption_ ">Calcular Predios Seleccionados   k             
+          <span class="caption_ ">Calcular Predios Seleccionados k             
           <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="calculo_predio_select" data-size="mini" data-width="110">  </span>
           </div>
         </div>

@@ -2662,6 +2662,7 @@ LEFT JOIN
 		return $respuesta;
 	}
 
+	//AGREGAR CONTRIBUYENTE A PREDIO
 	public static function mdlAgregar_ContribuyentePredio($contribuyentes,$predios,$id_propietario,$carpeta)
 	{	
 	
@@ -2710,4 +2711,7 @@ LEFT JOIN
 		$respuesta = ([true,$concat_contribuyentes_ordenado]);
 		return $respuesta;
 	}
+
+
+	
 }

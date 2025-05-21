@@ -60,7 +60,9 @@ class buscarcontribuyente {
         $("#e_correo").val(respuesta["Correo"]);
         $("#e_observacion").val(respuesta["Observaciones"]);
         $("#usuarioCoactivo").prop('checked',respuesta["Coactivo"]==='1');
+        
         $("#usuarioFallecida").prop('checked',respuesta["Fallecida"]==='1');
+
         let idDireccion = respuesta["Id_Ubica_Vias_Urbano"];
       },
     });
@@ -356,6 +358,3 @@ $('#formEmpresa').on('submit', function(event) {
 // });
 
 
-$('#btnTakePhoto').on('click', function() {
-  $('#imageInput').click();
-});

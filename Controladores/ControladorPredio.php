@@ -712,8 +712,16 @@ class ControladorPredio
 
 	public static function crtAgregar_ContribuyentePredio($contribuyentes,$predios,$id_propietario,$carpeta)
 	{
+		// var_dump($contribuyentes);
+		// var_dump($predios);
+		// var_dump($id_propietario);
+		// var_dump($carpeta);
+		// exit;
+	
 		$respuesta = ModeloPredio::mdlAgregar_ContribuyentePredio($contribuyentes,$predios,$id_propietario,$carpeta);
 		return $respuesta;
+
+
 	}
 
 }

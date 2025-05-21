@@ -586,6 +586,7 @@ class AjaxPredio
        	$contribuyentes = explode(',', $stringSinComillas1);
 		$string2 = $_POST['predios'];
        	$stringSinComillas2 = trim($string2, '"');
+		
        	$predios = explode(',', $stringSinComillas2);
 		$id_propietario = $_POST['id_propietario'];
 		$carpeta = $_POST['carpeta'];

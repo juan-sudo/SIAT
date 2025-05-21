@@ -674,7 +674,7 @@ if (count($datos_contribuyente) > 0) {
   <div class="modal-dialog modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <label class="modal-title"> AGREGAR CONTRIBUYENTE</label>
+        <label class="modal-title"> AGREGAR CONTRIBUYENTE i </label>
       </div>
       <div class="modal-body">
         <div class="row divDetallePredio_predio">
@@ -726,11 +726,25 @@ if (count($datos_contribuyente) > 0) {
                 </tbody>
               </table>
             </div>
-            <button type="button" class="btn btn-secondary" id="salir_AgregarContribuyente" data-dismiss="modal">Salir</button>
+
+
+            <!-- <button type="button" class="btn btn-secondary" id="salir_AgregarContribuyente" data-dismiss="modal">Salir</button>
             <button style='float:right;' type="button" class="btn btn-primary btnAgregarContribuyente_predio">Agregar</button>
+           -->
+          
           </section>
         </div>
       </div>
+
+      <div class="modal-footer">
+
+          <button type="button" class="btn btn-secondary" id="salir_AgregarContribuyente" data-dismiss="modal">Salir</button>
+            <button style='float:right;' type="button" class="btn btn-primary btnAgregarContribuyente_predio">Agregar</button>
+          
+     
+      </div>
+
+
     </div>
   </div>
 </div>
@@ -2666,7 +2680,7 @@ if (count($datos_contribuyente) > 0) {
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        Estado de Cuenta
+        Estado de Cuenta i
       </div>
       <div class="modal-body">
 
