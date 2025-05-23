@@ -77,6 +77,8 @@ div{
 
 
 </style>";
+
+
 $fechaActual = date('d/m/Y');
 $numeroPagina = $pdf->PageNo();
 $pdf->SetFont('helvetica', '', 7);
@@ -100,6 +102,8 @@ $html_head ='<table><tr>
                     </tr>
              </table>';
 $pdf->writeHTML($html_head);
+
+
 $pdf->MultiCell(0, 5, '', 0, 'L');
 $pdf->SetX(40); 
 $pdf->SetFont('helvetica', '', 9);  // Establecer el tamaño de letra a 8

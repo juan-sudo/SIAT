@@ -138,6 +138,7 @@ if (count($datos_contribuyente) > 0) {
                             <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Documento'] . '</td>
                             <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Nombre_Completo'] . '</td>
                             <td class="text-center"  style="' . $backgroundColor . '" >' . $fila['Direccion_completo'] . '</td>
+                                                        <td style="display:none" class="text-center"  style="' . $backgroundColor . '" >' . $fila['Telefono'] . '</td>
                             <td class="text-center codigo_carpeta_contribuyente_p" id="carpeta_contribuyente" id_carpeta="' . $fila['Codigo_Carpeta'] . '">' . $fila['Codigo_Carpeta'] . '</td>
                           <td class="text-center"  >
                           <span class="link btnEditarcontribuyente " 
@@ -2693,6 +2694,7 @@ if (count($datos_contribuyente) > 0) {
 
             <div class="box divDetallePredio">
               <table class="table-container" id="primeraTabla">
+
                 <thead>
                   <tr>
                     <th class="text-center" style="width:50px;">Cod.</th>
@@ -2708,6 +2710,7 @@ if (count($datos_contribuyente) > 0) {
                     <th class="seleccionado text-center" style="width:30px;">S</th>
                   </tr>
                 </thead>
+
                 <tbody id="estadoCuenta" class="scrollable">
                   <!-- Aqui Aparecen los estado de cuenta-->
                   <?php
@@ -2742,6 +2745,7 @@ if (count($datos_contribuyente) > 0) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-success" id="enviarWhapsApp">Inviar whapsApp</button>
         <button type="button" class="btn btn-primary" id="popimprimir">Imprimir Estado Cuenta</button>
       </div>
     </div>

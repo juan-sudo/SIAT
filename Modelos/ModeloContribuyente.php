@@ -224,7 +224,7 @@ class ModeloContribuyente
        Id_Ubica_Vias_Urbano, 
        Documento, 
        Nombre_Completo, 
-       Direccion_completo, Codigo_sa, Fallecida
+       Direccion_completo, Codigo_sa, Fallecida,Telefono
         FROM $tabla WHERE Id_Contribuyente = :Id_Contribuyente");
   
       foreach ($valores as $valor) {

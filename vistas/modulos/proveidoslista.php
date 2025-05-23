@@ -177,7 +177,7 @@ use Controladores\ControladorPisos;
 
             <div class="modal-footer">
               <button type="button" id="salirRegistroModal" class="btn btn-secondary cerrar_proveido" data-dismiss="modal">Salir</button>
-              <button type="button" class="btn btn-primary" id="btnRegistrarProveido" data-dismiss="modal">Registrar</button>
+              <button type="button" class="btn btn-primary" id="btnRegistrarProveido" data-dismiss="modal">Registrar i</button>
             </div>
             <div class="row2 col-md-12" id="errorProveido">
               <!--CONTENIDO DINAMICO DE MENSAJE POR NO COMPLETAR CAMPOS -->

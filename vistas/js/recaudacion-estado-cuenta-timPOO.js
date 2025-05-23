@@ -1132,6 +1132,469 @@ $("#primeraTablac thead th:eq(0)").on("click", function () {
   recaudacion.manejarClicSC($(this));
 });
 
+
+// $(document).ready(function() {
+//     $('#enviarWhapsApp').click(function() {
+//         // Mostrar mensaje de carga
+//         const originalText = $('#enviarWhapsApp').html();
+//         $('#enviarWhapsApp').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generando PDF...');
+//         $('#enviarWhapsApp').prop('disabled', true);
+        
+//         // Enviar solicitud AJAX simple
+//         fetch('./vistas/print/generar_pdf.php', {
+//             method: 'POST'
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Error en la respuesta del servidor');
+//             }
+//             return response.blob();
+//         })
+//         .then(pdfBlob => {
+//             // Crear enlace temporal para descargar el PDF
+//             const pdfUrl = URL.createObjectURL(pdfBlob);
+//             const a = document.createElement('a');
+//             a.href = pdfUrl;
+//             a.download = 'prueba.pdf';
+//             a.style.display = 'none';
+//             document.body.appendChild(a);
+//             a.click();
+            
+//             // Limpiar después de descargar
+//             setTimeout(() => {
+//                 document.body.removeChild(a);
+//                 URL.revokeObjectURL(pdfUrl);
+//             }, 1000);
+//         })
+//         .catch(error => {
+//             console.error("Error:", error);
+//             alert('Ocurrió un error al generar el PDF');
+//         })
+//         .finally(() => {
+//             // Restaurar botón
+//             $('#enviarWhapsApp').html(originalText);
+//             $('#enviarWhapsApp').prop('disabled', false);
+//         });
+//     });
+// });
+
+//ESTA FUNCIONA--------------------------------------PDF
+
+
+// $(document).ready(function() {
+//     $('#enviarWhapsApp').click(function() {
+//         // 1. Mostrar mensaje de carga con ícono de Bootstrap
+//         const originalText = $('#enviarWhapsApp').html();
+//         $('#enviarWhapsApp').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Generando PDF...');
+//         $('#enviarWhapsApp').prop('disabled', true);
+        
+//         // 2. Obtener datos del formulario
+//         const formData = new FormData();
+//         formData.append('id_usuario', $('#id_usuario').val());
+//         formData.append('carpeta', $('#carpeta').val());
+//         // Agrega otros campos necesarios según tu formulario
+        
+//         // 3. Generar el PDF via AJAX
+//         fetch('./vistas/print/generar_pdf.php', {
+//             method: 'POST',
+//             body: formData
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Error en la respuesta del servidor');
+//             }
+//             return response.blob();
+//         })
+//         .then(pdfBlob => {
+//             // 4. Crear enlace temporal para el PDF
+//             const pdfUrl = URL.createObjectURL(pdfBlob);
+            
+//             // 5. Crear mensaje para WhatsApp con emojis (no requiere íconos)
+//             const message = `📄 *ESTADO DE CUENTA PDF* 📄\n\n` +
+//                            `📅 *Fecha:* ${new Date().toLocaleDateString()}\n` +
+//                            `📌 *Instrucciones:*\n` +
+//                            `1. Haz clic en el clip 📎\n` +
+//                            `2. Selecciona "Documento"\n` +
+//                            `3. Adjunta el archivo "EstadoCuenta.pdf"\n\n` +
+//                            `ℹ️ Este documento es válido solo como consulta.`;
+            
+//             // 6. Abrir WhatsApp con el mensaje
+//             const phoneNumber = '936949862'; // Número de destino
+//             window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+            
+//             // 7. Descargar automáticamente el PDF (para que el usuario lo adjunte)
+//             const a = document.createElement('a');
+//             a.href = pdfUrl;
+//             a.download = 'EstadoCuenta.pdf';
+//             a.style.display = 'none';
+//             document.body.appendChild(a);
+//             a.click();
+            
+//             // Limpiar después de 30 segundos
+//             setTimeout(() => {
+//                 document.body.removeChild(a);
+//                 URL.revokeObjectURL(pdfUrl);
+//             }, 30000);
+//         })
+//         .catch(error => {
+//             console.error("Error:", error);
+//             // Mostrar alerta con ícono de Bootstrap
+//             const alertHtml = `
+//                 <div class="alert alert-danger d-flex align-items-center" role="alert">
+//                     <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+//                     <div>
+//                         Ocurrió un error al generar el PDF. Por favor, inténtalo nuevamente.
+//                     </div>
+//                 </div>
+//             `;
+//             // Mostrar alerta temporal (ajusta según tu estructura HTML)
+//             $('body').append(alertHtml);
+//             setTimeout(() => $('.alert').remove(), 5000);
+//         })
+//         .finally(() => {
+//             // Restaurar botón
+//             $('#enviarWhapsApp').html(originalText);
+//             $('#enviarWhapsApp').prop('disabled', false);
+//         });
+//     });
+// });
+
+
+
+//ESTA OTRA FUNCIONA--------------------------------------
+
+// $(document).ready(function() {
+//     // Función para obtener los datos comunes (usada por ambos botones)
+//     function getTableData() {
+//         let headers = [];
+//         $('#primeraTabla thead tr th').each(function() {
+//             if (!$(this).hasClass('seleccionado')) {
+//                 headers.push($(this).text().trim());
+//             }
+//         });
+
+//         let rows = [];
+//         $('#primeraTabla tbody tr').each(function() {
+//             let rowData = [];
+//             $(this).find('td').each(function(index) {
+//                 if (index < headers.length) {
+//                     rowData.push($(this).text().trim());
+//                 }
+//             });
+//             rows.push(rowData);
+//         });
+
+//         let totalDeuda = $('#segundaTabla .total_c').last().text().trim();
+        
+//         return {
+//             headers: headers,
+//             rows: rows,
+//             totalDeuda: totalDeuda
+//         };
+//     }
+
+//     // Enviar por WhatsApp
+//     $('#enviarWhapsApp').click(function() {
+//         const data = getTableData();
+//         let message = "📊 *ESTADO DE CUENTA* 📊\n\n";
+        
+//         // Encabezados con formato
+//         message += "┌" + "────────────┬".repeat(data.headers.length - 1) + "────────────┐\n";
+//         message += "│ " + data.headers.join(" │ ") + " │\n";
+//         message += "├" + "────────────┼".repeat(data.headers.length - 1) + "────────────┤\n";
+
+//         // Filas de datos
+//         data.rows.forEach(row => {
+//             message += "│ " + row.join(" │ ") + " │\n";
+//         });
+
+//         // Pie de tabla
+//         message += "└" + "────────────┴".repeat(data.headers.length - 1) + "────────────┘\n\n";
+
+//         if (data.totalDeuda) {
+//             message += `💰 *TOTAL DEUDA:* ${data.totalDeuda}\n\n`;
+//         }
+
+//         message += "ℹ️ Este es un resumen de su estado de cuenta actual.\n";
+//         message += "📅 Fecha: " + new Date().toLocaleDateString();
+
+//         let encodedMessage = encodeURIComponent(message);
+//         let phoneNumber = '936949862';
+//         window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+//     });
+
+//     // Generar PDF
+//     $('#generarPDF').click(function() {
+//         const data = getTableData();
+        
+//         // Crear un formulario dinámico para enviar los datos
+//         let form = document.createElement('form');
+//         form.method = 'POST';
+//         form.action = './vistas/print/generar_pdf.php';
+//         form.target = '_blank';
+        
+//         // Añadir los datos como inputs ocultos
+//         let addInput = (name, value) => {
+//             let input = document.createElement('input');
+//             input.type = 'hidden';
+//             input.name = name;
+//             input.value = JSON.stringify(value);
+//             form.appendChild(input);
+//         };
+        
+//         addInput('headers', data.headers);
+//         addInput('rows', data.rows);
+//         addInput('totalDeuda', data.totalDeuda);
+        
+//         document.body.appendChild(form);
+//         form.submit();
+//         document.body.removeChild(form);
+//     });
+// });
+
+
+//ESTA SI FUNCIONA--------------------------------------
+// $(document).ready(function() {
+//     $('#enviarWhapsApp').click(function() {
+//         // 1. Obtener los encabezados de la tabla (excluyendo la columna de selección "S")
+//         let headers = [];
+//         $('#primeraTabla thead tr th').each(function() {
+//             if (!$(this).hasClass('seleccionado')) {
+//                 headers.push($(this).text().trim());
+//             }
+//         });
+
+//         // 2. Construir el mensaje con formato de tabla
+//         let message = "📊 *ESTADO DE CUENTA* 📊\n\n";
+        
+//         // Encabezados con formato
+//         message += "┌" + "────────────┬".repeat(headers.length - 1) + "────────────┐\n";
+//         message += "│ " + headers.join(" │ ") + " │\n";
+//         message += "├" + "────────────┼".repeat(headers.length - 1) + "────────────┤\n";
+
+//         // Filas de datos
+//         $('#primeraTabla tbody tr').each(function() {
+//             let rowData = [];
+//             $(this).find('td').each(function(index) {
+//                 if (index < headers.length) { // Excluir columna de selección
+//                     rowData.push($(this).text().trim());
+//                 }
+//             });
+//             message += "│ " + rowData.join(" │ ") + " │\n";
+//         });
+
+//         // Pie de tabla
+//         message += "└" + "────────────┴".repeat(headers.length - 1) + "────────────┘\n\n";
+
+//         // 3. Agregar el total de deuda si existe
+//         let totalDeuda = $('#segundaTabla .total_c').last().text().trim();
+//         if (totalDeuda) {
+//             message += `💰 *TOTAL DEUDA:* ${totalDeuda}\n\n`;
+//         }
+
+//         // 4. Mensaje adicional (opcional)
+//         message += "ℹ️ Este es un resumen de su estado de cuenta actual.\n";
+//         message += "📅 Fecha: " + new Date().toLocaleDateString();
+
+//         // 5. Codificar y enviar por WhatsApp
+//         let encodedMessage = encodeURIComponent(message);
+//         let phoneNumber = '936949862'; // Tu número de destino
+//         window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+//     });
+// });
+
+
+
+// $(document).ready(function() {
+//   $('#enviarWhapsApp').click(function() {
+//     // 1. Obtener los encabezados (los que tengan datos numéricos a sumar, excepto el año)
+//     // Asumo que la columna "Año" está en la posición 2 (index 2)
+//     let headers = [];
+//     $('#primeraTabla thead tr th').each(function() {
+//       headers.push($(this).text().trim());
+//     });
+    
+//     // Identificamos la columna del año
+//     let colYearIndex = headers.indexOf('Año');
+    
+//     // Columnas que sumaremos: todas excepto la de Año y las que no sean numéricas, aquí por ejemplo:
+//     // Suponiendo que las columnas a sumar son: Importe, Gasto, Subtotal, Descuento, T.I.M, Total
+//     // Obtenemos sus índices
+//     let colsToSum = ['Importe', 'Gasto', 'Subtotal', 'Descuento', 'T.I.M', 'Total'].map(h => headers.indexOf(h)).filter(i => i >= 0);
+    
+//     // Objeto para acumular sumas por año
+//     let resumenPorAno = {};
+    
+//     $('#primeraTabla tbody tr').each(function() {
+//       let celdas = $(this).find('td');
+//       let year = celdas.eq(colYearIndex).text().trim();
+//       if (!resumenPorAno[year]) {
+//         resumenPorAno[year] = Array(headers.length).fill(0);
+//       }
+//       colsToSum.forEach(i => {
+//         let val = parseFloat(celdas.eq(i).text().replace(',', '.')) || 0;
+//         resumenPorAno[year][i] += val;
+//       });
+//     });
+    
+//     // Construir mensaje
+//     let message = "📊 *ESTADO DE CUENTA RESUMIDO POR AÑO* 📊\n\n";
+//     // Encabezado resumido (solo Año y columnas sumadas)
+//     message += "│ Año │ " + colsToSum.map(i => headers[i]).join(" │ ") + " │\n";
+//     message += "├─────┼" + colsToSum.map(_ => "────────────").join("┼") + "┤\n";
+    
+//     // Variables para total general
+//     let totalGeneral = Array(headers.length).fill(0);
+    
+//     // Agregar filas por año
+//     Object.keys(resumenPorAno).sort().forEach(year => {
+//       let sums = resumenPorAno[year];
+//       // Formatear números a 2 decimales con punto
+//       let fila = colsToSum.map(i => sums[i].toFixed(2));
+//       message += `│ ${year} │ ${fila.join(" │ ")} │\n`;
+//       // Acumular totales
+//       colsToSum.forEach(i => totalGeneral[i] += sums[i]);
+//     });
+    
+//     message += "└─────┴" + colsToSum.map(_ => "────────────").join("┴") + "┘\n\n";
+    
+//     // Mostrar el total deuda (asumimos que Total es la última columna a sumar)
+//     let totalDeuda = totalGeneral[colsToSum[colsToSum.length - 1]];
+//     message += `💰 *TOTAL DEUDA:* ${totalDeuda.toFixed(2)}\n\n`;
+    
+//     message += "ℹ️ Este es un resumen de su estado de cuenta actual.\n";
+//     message += "📅 Fecha: " + new Date().toLocaleDateString();
+    
+//     // Enviar por WhatsApp
+//     let encodedMessage = encodeURIComponent(message);
+//     let phoneNumber = '936949862'; // Cambia al número destino
+//     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+//   });
+// });
+
+
+
+
+$(document).ready(function() {
+  $('#enviarWhapsApp').click(function() {
+    // 1. Obtener todos los contribuyentes y teléfonos válidos
+    let contribuyentes = [];
+    let telefonosValidos = [];
+    
+    $('#id_propietarios tr').each(function() {
+      let nombre = $(this).find('td:eq(2)').text().trim(); // Columna Nombres (índice 2)
+      let telefono = $(this).find('td:eq(4)').text().trim().replace(/\D/g, ''); // Elimina todo lo que no sea dígito
+      
+      if (nombre) {
+        contribuyentes.push(nombre);
+        // Validar teléfono (9 dígitos para Perú)
+        if (telefono.length === 9 && !isNaN(telefono)) {
+          telefonosValidos.push(telefono);
+        }
+      }
+    });
+
+    // 2. Procesar datos de la tabla de deudas
+    let headers = [];
+    $('#primeraTabla thead tr th').each(function() {
+      headers.push($(this).text().trim());
+    });
+    
+    let colYearIndex = headers.indexOf('Año');
+    let colTotalIndex = headers.indexOf('Total');
+    
+    if (colYearIndex === -1 || colTotalIndex === -1) {
+      alert("No se encontraron las columnas 'Año' y/o 'Total'");
+      return;
+    }
+    
+    let resumenPorAno = {};
+    let totalGeneral = 0;
+    
+    $('#primeraTabla tbody tr').each(function() {
+      let year = $(this).find('td').eq(colYearIndex).text().trim();
+      let total = parseFloat($(this).find('td').eq(colTotalIndex).text().replace(',', '.')) || 0;
+      resumenPorAno[year] = (resumenPorAno[year] || 0) + total;
+      totalGeneral += total;
+    });
+
+    // 3. Construir mensaje
+    const logoUrl = 'https://www.facebook.com/photo/?fbid=122264503388030603&set=a.122094229406030603';
+    
+   // let message="";
+    let message  = `${logoUrl}\n\n`;
+    message = `*MUNICIPALIDAD PROVINCIAL DE LUCANAS-PUQUIO*\n\n`;
+     message += `_Gerencia de Administración Tributaria_\n\n`; // Itálica sin mostrar símbolos
+      message += `*Estimado(a) Contribuyente:*\n\n`;
+       message += `*De acuerdo con nuestros registros, se identificó una deuda pendiente a su nombre correspondiente a Arbitrios Municipales e Impuesto Predial. A continuación, detallamos la información:*\n\n`;
+   // message += `${logoUrl}\n\n`;
+    
+    // Lista de contribuyentes
+    if (contribuyentes.length > 0) {
+      message += `*CONTRIBUYENTES*\n`;
+      contribuyentes.forEach((nombre, index) => {
+        message += `${index + 1}. ${nombre}\n`;
+      });
+      message += `\n`;
+    }
+    
+    message += "*Estado de Cuenta Resumido:*\n\n";
+   // message += "*DETALLE POR AÑO*\n";
+    
+    Object.keys(resumenPorAno).sort().forEach(year => {
+      message += `• ${year}: S/ ${resumenPorAno[year].toFixed(2).replace('.', ',')}\n`;
+    });
+    
+    message += `\n*Total a Regularizar::* S/ ${totalGeneral.toFixed(2).replace('.', ',')}\n\n`;
+    message += `*Fecha consulta:* ${new Date().toLocaleDateString('es-PE', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })}\n\n`;
+   
+   message += "*Importante:* Evite recargos por mora regularizando su pago en la Gerencia de Administración Tributaria. Para mayor información, puede comunicarse al número 942 537 391 \n";
+
+    // 4. Enviar por WhatsApp o mostrar alerta
+    if (telefonosValidos.length > 0) {
+      // Seleccionar un teléfono aleatorio
+      let telefonoAleatorio = telefonosValidos[Math.floor(Math.random() * telefonosValidos.length)];
+      window.open(`https://wa.me/51${telefonoAleatorio}?text=${encodeURIComponent(message)}`, '_blank');
+    } else {
+      alert("No se encontraron números telefónicos válidos para enviar el mensaje.\n\nLos números deben tener 9 dígitos.");
+      
+      // Mostrar versión del mensaje para copiar manualmente
+      let mensajeMostrar = message + "\n\n*No se encontraron teléfonos válidos para enviar automáticamente*";
+      console.log("Mensaje listo para copiar:", mensajeMostrar);
+      alert("Mensaje preparado para copiar y enviar manualmente:\n\n" + mensajeMostrar);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //imprimir coactivo
 
 $(document).on("click", "#popimprimircoactiva", function () {

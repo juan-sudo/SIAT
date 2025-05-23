@@ -162,6 +162,7 @@ class MultaAdministrativa {
       console.log(fechaPres);
     });
   
+    
     /* Registro de Proveido*/
     $(document).on("click", "#btnRegistrarProveido", function () {
       DesCamposReg();
