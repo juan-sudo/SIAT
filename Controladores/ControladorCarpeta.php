@@ -20,6 +20,8 @@ class ControladorCarpeta
     $respuesta = ModeloCarpeta::mdlMostrarCarpeta($tabla, $item, $valor);
     return $respuesta;
   }
+
+  
   // EDITAR USUARIOS|
   public static function ctrEditarCarpetaProgreso($tabla,$datos)
   {   

@@ -4,6 +4,8 @@ class carpetaEditar {
   constructor() {
      this.idContribuyente=null;
   }
+
+  
  
 //CARGAR PARA EDITAR CARPETA
   editarCarpetaProgreso(idCarpeta){
@@ -92,6 +94,9 @@ class carpetaEditar {
       }
     });
    }
+
+
+   
 }
 
 

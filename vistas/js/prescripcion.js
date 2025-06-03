@@ -153,7 +153,10 @@ class Prescripcion {
         data: datos,
         success: function(respuesta) {
           if(respuesta){
+
             general.mostrarAlerta("success", "Operación Exitosa", "Se ha completado correctamente", { redireccion: "Prescripcion" });
+           
+            
             //mostrarAlerta("success", "Formulario Enviado", "Los datos se enviaron correctamente", { limpiarFormulario: "miFormulario" });
             //mostrarAlerta("info", "Atención", "Por favor verifica los datos ingresados", { callback: function() {
            //   console.log("Ejecutando función después del OK");
@@ -212,6 +215,7 @@ function loadContribuyente_prescripcion(page, searchClass,init_envio) {
 // ---------------------BUSCAR DEUDAS--------------
 $(document).on('click','#btnPrescripcionDeuda', function(e){
   var formd = new FormData();
+  
   let id = $(this).attr("idContribuyente_prescripcion")//OBTENEMOS EL VALOR DEL BOTON
   formd.append("estadoCuenta", "estadoCuenta");
   formd.append('idContribuyente',id)
@@ -246,8 +250,10 @@ $(document).on('click','#btnPrescripcionDeuda', function(e){
 $(document).on('click','#btnPrescripcionReporte', function(e){
   var formd = new FormData();
   let id = $(this).attr("idContribuyente_prescripcion");
+
   formd.append("deudasPrescritas", "deudasPrescritas");
   formd.append('idContribuyente',id)
+  
   $.ajax({
     type: "POST",
     url: "ajax/estadoCuenta.ajax.php",

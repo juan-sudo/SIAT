@@ -25,6 +25,42 @@ class LicenciaAgua {
 
     //this.descuento = null;
   }
+
+  //CARGAR PARA EDITAR BARRA DE PROGRESO DE AGUA
+  editarCarpetaProgresAgua(idContribuyente){
+
+    console.log("aqui ya vas -------------", idContribuyente)
+
+    
+    let datos = new FormData();
+    datos.append("idContribuyente", idContribuyente);
+
+    datos.append("barraProgreso", "barraProgreso");
+    
+    $.ajax({
+      url: "ajax/licenciaagua.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuesta) {
+
+        console.log("paar cargar en la vista ",respuesta);
+        // //(respuesta)
+        $("#estado_progreso").val(respuesta["Estado_progreso"]).change(); 
+
+        //  $("#codigo_carpeta").val(respuesta["Codigo_Carpeta"]); 
+
+          // Actualizar la barra de progreso en base al valor recibido
+        actualizarBarraDeProgreso(respuesta["Estado_progreso"]);
+
+        
+      },
+    });
+  }
+
   loadContribuyenteAguaC(page,searchClass) {
     let perfilOculto_c = $("#perfilOculto_c").val();
     let searchContribuyente = $("." + searchClass).val();
@@ -191,10 +227,44 @@ class LicenciaAgua {
       },
     });
   }
+
+  
+  guardar_editar_progreso_agua(datosFormulario){
+   
+  console.log(datosFormulario);
+
+    $.ajax({
+      type: 'POST',
+      url: 'ajax/licenciaagua.ajax.php', // Cambia esto por la URL a la que envías los datos
+      data: datosFormulario, // Serializa los datos del formulario
+      success: function(respuesta) {
+        if (respuesta.tipo === "correcto") {
+          $("#modalEditarcontribuyente").modal("hide");
+          $("#respuestaAjax_srm").show(); // Mostrar el elemento #error antes de establecer el mensaje
+          $("#respuestaAjax_srm").html(respuesta.mensaje);
+          
+          setTimeout(function () {
+            $("#respuestaAjax_srm").hide();
+            window.location.href = window.location.href; // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+            // Recargar la página manteniendo los parámetros actuales
+          }, 1000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
+        } else {
+          $("#modalEditarcontribuyente").modal("hide");
+          $("#respuestaAjax_srm").show(); // Mostrar el elemento #error antes de establecer el mensaje
+          $("#respuestaAjax_srm").html(respuesta.mensaje);
+          setTimeout(function () {
+            $("#respuestaAjax_srm").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+            // Recargar la página manteniendo los parámetros actuales
+          }, 3000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
+        }
+      }
+    });
+   }
 }
 
 const nuevalicenciaAgua = new LicenciaAgua();
 const editalicenciaAgua = new LicenciaAgua();
+const editarBarraProgreso = new LicenciaAgua();
 //const aguaLicencia = new LicenciaAgua();
 //====================listapredioagua.php======================
 $(document).ready(function () {
@@ -631,6 +701,7 @@ $(document).ready(function () {
     });
   });
 
+  
 
   //mostrando datos para procesar el esto de cuenta agua
   $(document).on("click", "#btnProcesarDeuda", function () {
@@ -1037,6 +1108,42 @@ $(document).ready(function() {
 
 
 
+// MODAL ABRIL MODAL DE PROGRESO PARA ACTUALIZAR LICENCIAS DE AGUA
+$(document).on("click", "#editar_progreso_agua", function () {
+  const idContribuyente = document.querySelector('#id_contribuyente_pro').textContent.trim();
+
+  console.log("valor actual del contribuyente",idContribuyente);
+    // Asignarlo al input
+    $('#codigo_carpeta_agua').val(idContribuyente);
+
+   editarBarraProgreso.editarCarpetaProgresAgua(idContribuyente); // Llamar al método para cargar los datos del contribuyente y actualizar el modal
+
+  // // Asignar el valor al input oculto dentro del modal
+  // //$("#codigo_carpeta").val(codigoCarpeta);
+
+  // // Mostrar el modal
+  $("#modal_editar_barra_progreso_agua").show();
+});
 
 
 
+// Cerrar el modal de progreso
+$(document).on("click", "#salir_modal_progreso_agua", function () {
+  $("#modal_editar_barra_progreso_agua").hide();
+});
+
+
+
+
+// GUARDAR PROGRESSO EDITADO
+$('#formCarpetaProgressAgua').on('submit', function(event) {
+  event.preventDefault();
+    // Serializa los datos del formulario
+    var datosFormulario = $(this).serialize(); 
+
+    console.log(datosFormulario); 
+ 
+   datosFormulario += '&guardar_estado_progreso_agua=guardar_estado_progreso_agua'; 
+    editarBarraProgreso.guardar_editar_progreso_agua(datosFormulario);
+
+})

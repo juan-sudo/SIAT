@@ -221,6 +221,47 @@ class ModeloLicenciAgua
     return $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt = null;
   }
+
+  //BARRA DE PROGRESO AAGUA
+  public static function mdlMostrarBarraProgreso($idContribuyente)
+  {
+    $stmt = Conexion::conectar()->prepare("SELECT Estado_progreso FROM contribuyente WHERE Id_Contribuyente=:idContribuyente;");
+    $stmt->bindParam(":idContribuyente", $idContribuyente);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = null;
+    
+  }
+
+
+  //EDITAR BARRA DE PROGRESO DE AGUA
+   public static function mdlEditarCarpetaProgresoAgua($tabla, $datos)
+  {
+      // Conexión a la base de datos
+      $conexion = Conexion::conectar();
+  
+      // Preparar la consulta UPDATE para modificar Estado_progreso según Concatenado_id
+      $stmtUpdate = $conexion->prepare("UPDATE contribuyente SET Estado_progreso = :Estado_progreso WHERE Id_Contribuyente = :Id_contribuyente");
+  
+      // Enlazar los parámetros
+      $stmtUpdate->bindParam(":Estado_progreso", $datos['Estado_progreso'], PDO::PARAM_STR);
+      $stmtUpdate->bindParam(":Id_contribuyente", $datos['Id_contribuyente'], PDO::PARAM_INT);
+  
+      // Ejecutar la consulta
+      if ($stmtUpdate->execute()) {
+          return 'ok';
+      } else {
+          return 'error';
+      }
+  
+      // IMPORTANTE: Esta línea nunca se ejecutará porque ya hiciste return arriba.
+      // Para buenas prácticas, deberías cerrarlo antes del return.
+      // Lo correcto sería mover esto arriba del return.
+      $stmtUpdate = null;
+  }
+  
+
+  
  
 
 

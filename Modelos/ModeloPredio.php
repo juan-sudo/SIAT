@@ -288,7 +288,10 @@ class ModeloPredio
                         Id_Condicion_Predio = :Id_Condicion_Predio,
 						Valor_Predio_Aplicar =:Valor_predio_total,
                         id_usuario = :id_usuario,
-						Direccion_completo=:Direccion_completo
+						Direccion_completo=:Direccion_completo,
+						Fecha_Inicio_exo=:Fecha_Inicio_exo,
+						Fecha_fin_exo=:Fecha_fin_exo,
+						Numero_Expediente=:Numero_Expediente
                      WHERE Id_Predio = :Id_Predio");
 		$stmt3->bindParam(":Fecha_Adquisicion", $datos['Fecha_Adquisicion']);
 		$stmt3->bindParam(":Numero_Luz", $datos['Numero_Luz']);
@@ -312,6 +315,12 @@ class ModeloPredio
 		$stmt3->bindParam(":id_usuario", $datos['id_usuario']);
 		$stmt3->bindParam(":Id_Predio", $datos['Id_Predio']);
 		$stmt3->bindParam(":Direccion_completo", $direccionCompleto);
+
+		$stmt3->bindParam(":Fecha_Inicio_exo", $datos['Fecha_Inicio_exo']);
+		$stmt3->bindParam(":Fecha_fin_exo", $datos['Fecha_fin_exo']);
+		$stmt3->bindParam(":Numero_Expediente", $datos['Numero_Expediente']);
+
+
 		if ($stmt3->execute()) {
 			$stmt = $pdo->prepare("UPDATE predio SET Direccion_completo = :Direccion_completo WHERE Id_Catastro = :id_catastro");
 			$stmt->bindParam(":id_catastro", $idCatastro);
@@ -1453,7 +1462,7 @@ private static function generateRowHTMLHistorial($value, $key)
 				<td class="text-center">' . $value['regimen'] . '</td>
 				<td  id_predio_select="' . $value['id_predio'] . '" class="text-center action-column">
 
-				<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="select_predio_calcular" data-size="mini" data-regimen_afecto="' . $value['regimen'] . '" data-id="' . $value['id_predio'] . '" >
+				<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="select_predio_calcular" data-size="mini" data-regimen_afecto="' . $value['regimen'] . '"  data-tipo_ru="' . $value['tipo_ru'] . '" data-id="' . $value['id_predio'] . '" >
 				
 				</td>';
 				$content .= '</tr>';
@@ -2438,6 +2447,7 @@ private static function generateRowHTMLHistorial($value, $key)
 		$catastro = [];
 		$ubicacion = [];
 		$resulta4 = [];
+
 		try {
 			$stmt = $conexion->prepare("SELECT * FROM $table WHERE $item1 = :valor");
 			$stmt->bindParam(":valor", $valor1, PDO::PARAM_INT);

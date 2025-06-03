@@ -884,6 +884,7 @@ $(document).ready(function () {
     if (predio.id_predio > 0) {
       $("#modalEliminarPredio").modal("show");
     } else {
+
       $("#respuestaAjax_srm").html(
         '<div class="alert warning">' +
           '<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">' +
@@ -894,7 +895,10 @@ $(document).ready(function () {
       setTimeout(function () {
         $("#respuestaAjax_srm").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
       }, 10000);
+
+      
     }
+
   });
 
   

@@ -120,7 +120,7 @@ use Controladores\ControladorPisos;
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <label class="modal-title">Nuevo Proveido</label>
+          <label class="modal-title">Nuevo Proveido j</label>
         </div>
         <div class="modal-body">
           <form role="form" method="POST" class="formRegistrarProveido" id="formRegistrarProveido">

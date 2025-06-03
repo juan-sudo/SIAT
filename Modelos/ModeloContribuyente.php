@@ -210,8 +210,38 @@ class ModeloContribuyente
     return $resultados;
     $stmt = null;
   }
+
+
+ 
+    // public static function mdlMostrarValores_parametro_get_agua($valor_id)
+    // {   
+    //     // Conectar a la base de datos
+    //     $conexion = Conexion::conectar();
+
+    //     // Preparar la consulta para obtener Estado_progreso
+    //     $stmt = $conexion->prepare("SELECT Estado_progreso FROM contribuyente WHERE Id_Contribuyente = :id");
+    //     $stmt->bindParam(":id", $valor_id, PDO::PARAM_INT);
+
+    //     // Ejecutar la consulta
+    //     $stmt->execute();
+
+    //     // Obtener el resultado
+    //     $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //     // Cerrar las conexiones
+    //     $stmt = null;
+    //     $conexion = null;
+
+    //     // Retornar el valor de Estado_progreso, o null si no existe
+    //     return $resultado ? $resultado['Estado_progreso'] : null;
+    // }
+    
+
   public static function mdlMostrarValores_parametro_get($tabla, $valor_id)
-  {   sort($valor_id);
+  {   
+   
+
+    sort($valor_id);
       $valores = $valor_id; // Puedes modificar esto según tus necesidades
       $carpeta = implode('-', $valor_id);
       $resultados = array(); // Aquí almacenaremos los resultados
@@ -224,7 +254,7 @@ class ModeloContribuyente
        Id_Ubica_Vias_Urbano, 
        Documento, 
        Nombre_Completo, 
-       Direccion_completo, Codigo_sa, Fallecida,Telefono
+       Direccion_completo, Codigo_sa, Fallecida,Telefono, Estado_progreso
         FROM $tabla WHERE Id_Contribuyente = :Id_Contribuyente");
   
       foreach ($valores as $valor) {
@@ -252,26 +282,26 @@ class ModeloContribuyente
       //PARA AGREGAR PROGRESO
 
          // Preparar consulta para obtener el código de carpeta
-         $stmtCarpetap = $conexion->prepare("SELECT Estado_progreso FROM carpeta WHERE Concatenado_id = :carpeta");
-         $stmtCarpetap->bindParam(":carpeta", $carpeta);
-         $stmtCarpetap->execute();
-         $carpetaResult = $stmtCarpetap->fetch(PDO::FETCH_ASSOC);
+        //  $stmtCarpetap = $conexion->prepare("SELECT Estado_progreso FROM carpeta WHERE Concatenado_id = :carpeta");
+        //  $stmtCarpetap->bindParam(":carpeta", $carpeta);
+        //  $stmtCarpetap->execute();
+        //  $carpetaResult = $stmtCarpetap->fetch(PDO::FETCH_ASSOC);
      
-         // Agregar Codigo_Carpeta a cada contribuyente
-         if ($carpetaResult) {
-             foreach ($resultados as &$contribuyenteArray) {
-                 foreach ($contribuyenteArray as &$contribuyente) {
-                     $contribuyente['Estado_progreso'] = $carpetaResult['Estado_progreso'];
+        //  // Agregar Codigo_Carpeta a cada contribuyente
+        //  if ($carpetaResult) {
+        //      foreach ($resultados as &$contribuyenteArray) {
+        //          foreach ($contribuyenteArray as &$contribuyente) {
+        //              $contribuyente['Estado_progreso'] = $carpetaResult['Estado_progreso'];
                     
-                 }
-             }
-         }
+        //          }
+        //      }
+        //  }
 
      
       // Cerrar las conexiones
       $stmtContribuyentes = null;
       $stmtCarpeta = null;
-      $stmtCarpetap = null;
+    //  $stmtCarpetap = null;
       $conexion = null;
 
 

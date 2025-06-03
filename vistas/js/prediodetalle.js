@@ -403,7 +403,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (respuesta) {
 
-          console.log(respuesta);
+          console.log("para editar predio--",respuesta);
 
           predioEdit.idPredioC = respuesta.Id_Predio;
           predioEdit.fechaAdquisicionC = respuesta.Fecha_Adquisicion;
@@ -462,7 +462,16 @@ $(document).ready(function () {
           predioEdit.Colindante_Norte_DenominacionC = respuesta.Colindante_Norte_Denominacion;
           predioEdit.Colindante_Este_DenominacionC = respuesta.Colindante_Este_Denominacion;
           predioEdit.Colindante_Este_NombreC = respuesta.Colindante_Este_Nombre;
+
+          predioEdit.Fecha_Inicio_exo = respuesta.Fecha_Inicio_exo;
+          predioEdit.Fecha_fin_exo = respuesta.Fecha_fin_exo;
+          predioEdit.Numero_Expediente = respuesta.Numero_Expediente;
+
+
+
           let DirecccioncompletoC = respuesta.Direccion_completo;
+
+
           if (predioEdit.Denominacion_RuralC === undefined || predioEdit.Denominacion_RuralC === null || predioEdit.Denominacion_RuralC === '') {
             let posicionGuion = DirecccioncompletoC.indexOf('-');
             if (posicionGuion !== -1) {
@@ -499,6 +508,9 @@ $(document).ready(function () {
   });
 
   function asignarvaloreurbanos() {
+
+   
+
     $("#nroUbicacion_e").val(predioEdit.numUbicacionC);
     $("#nroLote_e").val(predioEdit.numLoteC);
     $("#reciboLuz_e").val(predioEdit.numeroLuzC);
@@ -531,6 +543,12 @@ $(document).ready(function () {
     $("#afectacionArb_e").val(predioEdit.idArbitriosC);
     $("#nroExpediente_e").val(predioEdit.expedienteTramiteC);
     $("#observacion_e").val(predioEdit.obsercacionesC);
+
+     $("#fechaInicio_e").val(predioEdit.Fecha_Inicio_exo);
+     $("#fechaFin_e").val(predioEdit.Fecha_fin_exo);
+     $("#numeroExpediente_e").val(predioEdit.Numero_Expediente);
+
+
   }
 
   function asignarValoresRusticos() {
@@ -658,8 +676,9 @@ $(document).ready(function () {
   }
   
 
-  //GUARDAR EDIATR PREDIO
 
+
+  //GUARDAR EDIATR PREDIO
   $(document).on("click", "#btnGuardarPredio_e", function () {
    
     if (predioEdit.predioURC === "U") {
@@ -667,8 +686,16 @@ $(document).ready(function () {
           // =========== REGISTRO PREDIO =============================
           predioEdit.idViaC = $("#idvia_Predio").text();
 
-          let formd = new FormData();
+          predioEdit.Fecha_Inicio_exo = $("#fechaInicio_e").val();
+          predioEdit.Fecha_fin_exo = $("#fechaFin_e").val();
+
+
+          predioEdit.Numero_Expediente = $("#numeroExpediente_e").val();
+
           
+
+          let formd = new FormData();
+
           formd.append("predio_UR", predioEdit.predioURC); //16
           formd.append("tipoDocInscripcion", predioEdit.idDocInscripcionC); //16
           formd.append("nroDocIns", predioEdit.numDocInscripC); //13
@@ -706,8 +733,24 @@ $(document).ready(function () {
           formd.append("observacion", predioEdit.obsercacionesC); //10
           formd.append("idPredioE", predioEdit.idPredioC); //
 
+
+          formd.append("fecha_inicio_expe", predioEdit.Fecha_Inicio_exo); //
+          formd.append("fecha_fin_expe", predioEdit.Fecha_fin_exo); //
+          formd.append("numero_expediente", predioEdit.Numero_Expediente); //
+
+
           formd.append("predioUrbanoE", "predioUrbanoE");
+
+          for (let pair of formd.entries()) {
+
+                console.log(pair[0] + ': ' + pair[1]);
+
+            }
+
+          //GERGADOS
+          
             $.ajax({
+
               type: "POST",
               url: "ajax/predio.ajax.php",
               data: formd,
@@ -734,6 +777,11 @@ $(document).ready(function () {
           }
         },
       });
+
+
+
+
+
     } else {
 
     // =========== REGISTRO PREDIO =============================

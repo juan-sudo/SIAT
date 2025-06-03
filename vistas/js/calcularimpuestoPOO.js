@@ -21,7 +21,9 @@ class ImpuestoCalculator {
     this.tipopredio_la = null;
     this.idcontribuyente_tim = null;
     this.predios_seleccionados=[];
-    this.Id_Regimen_Afecto = null;
+    //this.Id_Regimen_Afecto = null;
+    this.Id_Regimen_Afecto = [];
+    this.tipo_predio=[];
 
     const tabla_dj = document
       .getElementById("predio_dj_table")
@@ -77,6 +79,8 @@ class ImpuestoCalculator {
       datos.append("predios_seleccionados",this.predios_seleccionados);
       datos.append("predios_s","si");
     }
+
+    
     for (const pair of datos.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
@@ -129,7 +133,11 @@ class ImpuestoCalculator {
     });
   }
 
+
+//PARA RECALCULO -------------------------------
+
   registrarImpuesto(recalculo) {
+    
     
     console.log("estas para recalculo para estado de cuenta");
 
@@ -146,13 +154,18 @@ class ImpuestoCalculator {
     datos.append("gasto_emision", this.gasto_emision);
     datos.append("total_pagar", this.total_pagar);
     datos.append("registrar_impuesto", "registrar_impuesto");
-   datos.append("id_Regimen_Afecto", this.Id_Regimen_Afecto);
+    //datos.append("id_Regimen_Afecto", this.Id_Regimen_Afecto);
+
+
+   //datos.append("tipo_predio", this.tipo_predio);
 
     datos.append("recalcular", recalculo);
    
     if ($("#calculo_predio_select").is(':checked')&& this.predios_seleccionados.length > 0) {
       datos.append("predio_select", "si");
       datos.append("predios_seleccionados",this.predios_seleccionados);
+      datos.append("id_Regimen_Afecto",this.Id_Regimen_Afecto);
+      datos.append("tipo_predio", this.tipo_predio);
     }
     else{
       datos.append("predios_seleccionados","null");
@@ -162,6 +175,9 @@ class ImpuestoCalculator {
     for (const pair of datos.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
+
+
+
     $.ajax({
       url: "ajax/calcular.ajax.php",
       method: "POST",
@@ -200,6 +216,9 @@ class ImpuestoCalculator {
         $("#modal_cargar").text("Error al cargar el archivo.");
     }
     });
+
+
+    
   }
 
   reiniciarValores() {
@@ -217,7 +236,9 @@ class ImpuestoCalculator {
     let datos = new FormData();
     datos.append("idContribuyente_impuesto", predio.id_propietario);
     if (llamadaDesde === "impuesto") {
+
       datos.append("selectnum", this.selectnum);
+
     } else {
       datos.append("selectnum", this.selectnum_arbitrio);
     }
@@ -226,6 +247,7 @@ class ImpuestoCalculator {
     for (const pair of datos.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
+
     // MOSTRAR PREDIOS DEL CALCULO
     $.ajax({
       url: "ajax/predio.ajax.php",
@@ -604,6 +626,8 @@ $(document).on("click", ".registrar_impuesto_arbitrios", function () {
   var recalculo = "no";
   impuestoCalculator.registrarImpuesto(recalculo);
 });
+
+
 //registra el impuesto recalculado
 $(document).on("click", ".recalcular_impuesto_arbitrios", function () {
   var recalculo = "si";
@@ -677,25 +701,33 @@ $(document).on("click", ".boton_calcular_no", function () {
 }
 });
 
+
+//SELECIONANDO PREDIOS PARA RECALCULAR
+
 $(document).on('change', '#select_predio_calcular', function() {
  
   const idPredio = $(this).data('id');
   const regimenAfecto = $(this).data('regimen_afecto');
-   console.log("click aqui-- checked",idPredio, regimenAfecto);
+  const tipoPredio= $(this).data('tipo_ru');
+   console.log("click aqui-- checked",idPredio, regimenAfecto,tipoPredio);
   
 
   if ($(this).is(':checked')) {
     // Si el checkbox se selecciona, agrega el id al array
     if (!impuestoCalculator.predios_seleccionados.includes(idPredio)) {
+
       impuestoCalculator.predios_seleccionados.push(idPredio);
-      impuestoCalculator.Id_Regimen_Afecto = regimenAfecto;
+      impuestoCalculator.Id_Regimen_Afecto.push(regimenAfecto);
+      impuestoCalculator.tipo_predio.push(tipoPredio);
 
     }
   } else {
     // Si el checkbox se deselecciona, remueve el id del array
     impuestoCalculator.predios_seleccionados = impuestoCalculator.predios_seleccionados.filter(item => item !== idPredio);
+ 
+ 
   }
-  console.log("selecionando ahora--",impuestoCalculator.predios_seleccionados);
+ // console.log("selecionando ahora--",impuestoCalculator.predios_seleccionados);
 });
 
 
@@ -718,7 +750,7 @@ $(document).ready(function() {
     var selectedValue = $(this).val();
     
     // Si se selecciona una opción, mostrar las divs
-    if (selectedValue === "2") {
+    if (selectedValue === "5") {
       $('#fecha_ini_div').show(); // Muestra la primera div
       $('#fecha_fin_div').show(); // Muestra la segunda div
       $('#expediente_div').show(); // Muestra la tercera div

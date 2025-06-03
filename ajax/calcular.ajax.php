@@ -30,7 +30,8 @@ class AjaxCalcular
                      "recalcular"=>$_POST["recalcular"],
                      "predio_select"=>$_POST["predio_select"],
                      "predios_seleccionados"=>$_POST["predios_seleccionados"],
-                    "id_Regimen_Afecto"=>$_POST["id_Regimen_Afecto"]
+                    "id_Regimen_Afecto"=>$_POST["id_Regimen_Afecto"],
+                    "tipo_predio"=>$_POST["tipo_predio"]
                      
 
                     );

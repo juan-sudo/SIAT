@@ -733,10 +733,25 @@ class ControladorContribuyente
 
   public static function CntrVerificar_Parametro($valor)
   {
+    
     $tabla = 'contribuyente';
     $respuesta = ModeloContribuyente::mdlMostrarValores_parametro_get($tabla, $valor);
+  
+    
     return $respuesta;
   }
+
+
+  //BARRA DE PROGRESO DE //CONTRIBUYENTES
+  //   public static function CntrVerificar_Parametro_agua($valor)
+  // {
+    
+  //   $respuesta = ModeloContribuyente::mdlMostrarValores_parametro_get_agua($valor);
+   
+  //   return $respuesta;
+
+  // }
+
 
   
   // EDITAR USUARIOS|

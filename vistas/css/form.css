@@ -1211,6 +1211,8 @@ title {
   background-color:  #D0E1F9;
   border-color: black;
 }
+
+
 .search_nombres_m {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
   background-size: 20px;
@@ -1225,6 +1227,9 @@ title {
   border-color: black;
   padding-left: 25px !important;
 }
+
+
+
 .search_codigo {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
   background-size: 20px;
@@ -1238,6 +1243,9 @@ title {
   background-color:  #D0E1F9;
   border-color: black;
 }
+
+
+
 .search_codigo_m {
   background: url('../img/iconos/buscar1.png') no-repeat 5px 5px; /* Ajuste de posición para centrar el icono */
   background-size: 20px;

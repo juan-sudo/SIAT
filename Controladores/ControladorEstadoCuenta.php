@@ -95,6 +95,7 @@ class ControladorEstadoCuenta
 		echo $respuesta;
 	}
 
+
     // public  static function ctrEstadoCuentaC($valor,$condicion)
     // {
     //     $respuesta = ModeloEstadoCuenta::mdlEstadoCuentaC($valor,$condicion);
@@ -257,6 +258,27 @@ class ControladorEstadoCuenta
 		$respuesta = ModeloEstadoCuenta::mdlDeudasPrescritas($valor);
 		echo $respuesta;
 	}
+
+    public static function ctrEliminarEstadoCuenta($valor)
+        {
+            // Llamar al modelo para eliminar
+            $respuesta = ModeloEstadoCuenta::mdlEliminarEstadoCuenta($valor);
+            return $respuesta;  // Retorna 'ok', 'no_exist' o null/error
+        }
+
+            public static function ctrPagadoEstadoCuenta($valor)
+        {
+            // Llamar al modelo para eliminar
+            $respuesta = ModeloEstadoCuenta::mdlPagadoEstadoCuenta($valor);
+            return $respuesta;  // Retorna 'ok', 'no_exist' o null/error
+        }
+
+
+
+
+
+
+    
 
 	
 

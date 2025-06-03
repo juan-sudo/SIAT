@@ -6,6 +6,7 @@ use Controladores\ControladorEstadoCuenta;
 
 
 ?>
+
 <?php
 $idParam = $_GET['id'];
 $anio_propietario = $_GET['anio'];
@@ -24,11 +25,16 @@ $concatenado_id=$idParam;
 
 ?>
 
+
+
+
 <!-- Aquí va el link a tu hoja de estilos, fuera del bloque PHP -->
 <link rel="stylesheet" href="vistas/css/form.css">
 
 
 <div class="content-wrapper panel-medio-principal" >
+
+
   <section class="container-fluid panel-medio" >
     <div class="box container-fluid" style="border:0px; margin-bottom:3px; padding:0px;" >
    
@@ -47,40 +53,41 @@ $concatenado_id=$idParam;
 
         // Verificar si los datos del contribuyente están disponibles
         // Verificar si los datos del contribuyente están disponibles
-if (count($datos_contribuyente) > 0) {
-  // Solo mostrar una vez la barra de progreso
-  foreach ($datos_contribuyente as $contribuyentes) {
-      foreach ($contribuyentes as $contribuyente) {
-          // Asignar el valor de Estado_progreso
-          $estado_progreso = $contribuyente['Estado_progreso'];
+        if (count($datos_contribuyente) > 0) {
+          // Solo mostrar una vez la barra de progreso
+          foreach ($datos_contribuyente as $contribuyentes) {
+              foreach ($contribuyentes as $contribuyente) {
+                  // Asignar el valor de Estado_progreso
+                  $estado_progreso = $contribuyente['Estado_progreso'];
 
-          // Asignar el porcentaje y color según el estado
-          if ($estado_progreso === 'P') {
-              $porcentaje = 30;
-              $color = 'rgb(255, 193, 7)';
-          } elseif ($estado_progreso === 'E') {
-              $porcentaje = 60;
-              $color = 'rgb(23, 162, 184)';
-          } elseif ($estado_progreso === 'C') {
-              $porcentaje = 100;
-              $color = 'rgb(40, 167, 69)';
-          } elseif ($estado_progreso === NULL) {
-              $porcentaje = 0;
-              $color = '#ccc';
+                  // Asignar el porcentaje y color según el estado
+                  if ($estado_progreso === 'P') {
+                      $porcentaje = 30;
+                      $color = 'rgb(255, 193, 7)';
+                  } elseif ($estado_progreso === 'E') {
+                      $porcentaje = 60;
+                      $color = 'rgb(23, 162, 184)';
+                  } elseif ($estado_progreso === 'C') {
+                      $porcentaje = 100;
+                      $color = 'rgb(40, 167, 69)';
+                  } elseif ($estado_progreso === NULL) {
+                      $porcentaje = 0;
+                      $color = '#ccc';
+                  }
+
+                  // Salir del loop después de obtener el primer valor
+                  break 2;
+              }
           }
-
-          // Salir del loop después de obtener el primer valor
-          break 2;
-      }
-  }
-}
+        }
 
     ?>
 
    <!-- Mostrar la barra de progreso con el porcentaje y color calculado -->
-<div class="progress-bar" role="progressbar" style="width: <?php echo $porcentaje; ?>%; height: 100%; background-color: <?php echo $color; ?>; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
-    <?php echo $porcentaje . '%'; ?>
-</div>
+    <div class="progress-bar" role="progressbar" style="width: <?php echo $porcentaje; ?>%; height: 100%; background-color: <?php echo $color; ?>; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+        <?php echo $porcentaje . '%'; ?>
+    </div>
+
 </div>
 
 
@@ -98,6 +105,7 @@ if (count($datos_contribuyente) > 0) {
 
 
           <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 0.3rem; margin-top: 0.3rem;">
+          
           <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_Predio">
             Editar progreso
           </button>
@@ -605,6 +613,8 @@ if (count($datos_contribuyente) > 0) {
 <!--====== FIN DEL MODAL TRANSFERIR PREDIO =======-->
 
 
+
+
 <!--====== MODAL EDITAR BARRA DE PROGRESO =======-->
 <div class="modal" id="modal_editar_barra_progreso" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog modal-lg" role="document">
@@ -812,7 +822,7 @@ if (count($datos_contribuyente) > 0) {
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <label class="modal-title"> EDITAR PREDIO</label>
+        <label class="modal-title"> EDITAR PREDIO I</label>
       </div>
       <div class="modal-body">
         <div class="row divDetallePredio_predio">
@@ -1144,17 +1154,17 @@ if (count($datos_contribuyente) > 0) {
 
                          <div class="row" id="fecha_ini_div" style="display: none; justify-content: flex-end; align-items: center;">
                               <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px; margin-left:24px">Fecha ini.</label>
-                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaAdqui_e" id="fechaAdqui_e">
+                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaInicio_e" id="fechaInicio_e">
                           </div>
 
                           <div class="row" id="fecha_fin_div" style="display: none; justify-content: flex-end; align-items: center;">
                               <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">Fecha fin</label>
-                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaAdqui_e" id="fechaAdqui_e">
+                              <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaFin_e" id="fechaFin_e">
                           </div>
 
                           <div class="row" id="expediente_div" style="display: none; justify-content: flex-end; align-items: center;">
                               <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">N° exped.</label>
-                              <input type="text" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaAdqui_e" id="fechaAdqui_e">
+                              <input type="text" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="numeroExpediente_e" id="numeroExpediente_e">
                           </div>
 
                             
@@ -2588,6 +2598,72 @@ if (count($datos_contribuyente) > 0) {
 <!-- fin de generar pdf oden pago - impuesto-->
 
 
+<!-- MODAL MOSTRAR PAGADO -->
+
+<!-- MODAL MOSTRAR PAGADO -->
+<div class="modal fade" id="modal_pagado_estado_cuenta" tabindex="-1" aria-labelledby="modalPagadoLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+     
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+     
+      <div class="modal-body text-center">
+        <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+        <p>¿Está seguro de cambiar el estado a "Pagado"?</p>
+
+        <input type="hidden" id="idEstadoPagado" value="">
+
+        <p><strong>Código:</strong> <span id="modelTipoPagado"></span></p>
+        <p><strong>Año:</strong> <span id="modalAnioPagado"></span></p>
+        <p><strong>Periodo:</strong> <span id="modalPeriodoPagado"></span></p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger btnConfirmarPagado">Pagado</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODAL ELIMINAR ESTADO DE CUENTA-->
+
+<!-- MODAL ELIMINAR ESTADO DE CUENTA -->
+
+<!-- MODAL ELIMINAR ESTADO DE CUENTA -->
+<div class="modal fade" id="modal_eliminar_estado_cuenta" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      
+      <div class="modal-body text-center">
+        <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+        <p>¿Está seguro que desea eliminar este estado de cuenta?</p>
+
+        <input type="hidden" id="idEstado" value="">
+
+        <p><strong>Código:</strong> <span id="modelTipo"></span></p>
+        <p><strong>Año:</strong> <span id="modalAnio"></span></p>
+        <p><strong>Periodo:</strong> <span id="modalPeriodo"></span></p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger btnConfirmarEliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <!-- MODAL CUANOD EL COACTIVO ESTA VACIO-->
 <div class="modal fade" id="modal_vacio_coactivo" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
   <div class="modal-dialog modal-sm">
@@ -2615,10 +2691,8 @@ if (count($datos_contribuyente) > 0) {
           <h7> Al menos debe elegir una fila <span id="anio_formato"><!-- CONTENIDO DINAMICO--></span></h7>
         </div>
       </div>
-
-
-
       </div>
+      
       <div class="modal-footer" style=" display: flex; justify-content: center; align-items: center;">
     <button type="button" class="btn btn-primary print_orden_coactivo_aviso">OK</button>
 </div>
@@ -2627,6 +2701,9 @@ if (count($datos_contribuyente) > 0) {
     </div>
   </div>
 </div>
+
+
+
 
 <!-- MODAL CONFIRMAR LA IMPRESION DEL ORDEN PAGO -->
 <div class="modal fade" id="modalImprimir_ordenpago_si_no" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -2692,11 +2769,15 @@ if (count($datos_contribuyente) > 0) {
               Estdo de Cuenta + Tasa de Interes Moratorio (TIM)
             </div>
 
+            <div id="contenedor" data-idarray='<?php echo json_encode(array_values($idArray)); ?>'></div>
+
+
             <div class="box divDetallePredio">
               <table class="table-container" id="primeraTabla">
 
                 <thead>
                   <tr>
+                    <th class="text-center tdBotonese" style="display:none;" style="width:10px;">Acciones</th>
                     <th class="text-center" style="width:50px;">Cod.</th>
                     <th class="text-center" style="width:100px;">Tributo</th>
                     <th class="text-center" style="width:50px;">Año</th>
@@ -2715,6 +2796,7 @@ if (count($datos_contribuyente) > 0) {
                   <!-- Aqui Aparecen los estado de cuenta-->
                   <?php
                   $estado_cuenta = ControladorEstadoCuenta::ctrEstadoCuenta($idArray, "estadocuenta"); ?>
+
                 </tbody>
               </table>
             </div>
@@ -2724,17 +2806,18 @@ if (count($datos_contribuyente) > 0) {
           <!-- segunda tabla donde muestra el boton imprimir y el total del estado de cuenta-->
           <table class="table-container" id="segundaTabla">
             <tbody>
-              <th class="text-center" style="width:50px;">
+              <th class="text-center" style="width:20px;">
               </th>
               <!-- no eliminar los Td-->
-              <th class="text-right td-round total_c" style="width:200px;">Total Deuda =</th>
-              <th class="text-center td-round total_c" style="width:50px;"></th>
-              <th class="text-center td-round" style="width:50px;"></th>
-              <th class="text-center td-round" style="width:50px;"></th>
-              <th class="text-center td-round" style="width:50px;"></th>
-              <th class="text-center td-round" style="width:50px;"></th>
-              <th class="text-center rd-round" style="width:50px;"></th>
+              <th class="text-right td-round total_c" style="width:100px;">Total Deuda =</th>
+             
+              <th class="text-center td-round" style="width:30px;"></th>
+              <th class="text-center td-round" style="width:30px;"></th>
+              <th class="text-center td-round" style="width:30px;"></th>
+              <th class="text-center td-round" style="width:30px;"></th>
               <th class="text-center rd-round" style="width:30px;"></th>
+              <th class="text-center rd-round" style="width:30px;"></th>
+              
             </tbody>
           </table>
 
@@ -2744,7 +2827,12 @@ if (count($datos_contribuyente) > 0) {
         </section>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+
+        <button type="button" class="btn btn-info" id="editarEsatdoCuentaDeuda">Editar</button>
+
+        
         <button type="button" class="btn btn-success" id="enviarWhapsApp">Inviar whapsApp</button>
         <button type="button" class="btn btn-primary" id="popimprimir">Imprimir Estado Cuenta</button>
       </div>

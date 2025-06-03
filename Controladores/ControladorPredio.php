@@ -661,6 +661,8 @@ class ControladorPredio
 	}
 	public static function crtEditarPrediou($datos)
 	{
+
+	
 		$respuesta = ModeloPredio::mdlEditarPredio($datos);
 		if ($respuesta == "ok") {
 			$respuesta = array(

@@ -12,18 +12,118 @@ $idArray = array_filter($idArray);
 // Ahora $idArray contiene los valores sin guiones
 ?>
 <div class="content-wrapper panel-medio-principal">
+
+
   <section class="container-fluid panel-medio">
+
+
+
     <div class="box container-fluid" style="border:0px; margin-bottom:3px; padding:0px;">
+
+
+     <div class="progress" style="width: 100%; height: 10px; border: 0; margin: 0;">
+          <?php
+              // Capturar datos del contribuyente una sola vez
+             // $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro_agua($idArray);
+
+                $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+
+              //  var_dump($datos_contribuyente);
+           //tu sabes que te amo a ti  por eso te dire estas junto ami 
+                 //inicializamos estas formas de vida en la planeta tierra 
+                 //los humanos venimos de la planera diferente es la u
+        // Inicializar el porcentaje
+        $porcentaje = 0;
+        $color = '#ccc'; // Color por defecto
+
+        // Verificar si los datos del contribuyente están disponibles
+        // Verificar si los datos del contribuyente están disponibles
+        if (count($datos_contribuyente) > 0) {
+          // Solo mostrar una vez la barra de progreso
+          foreach ($datos_contribuyente as $contribuyentes) {
+              foreach ($contribuyentes as $contribuyente) {
+                  // Asignar el valor de Estado_progreso
+                  $estado_progreso = $contribuyente['Estado_progreso'];
+
+                  // Asignar el porcentaje y color según el estado
+                  if ($estado_progreso === 'P') {
+                      $porcentaje = 30;
+                      $color = 'rgb(255, 193, 7)';
+                  } elseif ($estado_progreso === 'E') {
+                      $porcentaje = 60;
+                      $color = 'rgb(23, 162, 184)';
+                  } elseif ($estado_progreso === 'C') {
+                      $porcentaje = 100;
+                      $color = 'rgb(40, 167, 69)';
+                  } elseif ($estado_progreso === NULL) {
+                      $porcentaje = 0;
+                      $color = '#ccc';
+                  }
+
+                  // Salir del loop después de obtener el primer valor
+                  break 2;
+              }
+          }
+        }
+
+
+         
+    // $porcentaje = 0;
+    // $color = '#ccc';
+
+    // if (!empty($datos_contribuyente)) {
+    //     // Obtener el primer elemento del array (sin importar la clave)
+    //     $primer_contribuyente = reset($datos_contribuyente); // array con índice 0 => datos
+    //     if (!empty($primer_contribuyente) && isset($primer_contribuyente[0]['Estado_progreso'])) {
+    //         $estado_progreso = $primer_contribuyente[0]['Estado_progreso'];
+
+    //         if ($estado_progreso === 'P') {
+    //             $porcentaje = 30;
+    //             $color = 'rgb(255, 193, 7)';
+    //         } elseif ($estado_progreso === 'E') {
+    //             $porcentaje = 60;
+    //             $color = 'rgb(23, 162, 184)';
+    //         } elseif ($estado_progreso === 'C') {
+    //             $porcentaje = 100;
+    //             $color = 'rgb(40, 167, 69)';
+    //         } elseif ($estado_progreso === NULL) {
+    //             $porcentaje = 0;
+    //             $color = '#ccc';
+    //         }
+    //     }
+    // }
+            
+              
+
+          ?>
+
+     <div class="progress-bar" role="progressbar" style="width: <?php echo $porcentaje; ?>%; height: 100%; background-color: <?php echo $color; ?>; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+        <?php echo $porcentaje . '%'; ?>
+    </div>
+
+      </div>
+      
+
+   
+
+
+
       <div class="col-lg-6 col-xs-6">
         <?php
-        $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+       // $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+
         if (count($datos_contribuyente) > 0) {
         ?>
 
           <div id="respuestaAjax_correcto"></div> <!-- eliminar predios -->
 
           <table class="miTabla_propietarios">
-            <caption>Propietarios</caption>
+            <caption>Propietarios jj</caption>
+            <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 0.3rem; margin-top: 0.3rem;">
+            <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_agua">
+            Editar progreso
+          </button>
+          </div>
             <thead>
               <th class="text-center">Codigo</th>
               <th class="text-center">Documento</th>
@@ -34,9 +134,9 @@ $idArray = array_filter($idArray);
             <tbody id="id_propietarios">
               <?php foreach ($datos_contribuyente as $valor => $filas) {
                 foreach ($filas as $fila) {
-                  echo '<tr id="fila" id_contribuyente="' . $fila['Id_Contribuyente'] . '">
-                      <td class="text-center">' . $fila['Id_Contribuyente'] . '</td>
-                      <td class="text-center">' . $fila['Documento'] . '</td>
+                  echo '<tr id="fila"  id_contribuyente="' . $fila['Id_Contribuyente'] . '">
+                       <td class="text-center" id="id_contribuyente_pro"  >' . $fila['Id_Contribuyente'] . '</td>   
+                      <td class="text-center"  >' . $fila['Documento'] . '</td>
                       <td class="text-center">' . $fila['Nombre_Completo'] . '</td>
                       <td class="text-center">' . $fila['Direccion_completo'] . '</td>
                       <td class="text-center">' . $fila['Codigo_sa'] . '</td>';
@@ -349,6 +449,73 @@ $idArray = array_filter($idArray);
   <div class="resultados"></div>
 </div>
 <!--====== MODAL EDITAR ALICENCIA ===========-->
+
+
+<!--====== MODAL EDITAR BARRA DE PROGRESO PARA AGUA =======-->
+<div class="modal" id="modal_editar_barra_progreso_agua" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <form role="form" id="formCarpetaProgressAgua" method="post" enctype="multipart/form-data">
+      
+      <div class="modal-header">
+        <label class="modal-title">EDITAR BARRA DE PROGRESO</label>
+      </div>
+      <div class="modal-body">
+     
+        <!-- Input oculto para almacenar el valor de Codigo_Carpeta -->
+        <!-- Input oculto para almacenar el valor de Codigo_Carpeta -->
+        <input  type="hidden" id="codigo_carpeta_agua" name="codigo_carpeta_agua" value="">
+
+
+
+        <!-- Sección de Estado de Progreso -->
+        <section class="container-fluid panel-medio col-xs-6" id="propietarios" style="width: 100%;">
+            <div class="row">
+                <div class="col-12 col-md-2" style="display: flex; align-items: center;">
+                    <!-- Label para el select -->
+                    <label for="estado_progreso" style="font-weight: bold;">Estado de progreso:</label>
+                </div>
+                <div class="col-12 col-md-2" style="display: flex; align-items: center;">
+                    <!-- Select con las opciones -->
+                    <select id="estado_progreso" name="estado_progreso" class="form-control" style="border-radius: 8px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1);">
+                        <option value="P">Pendiente</option>
+                        <option value="E">En Progreso</option>
+                        <option value="C">Completado</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Barra de Progreso -->
+        <section class="container-fluid panel-medio" id="propietarios" style="width: 100%; margin-top:5rem">
+            <div class="row">
+                <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+                    <!-- Barra de progreso que ocupa el 100% del ancho -->
+                    <div class="progress" style="width: 100%; height: 20px; border-radius: 10px ; background-color: #f0f0f0; border:0">
+                        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background-color: #ffc107; border-radius: 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="salir_modal_progreso_agua" data-dismiss="modal">Salir</button>
+        <button style='float:right;' type="sudmit" class="btn btn-primary ">Guardar cambio</button>
+      </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
 
 <!--====== MODAL EDITAR ALICENCIA ===========-->
 <div class="modal" id="modalEditarLicencia">

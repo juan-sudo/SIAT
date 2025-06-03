@@ -828,7 +828,7 @@ manejarClicFilaC(fila) {
 
   manejarClicS(thS) {  
     const filas = $("#primeraTabla tbody tr");
-    const todasSeleccionadas = $("td:eq(10):contains('1')", filas).length === filas.length;
+    const todasSeleccionadas = $("td:eq(11):contains('1')", filas).length === filas.length;
     if (todasSeleccionadas) {
       // Todas las filas están seleccionadas, deseleccionar todas
       filas.each((index, fila) => {
@@ -837,11 +837,13 @@ manejarClicFilaC(fila) {
     } else {
       // Al menos una fila ya está seleccionada, completar las faltantes
       filas.each((index, fila) => {
-        if ($("td:eq(10)", fila).text() !== "1") {
+        if ($("td:eq(11)", fila).text() !== "1") {
           this.manejarClicFila($(fila));
         }
       });
     }
+
+
     thS.text(todasSeleccionadas ? "S" : "S");
     // Actualizar los totales en la segunda tabla
     $("#segundaTabla tbody th:eq(2)").text(this.totalImporte.toFixed(2));
@@ -850,6 +852,8 @@ manejarClicFilaC(fila) {
     $("#segundaTabla tbody th:eq(5)").text(this.totalDescuento.toFixed(2));
     $("#segundaTabla tbody th:eq(6)").text(this.totalTIM.toFixed(2));
     $("#segundaTabla tbody th:eq(7)").text(this.totalTotal.toFixed(2));
+
+    
     
   }
 
@@ -858,13 +862,13 @@ manejarClicFilaC(fila) {
 
 
  manejarClicFila(fila) {
-    const importeText = fila.find("td:eq(4)").text();
-    const gastoText = fila.find("td:eq(5)").text();
-    const subtotalText = fila.find("td:eq(6)").text();
-    const descuentoText = fila.find("td:eq(7)").text();
-    const timText = fila.find("td:eq(8)").text();
-    const totalText = fila.find("td:eq(9)").text();
-    const estadoS = fila.find("td:eq(10)").text();
+    const importeText = fila.find("td:eq(5)").text();
+    const gastoText = fila.find("td:eq(6)").text();
+    const subtotalText = fila.find("td:eq(7)").text();
+    const descuentoText = fila.find("td:eq(8)").text();
+    const timText = fila.find("td:eq(9)").text();
+    const totalText = fila.find("td:eq(10)").text();
+    const estadoS = fila.find("td:eq(11)").text();
 
     const importe = parseFloat(importeText);
     const gasto = parseFloat(gastoText);
@@ -884,7 +888,7 @@ manejarClicFilaC(fila) {
         this.totalTotal -= total;
         this.totalImporte -= importe;
         
-        fila.find("td:eq(10)").text("");
+        fila.find("td:eq(11)").text("");
         fila.css("background-color", "");
         
         // Eliminar el valor del id de la fila del array (si existe)
@@ -899,7 +903,7 @@ manejarClicFilaC(fila) {
         this.totalTIM += tim;
         this.totalTotal += total;
         this.totalImporte += importe;
-        fila.find("td:eq(10)").text("1");
+        fila.find("td:eq(11)").text("1");
         fila.css("background-color", "rgb(252, 209, 229)");   
         // Agregar el valor del id de la fila al array (si no existe)
         if (!this.idsSeleccionados.includes(filaId)) {
@@ -1657,7 +1661,7 @@ $("#primeraTabla tbody tr").on("click", function () {
 });
 
 
-$("#primeraTabla thead th:eq(10)").on("click", function () {
+$("#primeraTabla thead th:eq(11)").on("click", function () {
   recaudacion.manejarClicS($(this));
 });
 
@@ -1689,6 +1693,14 @@ $(document).on("click", "#popimprimir", function () {
 //CLICK ESTADOP DE CUENTA
 $("#abrirEstadoCuenta").click(function () {
   $("#modalEstadoCuenta").modal("show");
+
+    // Ocultar siempre los botones al abrir el modal
+  $('.tdBotonese').hide();
+
+  // Restablecer el texto del botón editar
+  $('#editarEsatdoCuentaDeuda').text('Editar');
+
+
 });
 
 
@@ -1834,4 +1846,226 @@ $("#anterior_Predio").click(function (e) {
 });
 
 
+//BOTON EDITAR
+  $('#editarEsatdoCuentaDeuda').click(function() {
+    let btn = $(this);
+    let td = $('.tdBotonese');
+
+    if (td.is(':visible')) {
+      td.hide();
+      btn.text('Editar');
+    } else {
+      td.show();
+      btn.text('No editar');
+    }
+  });
+
+
+
+  
+
+  //MODAL PAGADO ESTADO DE CUENTA PAGADO
+
+$(document).on('click', '.btnPagadoEstado', function() {
+    var anio = $(this).data('anio');
+    var periodo = $(this).data('periodo');
+    var tipoT = $(this).data('cod');
+    var idEstado = $(this).data('idestado');
+
+    console.log("id para pagado:", idEstado);
+
+    // Mostrar datos en modal pagado (usar IDs con sufijo Pagado)
+    $('#modelTipoPagado').text(tipoT);
+    $('#modalAnioPagado').text(anio);
+    $('#modalPeriodoPagado').text(periodo);
+    $('#idEstadoPagado').val(idEstado);
+
+    // Mostrar modal
+    $('#modal_pagado_estado_cuenta').modal('show');
+});
+
+
+
+// ELIMINAR ESTADO DE CUENTA MOSTRAR LA VENTANA MODAL ELIMINAR
+$(document).on('click', '.btnEliminarEstadoCuenta', function() {
+    var anio = $(this).data('anioe');
+    var periodo = $(this).data('periodoe');
+    var tipoT = $(this).data('code');
+    var idEstado = $(this).data('idestadoe');
+
+    console.log("id para eliminar:", idEstado);
+
+    // Mostrar datos en modal eliminar (usar IDs sin sufijo)
+    $('#modelTipo').text(tipoT);
+    $('#modalAnio').text(anio);
+    $('#modalPeriodo').text(periodo);
+    $('#idEstado').val(idEstado);
+
+    // Mostrar modal
+    $('#modal_eliminar_estado_cuenta').modal('show');
+});
+
+
+// $(document).on('click', '.btnConfirmarEliminar', function() {
+//     var idEstado = $('#idEstado').val();
+
+//     console.log("Confirmar eliminar estado de cuenta con ID:", idEstado);
+
+//     $.ajax({
+//         type: "POST",
+//         url: "ajax/estadoCuenta.ajax.php",
+//         data: {
+//             idEstado: idEstado,
+//             eliminarCuenta: "eliminarCuenta"
+//         },
+//         success: function(respuesta) {
+          
+//             if (respuesta === 'success') {
+//                 location.reload();
+
+//             } else {
+//                 alert('Error al eliminar el estado de cuenta. Inténtalo de nuevo.');
+//             }
+//         },
+//         error: function() {
+//             alert('Error en la solicitud. Inténtalo de nuevo.');
+//         }
+//     });
+// });
+
+
+
+
+
+$(document).on('click', '.btnConfirmarPagado', function() {
+    var idEstado = $('#idEstadoPagado').val();
+
+
+    console.log("Confirmar eliminar estado de cuenta con ID:", idEstado);
+
+    $.ajax({
+        type: "POST",
+        url: "ajax/estadoCuenta.ajax.php",
+        data: {
+            idEstado: idEstado,
+            pagadoCuenta: "pagadoCuenta"
+        },
+        success: function(respuesta) {
+
+        
+
+            if (respuesta === 'success') {
+
+               $('#modal_pagado_estado_cuenta').modal('hide');
+
+                  $("#respuestaAjax_srm").html(
+              '<div class="alert success">' +
+                '<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">' +
+                '<span aria-hidden="true" class="letra">×</span>' +
+                '</button><p class="inner"><strong class="letra">Exito!</strong> <span class="letra">El estado se cambio a pagado</span></p></div>'
+            );
+            $("#respuestaAjax_srm").show();
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+            }, 3000);
+
+              var idArray = $('#contenedor').data('idarray');
+                // Usa la variable idArray que ya definiste arriba en el script PHP
+                $.ajax({
+                    url: 'ajax/estadoCuenta.ajax.php',
+                    type: 'POST',
+                    data: {
+                        cargarEstadoCuenta: true,
+                        idArray: idArray  // Aquí envías el array convertido a JS
+                    },
+                    success: function(data) {
+                        console.log("Respuesta del servidor:", data);
+                        
+                         $('#' + idEstado).remove();
+
+                       // $('#estadoCuenta').html(data); // Actualiza el tbody con el nuevo contenido
+                     // $('#' + idEstado).replaceWith(data);
+
+
+                    },
+                    error: function() {
+                        alert('Error al cargar los datos actualizados.');
+                    }
+                });
+            } else {
+                alert('Error al eliminar el estado de cuenta. Inténtalo de nuevo.');
+            }
+        },
+        error: function() {
+            alert('Error en la solicitud. Inténtalo de nuevo.');
+        }
+    });
+});
+
+
+//CONFIRMAR ELIMINAR ESTADO DE CUENTA
+$(document).on('click', '.btnConfirmarEliminar', function() {
+    var idEstado = $('#idEstado').val();
+
+
+    console.log("Confirmar eliminar estado de cuenta con ID:", idEstado);
+
+    $.ajax({
+        type: "POST",
+        url: "ajax/estadoCuenta.ajax.php",
+        data: {
+            idEstado: idEstado,
+            eliminarCuenta: "eliminarCuenta"
+        },
+        success: function(respuesta) {
+
+        
+
+            if (respuesta === 'success') {
+               
+               $('#modal_eliminar_estado_cuenta').modal('hide');
+
+                      $("#respuestaAjax_srm").html(
+              '<div class="alert success">' +
+                '<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">' +
+                '<span aria-hidden="true" class="letra">×</span>' +
+                '</button><p class="inner"><strong class="letra">Exito!</strong> <span class="letra">El estado de cuenta se ha eliminado</span></p></div>'
+            );
+            $("#respuestaAjax_srm").show();
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+            }, 3000);
+
+              var idArray = $('#contenedor').data('idarray');
+                // Usa la variable idArray que ya definiste arriba en el script PHP
+                $.ajax({
+                    url: 'ajax/estadoCuenta.ajax.php',
+                    type: 'POST',
+                    data: {
+                        cargarEstadoCuenta: true,
+                        idArray: idArray  // Aquí envías el array convertido a JS
+                    },
+                    success: function(data) {
+                        console.log("Respuesta del servidor:", data);
+                        
+                         $('#' + idEstado).remove();
+
+                       // $('#estadoCuenta').html(data); // Actualiza el tbody con el nuevo contenido
+                     // $('#' + idEstado).replaceWith(data);
+
+
+                    },
+                    error: function() {
+                        alert('Error al cargar los datos actualizados.');
+                    }
+                });
+            } else {
+                alert('Error al eliminar el estado de cuenta. Inténtalo de nuevo.');
+            }
+        },
+        error: function() {
+            alert('Error en la solicitud. Inténtalo de nuevo.');
+        }
+    });
+});
 

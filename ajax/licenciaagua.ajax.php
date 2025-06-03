@@ -47,6 +47,29 @@ class AjaxLicenciaAgua
     $respuesta = ControladorLicenciaAgua::ctrCrearLicencia($datos);
     echo $respuesta;
   }
+
+    // EDITAR PROGRESO
+      public function ajaxGuardar_editar_progreso_agua()
+      {
+
+     
+           // if (preg_match('/^[azAZ09ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["e_apellPaterno"])) {
+              $tabla = "contribuyente";
+              $datos = array(
+                "Id_contribuyente" => $_POST["codigo_carpeta_agua"],
+                "Estado_progreso" => $_POST["estado_progreso"],
+                
+              );
+
+              $respuesta = ControladorConsultaAgua::ctrEditarCarpetaProgresoAgua($tabla, $datos);
+
+              $respuesta_json = json_encode($respuesta);
+              header('Content-Type: application/json');
+              echo $respuesta_json;
+             
+           // }
+          
+      }
   public function ajaxMostrarLicenciaAgua()
   {
   
@@ -237,6 +260,16 @@ class AjaxLicenciaAgua
        echo $respuesta_json;  
   }
 
+   public function ajaxEditarContribuyenteProgreso()
+   {
+          
+       $idContribuyente=$_POST['idContribuyente'];
+      
+     $respuesta = ControladorLicenciaAgua::ctrBarraProgresoAgua($idContribuyente);
+
+      echo json_encode($respuesta);
+   }
+
 }
 if (isset($_POST['datainput'])) {
   $nuevo = new AjaxLicenciaAgua();
@@ -299,3 +332,18 @@ if (isset($_POST["idlicenciaagua_estadocuenta_pagados"])) {
   $pisoEdit = new AjaxLicenciaAgua();
   $pisoEdit->ajaxMostrarLicenciaAgua_estado_cuenta_pagados();
 }
+
+
+//barra de progreso de agua
+if (isset($_POST['barraProgreso'])) {
+   $editar = new AjaxLicenciaAgua();
+   //$editar->idCarpeta = $_POST['idCarpeta'];
+   $editar->ajaxEditarContribuyenteProgreso();
+}
+
+// guardar editar contribuyente
+if (isset($_POST['guardar_estado_progreso_agua'])) {
+   $editar = new AjaxLicenciaAgua();
+   $editar->ajaxGuardar_editar_progreso_agua();
+}
+

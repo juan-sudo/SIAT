@@ -1,0 +1,5 @@
+Array
+(
+    [idEstado] => 1795677
+    [eliminarCuenta] => eliminarCuenta
+)

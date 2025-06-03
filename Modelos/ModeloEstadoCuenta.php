@@ -475,7 +475,38 @@ public static function mdlEstadoCuenta_pdfanios($propietarios, $id_cuenta, $cond
 						$tributo = 'Arb. Municipal';
 					}
 					$content .= '<tr id="' . $value['Id_Estado_Cuenta_Impuesto'] . '">
-					                <td class="text-center">' . $value['Tipo_Tributo'] . '</td>
+                                    
+                                    
+              <td class="tdBotonese" style="display:none;width:80px;" >
+               <center>
+               
+                    <button type="button" class="btn btn-danger btn-xs btnPagadoEstado" data-idestado="' . $value['Id_Estado_Cuenta_Impuesto'] . '"
+              data-cod="' . $value['Tipo_Tributo'] . '"
+
+            data-anio="' . $value['Anio'] . '" 
+            data-periodo="' . $value['Periodo'] . '" >pagado</button>
+                   
+                   
+                    <button type="button" 
+                     
+            class="btn btn-danger btn-xs btnEliminarEstadoCuenta" 
+
+            data-idestadoe="' . $value['Id_Estado_Cuenta_Impuesto'] . '"
+              data-code="' . $value['Tipo_Tributo'] . '"
+
+            data-anioe="' . $value['Anio'] . '" 
+            data-periodoe="' . $value['Periodo'] . '">
+
+            <i class="fas fa-trash-alt"></i>
+      
+                    </button>
+
+                    
+                    </center> 
+                
+                </td>
+                                                <td class="text-center">' . $value['Tipo_Tributo'] . '</td>
+                                    
 									<td class="text-center">' . $tributo . '</td>      
 									<td class="text-center">' . $value['Anio'] . '</td>
 									<td class="text-center">' . $value['Periodo'] . '</td>
@@ -487,6 +518,7 @@ public static function mdlEstadoCuenta_pdfanios($propietarios, $id_cuenta, $cond
 									}
 								$content .='	<td class="text-center">' . $value['TIM_Aplicar'] . '</td>
 									<td class="text-center">' . $value['Total_Aplicar'] . '</td>
+                                    
 									<td class="text-center"></td></tr>';
 				}
 	   }
@@ -1655,6 +1687,55 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 		return  $stmt->fetchall();
 	}
 
+
+
+    
+  public static function mdlPagadoEstadoCuenta($valor)
+    {
+        $db = Conexion::conectar();
+
+       // $sql = "DELETE FROM estado_cuenta_corriente WHERE Id_Estado_Cuenta_Impuesto = :id";
+
+        $sql = "UPDATE estado_cuenta_corriente SET Estado = 'H' WHERE Id_Estado_Cuenta_Impuesto= :id";
+
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $valor, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                return 'ok';  // Se eliminó al menos una fila
+            } else {
+                return 'no_exist'; // No se encontró registro para eliminar
+            }
+        } else {
+            return 'error'; // Error en la ejecución
+        }
+    }
+
+
+    public static function mdlEliminarEstadoCuenta($valor)
+    {
+        $db = Conexion::conectar();
+
+        $sql = "DELETE FROM estado_cuenta_corriente WHERE Id_Estado_Cuenta_Impuesto = :id";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':id', $valor, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                return 'ok';  // Se eliminó al menos una fila
+            } else {
+                return 'no_exist'; // No se encontró registro para eliminar
+            }
+        } else {
+            return 'error'; // Error en la ejecución
+        }
+    }
+
+
+
 	public static function mdlDeudasPrescritas($valor)
 	{
 		$pdo =  Conexion::conectar();
@@ -1696,4 +1777,7 @@ public static function mdlPropietarios_pdf($propietarios) //optimizado
 		return $content;
 		$pdo = null;
 	}
+
+
+
 }

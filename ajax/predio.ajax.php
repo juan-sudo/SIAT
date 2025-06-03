@@ -140,7 +140,12 @@ class AjaxPredio
 			'Id_Arbitrios' => $_POST["afectacionArb"], //24+
 			'Id_Condicion_Predio' => $_POST["condicionDuenio"], //25	 +
 			'Id_Predio' => $_POST["idPredioE"],        //+
-			'id_usuario' => $_SESSION['id'] //30	    	+		        
+			'id_usuario' => $_SESSION['id'], //30	    	+	
+			
+			'Fecha_Inicio_exo' => $_POST['fecha_inicio_expe'], //30	    	+	
+			'Fecha_fin_exo' => $_POST['fecha_fin_expe'],//30	    	+	
+			'Numero_Expediente' => $_POST['numero_expediente'] //30	
+			
 		);
 		$respuesta = ControladorPredio::crtEditarPrediou($datos);
 		header('Content-Type: application/json');

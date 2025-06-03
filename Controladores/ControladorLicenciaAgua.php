@@ -32,6 +32,17 @@ class ControladorLicenciaAgua
       </script>";
     }
   }
+
+    // BARRA DE PROGRESO AGUA
+
+  public static function ctrBarraProgresoAgua($valor)
+  {
+   
+    $respuesta = ModeloLicenciAgua::mdlMostrarBarraProgreso($valor);
+  
+    return $respuesta;
+  }
+
   public static function ctrTraerLastLicence()
   {
     $tabla = 'licencia_agua';
