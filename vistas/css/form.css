@@ -306,6 +306,7 @@ tr.seleccionada {
   height: 35vh !important;
   overflow: auto;
 }
+
 .divDetallePredio_predio {
   height: 83vh !important;
   overflow: auto;
@@ -458,8 +459,53 @@ tr.seleccionada {
   text-transform: uppercase;
   background-color: rgb(238, 239, 239);
 }
-.form3:hover{
-  background-color: rgb(255, 248, 167); /* Cambia el color de fondo al enfocar el input */
+
+.form33 {
+  padding: 0px !important;
+  padding-left: 5px !important;
+  height: 22px;
+  border-radius: 5px;
+  width: 100%;
+  text-transform: uppercase;
+  background-color: rgb(238, 239, 239);
+}
+
+
+
+.form30 {
+   padding: 0px !important;
+  padding-left: 5px !important;
+  height: 22px;
+  border-radius: 5px;
+  width: 90px;
+  text-transform: uppercase;
+  background-color: rgb(238, 239, 239);
+}
+
+.form30:hover {
+  background-color: rgb(255, 248, 167);
+}
+
+.select2-container {
+  z-index: 9999 !important;
+}
+
+.select2-container--open {
+  z-index: 9999 !important;
+}
+
+.select2-selection {
+
+padding: 0 !important;
+height: 25px !important;
+}
+.select2-selection--single{
+padding: 0 !important;
+
+}
+.select2-selection__rendered{
+ margin-top: 0 !important;
+
 }
 
 .form5 {
@@ -494,6 +540,11 @@ tr.seleccionada {
   width: 150px;
   padding-left: 10px;
 }
+
+
+
+
+
 
 .cajalabel31 {
   width: 130px;
@@ -2479,7 +2530,7 @@ color: white;
  /* SCROLL EN MODAL HISTIRIAL PREDIO */
 
 .modal-body {
-  max-height: 500px; /* O cualquier altura que desees */
+  max-height: 700px; /* O cualquier altura que desees */
   overflow-y: auto;  /* Habilitar scroll vertical */
 }
 

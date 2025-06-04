@@ -443,6 +443,13 @@ $(document).ready(function () {
           predioEdit.idTipoEscrituraC = respuesta.Id_Tipo_Escritura;
           predioEdit.fechaDocInscripC = respuesta.Fecha_Escritura;
 
+          //LEVANTAMIENTO DATOS
+            predioEdit.nLicenciaC = respuesta.Id_Denominacion_Rural;
+          predioEdit.nTrabajadoresC = respuesta.Id_Detalle_Transferencia;
+          predioEdit.nMesasC = respuesta.Id_Documento_Inscripcion;
+          predioEdit.areaNegocioC = respuesta.Numero_Documento_Inscripcion;
+          predioEdit.tenencia_negocioC = respuesta.Id_Tipo_Escritura;
+          
           predioEdit.numUbicacionC = respuesta.Numero_Ubicacion;
           predioEdit.numLoteC = respuesta.Numero_Lote;
           predioEdit.codCofopriC = respuesta.Codigo_COFOPRI;
@@ -486,6 +493,7 @@ $(document).ready(function () {
           if (predioEdit.predioURC == "U") {
             $("#divUbigeoPreu").show();
             $("#divDescripPreu").show();
+           
             $("#divUbigeoPreR").hide();
             $("#divDescriPreR").hide();
             asignarvaloreurbanos();
@@ -495,6 +503,7 @@ $(document).ready(function () {
             $("#divDescriPreR").show();
             $("#divUbigeoPreu").hide();
             $("#divDescripPreu").hide();
+             
             asignarValoresRusticos();
             informacionUbigeor(predioEdit.idValviC, predioEdit.idAnioFiscalC);
           }
@@ -508,9 +517,6 @@ $(document).ready(function () {
   });
 
   function asignarvaloreurbanos() {
-
-   
-
     $("#nroUbicacion_e").val(predioEdit.numUbicacionC);
     $("#nroLote_e").val(predioEdit.numLoteC);
     $("#reciboLuz_e").val(predioEdit.numeroLuzC);
@@ -682,6 +688,7 @@ $(document).ready(function () {
   $(document).on("click", "#btnGuardarPredio_e", function () {
    
     if (predioEdit.predioURC === "U") {
+
           capturarValoresUrbanosE();
           // =========== REGISTRO PREDIO =============================
           predioEdit.idViaC = $("#idvia_Predio").text();
@@ -733,6 +740,17 @@ $(document).ready(function () {
           formd.append("observacion", predioEdit.obsercacionesC); //10
           formd.append("idPredioE", predioEdit.idPredioC); //
 
+          //LEVANTAMIENTO DE DATOS
+
+            formd.append("nLicenciaC", predioEdit.nLicenciaC); //23
+          formd.append("nTrabajadoresC", predioEdit.nTrabajadoresC); //24
+          formd.append("nMesasC", predioEdit.nMesasC); //9
+          formd.append("areaNegocioC", predioEdit.areaNegocioC); //10
+          formd.append("tenencia_negocioC", predioEdit.tenencia_negocioC); //X|
+
+
+
+
 
           formd.append("fecha_inicio_expe", predioEdit.Fecha_Inicio_exo); //
           formd.append("fecha_fin_expe", predioEdit.Fecha_fin_exo); //
@@ -749,34 +767,34 @@ $(document).ready(function () {
 
           //GERGADOS
           
-            $.ajax({
+      //       $.ajax({
 
-              type: "POST",
-              url: "ajax/predio.ajax.php",
-              data: formd,
-              cache: false,
-              contentType: false,
-              processData: false,
-              success: function (respuesta) {
-                if (respuesta.tipo === "advertencia") {
-                  $("#respuestaAjax_srm").html(respuesta.mensaje);
-                  $("#respuestaAjax_srm").show(); // Mostrar el elemento
-                  setTimeout(function () {
-                    $("#respuestaAjax_srm").hide();
-                  }, 5000); // 3000 milisegundos = 3 segundos
-          } else {
-            predio.lista_predio(predio.anio_predio);
-            $("#modalEditarPredio").modal("hide");
-            $("#respuestaAjax_srm").html(respuesta.mensaje);
-            $("#respuestaAjax_srm").show(); // Muestra el mensaje
+      //         type: "POST",
+      //         url: "ajax/predio.ajax.php",
+      //         data: formd,
+      //         cache: false,
+      //         contentType: false,
+      //         processData: false,
+      //         success: function (respuesta) {
+      //           if (respuesta.tipo === "advertencia") {
+      //             $("#respuestaAjax_srm").html(respuesta.mensaje);
+      //             $("#respuestaAjax_srm").show(); // Mostrar el elemento
+      //             setTimeout(function () {
+      //               $("#respuestaAjax_srm").hide();
+      //             }, 5000); // 3000 milisegundos = 3 segundos
+      //     } else {
+      //       predio.lista_predio(predio.anio_predio);
+      //       $("#modalEditarPredio").modal("hide");
+      //       $("#respuestaAjax_srm").html(respuesta.mensaje);
+      //       $("#respuestaAjax_srm").show(); // Muestra el mensaje
 
-            // Obtener los parámetros actuales de la URL
-            setTimeout(function () {
-              $("#respuestaAjax_srm").hide(); //
-            }, 5000); // 3 segundos
-          }
-        },
-      });
+      //       // Obtener los parámetros actuales de la URL
+      //       setTimeout(function () {
+      //         $("#respuestaAjax_srm").hide(); //
+      //       }, 5000); // 3 segundos
+      //     }
+      //   },
+      // });
 
 
 
@@ -1028,3 +1046,40 @@ $(document).ready(function () {
 
 
 });
+
+//BUSCADOR DE SELECTORES
+ // Asegúrate de que el DOM esté cargado
+$(document).ready(function () {
+  $('#giroPredio_e').select2({
+    placeholder: "Seleccione", // Este placeholder se muestra solo si hay una opción vacía
+    allowClear: true,
+    width: 'resolve'
+  });
+
+  
+});
+
+
+ $(document).ready(function () {
+    $('#tenencia_e').on('change', function () {
+      if ($(this).val() === 'OTRO') {
+        $('#otroInputRow').show();
+      } else {
+        $('#otroInputRow').hide();
+      }
+    });
+  });
+
+
+   $(document).ready(function () {
+    $('#persononeria_jur_e').on('change', function () {
+      if ($(this).val() === 'PERSONA_JURIDICA') {
+        $('#otroInputRowJuridica').show();
+      } else {
+        $('#otroInputRowJuridica').hide();
+      }
+    });
+  });
+
+
+ 

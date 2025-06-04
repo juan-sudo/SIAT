@@ -41,6 +41,10 @@ $tiem = time();
 	<link rel="stylesheet" href="vistas/pack/bower_components/fontawesome-free/css/all.css">
 
 	<link rel="stylesheet" href="vistas/css/form.css">
+
+	<!-- BUSCADOR DE SELECT -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 	<!-- jQuery 3 -->
 	<script src="vistas/pack/bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
@@ -186,6 +190,13 @@ $tiem = time();
 	<script src="vistas/js/calcularimpuestoPOO.js"></script>
 	<script src="vistas/js/foto.js"></script>
 	<script src="vistas/js/prescripcion.js"></script>
+
+	<script>
+  	$.fn.modal.Constructor.prototype.enforceFocus = function() {};
+	</script>
+	<!-- BUSCADOR DE SELECT -->
+	 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	 
 	<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
 	<script>

@@ -824,8 +824,8 @@ $concatenado_id=$idParam;
       <div class="modal-header">
         <label class="modal-title"> EDITAR PREDIO I</label>
       </div>
-      <div class="modal-body">
-        <div class="row divDetallePredio_predio">
+      <div class="modal-body" style="padding-bottom: 0 !important;padding-top: 0 !important;">
+        <div class="row ">
           <!-- FORMULARIO -->
           <div class="col-lg-12 col-xs-12">
             <form role="form" method="post" class="formEditarPredio" id="formEditarPredio">
@@ -929,17 +929,23 @@ $concatenado_id=$idParam;
                       </tbody>
                     </table>
                   </div>
+                   <div class="col-md-6">
+                     <span class="caption_">Direccion de predio</span>
+                      <div class="row2">
+                        <div class="flex">
+                          <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalViacalle_Predio">Ubicacion del Predio</button>
+                        </div>
+                       
+                      </div>
+                  </div>
+
+
                 </div>
                 <!--====== ENTRADA UBIGEO PREDIO URBANO =======-->
                 <div id="divUbigeoPreu">
                   <div class="box">
                     <div class="box-body">
-                      <div class="row2">
-                        <div class="flex">
-                          <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalViacalle_Predio">Ubicacion del Predio</button>
-                        </div>
-                        <span class="caption_">Ubigeo del Predio</span>
-                      </div>
+                   
                       <!-- Tabla-->
                       <div class="row2">
                         <div class="">
@@ -1012,14 +1018,16 @@ $concatenado_id=$idParam;
                       </div>
                     </div>
                   </div>
-                </div>.
+                </div>
+
+
                 <!--====== DESCRIPCION ENTRADA PREDIO URBANO ==-->
                 <div id="divDescripPreu">
                   <div class="box box-success" style="border-top: 0px;">
                     <div class="box-body" style="border: 1px dotted gray; padding-top:0px; ">
                       <div class="row">
                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                          <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px;">PARAMETROS PREDIO URBANO:</legend>
+                          <legend class="text-bold" style="margin-left:15px;  letter-spacing: 1px;">Parametro predio</legend>
                           <!-- ENTRADA AREA TERRENO-->
                           <div class="row">
                             <label for="areaTerreno_e" class="cajalabel2">Area (m2)</label>
@@ -1056,8 +1064,11 @@ $concatenado_id=$idParam;
                             <label id="valorPredioAnio_e">-</label>
                           </div>
                         </div>
+
                         <div class="col-12 col-md-8"><!-- LADO 2 DESCRIPCION DEL PREDIO-->
-                          <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px;">DESCRIPCION DEL PREDIO:</legend>
+                          <legend class="text-bold" style="margin-left:15px; font-size:1.3em; letter-spacing: 1px;">Descripcion predio</legend>
+                         
+                         
                           <div class="col-12 col-md-6">
                             <!-- TIPO PREDIO   -->
                             <div class="row">
@@ -1102,18 +1113,24 @@ $concatenado_id=$idParam;
                               </select>
                             </div>
                             <!-- GIRO ESTABLECIMIENTO -->
-                            <div class="row">
+                            <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
                               <label for="giroPredio_e" class="cajalabet"> Giro Est.</label>
-                              <select class="form2" name="giroPredio_e" id="giroPredio_e">
-                                <option value="" selected="" disabled="">Seleccione</option>
-                                <?php
-                                $tabla = 'giro_establecimiento';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . $data_d['Id_Giro_Establecimiento'] . "'>" . $data_d['Nombre'] . '</option>';
-                                }
-                                ?>
-                              </select>
+
+                          <select id="giroPredio_e" class="form2" name="giroPredio_e" required style="width: 66%">
+                          <option value=""></option> <!-- Para placeholder -->
+                          <?php
+                          $tabla = 'giro_establecimiento';
+                          $registros = ControladorPredio::ctrMostrarData($tabla);
+                          foreach ($registros as $data_d) {
+                            echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
+                          }
+                          ?>
+                        </select>
+
+
+
+
+
                             </div>
                             <!-- CONDICION DEL PREDIO  -->
                             <div class="row">
@@ -1221,6 +1238,118 @@ $concatenado_id=$idParam;
                           <input style="width: 50%;" type="text" pattern="[A-Za-z0-9\s:.\-]+" title="Solo se permiten letras" name="observacion_e" id="observacion_e" maxlength="70">
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                 
+                <!--====== LEVANTAMIENTO DE DATOS ==-->
+                <div id="divDescripPreu" >
+                  <div class="box box-success" style="border-top: 0px;">
+                    <div class="box-body" style="border: 1px dotted gray;  ">
+                      <div class="row">
+
+
+                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                         
+                          <!-- ENTRADA AREA TERRENO-->
+                         <!-- ENTRADA AREA TERRENO -->
+                            <!-- ENTRADA AREA TERRENO -->
+                          
+
+
+                          
+                          <!-- ENTRADA AREA TERRENO-->
+                           <div class="row">
+                            <label for="areaTerreno_e" class="cajalabel2">N° licencia</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                          </div>
+
+                           <div class="row">
+                            <label for="areaTerreno_e" class="cajalabel2">N° trabajadores </label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                          </div>
+
+                          <!-- VALOR ARANCEL-->
+                         
+                        </div>
+
+                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                        <div class="row">
+                            <label for="areaTerreno_e" class="cajalabel2">N° mesas</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                          </div>
+                          
+                          <!-- ENTRADA AREA TERRENO-->
+                          <div class="row">
+                            <label for="areaTerreno_e" class="cajalabel2">Area neg. m2</label>
+                            <input type="text" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                          </div>
+                          <!-- VALOR ARANCEL-->
+                         
+                       
+                         
+                        </div>
+
+                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                           <div class="row">
+                              <label for="areaTerreno_e" class="cajalabel2"> Tenencia neg. </label>
+                              <select class="form33" name="tenencia_e" id="tenencia_e">
+                                <option value="" selected="" >Seleccione</option>
+                                 <option value="PROPIO"  >Propio</option>
+                                  <option value="ALQUILADO"  >Alquilado</option>
+                                    <option value="OTRO"  >Otro</option>
+                               
+                              </select>
+                            </div>
+                            
+                              <div class="row"  id="otroInputRow" >
+                            <label for="areaTerreno_e" class="cajalabel2"></label>
+                            <input type="text" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                          </div>
+                          
+                         
+                         
+                        </div>
+
+                          <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                           <div class="row">
+                              <label for="areaTerreno_e" class="cajalabel2"> Personeria </label>
+                              <select class="form33" name="persononeria_jur_e" id="persononeria_jur_e">
+                                <option value="" selected="" >Seleccione</option>
+                                 <option value="PERSONA_NATURAL" >Persona natural</option>
+                                  <option value="PERSONA_JURIDICA"  >Persona juridica</option>
+                                    
+                               
+                              </select>
+                            </div>
+
+                             <div class="row" id="otroInputRowJuridica" >
+                              <label for="areaTerreno_e" class="cajalabel2"> Tipo soc. </label>
+                              <select class="form33" name="tipoPredio_e" id="tipoPredio_e">
+                                <option value="" selected="" >Seleccione</option>
+                                 <option value="SA"  >S.A.</option>
+                                  <option value="SAS" >S.A.S.</option>
+                                    <option value="SRL"  >S.R.L.</option>
+                                     <option value="EIRL" >E.I.R.L.</option>
+                                    
+                               
+                              </select>
+                            </div>
+                          
+                         
+                         
+                        </div>
+
+
+
+                        <!--OBSERVACIONES-->
+                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -1503,22 +1632,28 @@ $concatenado_id=$idParam;
 
               </div>
 
-              <div id="errorPredioR"></div>
-              <!--====== BOTON GUARDAR Y SALIR ==============-->
-              <div class="box box-success" style="border-top: 0px;">
-                <div class="box-footer contenedor-btns-carrito">
-                  <button type="button" class="btn btn-primary" id="btnGuardarPredio_e"><i class="bi bi-floppy2-fill"></i> Guardar Cambios s</button>
-                </div>
-              </div>
+              
 
           </div>
           </form>
         </div>
       </div>
+
+      <div class="modal-footer" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-primary" id="btnGuardarPredio_e"><i class="bi bi-floppy2-fill"></i> Guardar Cambios s</button>
+    
+      </div>
+
+
     </div>
     <div id="respuestaFechaEdit"></div>
   </div>
 </div>
+
+
+
 
 <div class="modal" id="modalViacalle_Predio">
   <div class="modal-dialog modal-lg">
@@ -3042,10 +3177,12 @@ $concatenado_id=$idParam;
           </div>
         </section>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
         <button type="button" class="btn btn-primary" id="popimprimir_estadoCuentapagados">Imprimir Pagos</button>
       </div>
+
     </div>
   </div>
 </div>

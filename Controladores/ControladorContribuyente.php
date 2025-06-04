@@ -741,6 +741,16 @@ class ControladorContribuyente
     return $respuesta;
   }
 
+   public static function CntrVerificar_Parametro_agua($valor)
+  {
+    
+    $tabla = 'contribuyente';
+    $respuesta = ModeloContribuyente::mdlMostrarValores_parametro_get_agua($tabla, $valor);
+  
+    
+    return $respuesta;
+  }
+
 
   //BARRA DE PROGRESO DE //CONTRIBUYENTES
   //   public static function CntrVerificar_Parametro_agua($valor)

@@ -26,7 +26,7 @@ $idArray = array_filter($idArray);
               // Capturar datos del contribuyente una sola vez
              // $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro_agua($idArray);
 
-                $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro($idArray);
+                $datos_contribuyente = ControladorContribuyente::CntrVerificar_Parametro_agua($idArray);
 
               //  var_dump($datos_contribuyente);
            //tu sabes que te amo a ti  por eso te dire estas junto ami 
@@ -119,11 +119,12 @@ $idArray = array_filter($idArray);
 
           <table class="miTabla_propietarios">
             <caption>Propietarios jj</caption>
-            <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 0.3rem; margin-top: 0.3rem;">
-            <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_agua">
-            Editar progreso
-          </button>
-          </div>
+              <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; margin-bottom: 0.3rem; margin-top: 0.3rem;">
+                  <button class="bi bi-bar-chart btn btn-secundary btn-sm" id="editar_progreso_agua">
+                  Editar progreso
+                </button>
+            </div>
+
             <thead>
               <th class="text-center">Codigo</th>
               <th class="text-center">Documento</th>
