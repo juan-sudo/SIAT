@@ -1704,6 +1704,25 @@ $("#abrirEstadoCuenta").click(function () {
 });
 
 
+//OCULTAR EDITAR ESTADO DE CUENTA
+
+$(document).ready(function() {
+  // Obtener el valor del campo 'area_oculta'
+  var area = $('#mySpan_area').attr('iso_area');
+  
+  console.log("El área es ahora desde modal: " + area);  // Verificar el valor del área
+
+  // Mostrar el div solo si el valor del área es "SUBGERENCIA DE SERVICIOS MUNICIPALES"
+  if (area === "OFICINA DE TECNOLIGIA DE INFORMACION Y COMUNICACION") {
+    console.log("Mostrando el div");
+    $("#editarEsatdoCuentaDeuda").show();  // Mostrar el div
+  } else {
+    console.log("No se muestra el div");
+    $("#editarEsatdoCuentaDeuda").hide();  // Ocultar el div
+  }
+});
+
+
 
 
 // Cerrar modal manualmente

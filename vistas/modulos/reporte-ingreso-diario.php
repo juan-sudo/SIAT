@@ -12,7 +12,7 @@ use Controladores\ControladorContribuyente;
       <div class="row">
         <div class="col-md-3">
           <table class="table-container" id="tbConsultaReporteIngresoDiario">
-            <caption>Reporte Ingreso Diario</caption>
+            <caption>Reporte Ingreso Diario  i</caption>
             <thead>
               <tr>
                 <td class="text-right">Fecha</td>

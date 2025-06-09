@@ -1117,21 +1117,20 @@ $concatenado_id=$idParam;
                               <label for="giroPredio_e" class="cajalabet"> Giro Est.</label>
 
                           <select id="giroPredio_e" class="form2" name="giroPredio_e" required style="width: 66%">
-                          <option value=""></option> <!-- Para placeholder -->
-                          <?php
-                          $tabla = 'giro_establecimiento';
-                          $registros = ControladorPredio::ctrMostrarData($tabla);
-                          foreach ($registros as $data_d) {
-                            echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
-                          }
-                          ?>
+                                <option value=""></option> <!-- Para placeholder -->
+                                <?php
+                                $tabla = 'giro_establecimiento';
+                                $registros = ControladorPredio::ctrMostrarData($tabla);
+                                foreach ($registros as $data_d) {
+                                  echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
+                                }
+                                ?>
                         </select>
 
-
-
-
-
                             </div>
+
+
+
                             <!-- CONDICION DEL PREDIO  -->
                             <div class="row">
                               <label for="condicionPredio_e" class="cajalabet"> Cond.
@@ -1170,17 +1169,17 @@ $concatenado_id=$idParam;
                             </div>
 
                          <div class="row" id="fecha_ini_div" style="display: none; justify-content: flex-end; align-items: center;">
-                              <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px; margin-left:24px">Fecha ini.</label>
+                              <label for="fechaInicio_e" class="cajalabet" style="margin-right: 10px; margin-left:24px">Fecha ini.</label>
                               <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaInicio_e" id="fechaInicio_e">
                           </div>
 
-                          <div class="row" id="fecha_fin_div" style="display: none; justify-content: flex-end; align-items: center;">
-                              <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">Fecha fin</label>
+                          <div class="row" id="fecha_fin_div" style="display: none;  justify-content: flex-end; align-items: center;">
+                              <label for="fechaFin_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">Fecha fin</label>
                               <input type="date" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="fechaFin_e" id="fechaFin_e">
                           </div>
 
                           <div class="row" id="expediente_div" style="display: none; justify-content: flex-end; align-items: center;">
-                              <label for="fechaAdqui_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">N° exped.</label>
+                              <label for="numeroExpediente_e" class="cajalabet" style="margin-right: 10px;  margin-left:24px">N° exped.</label>
                               <input type="text" class="form2" style="width: 110px; margin-right: 4px; background-color:#a83018; color:#f0f0f0" name="numeroExpediente_e" id="numeroExpediente_e">
                           </div>
 
@@ -1263,12 +1262,12 @@ $concatenado_id=$idParam;
                           <!-- ENTRADA AREA TERRENO-->
                            <div class="row">
                             <label for="areaTerreno_e" class="cajalabel2">N° licencia</label>
-                            <input type="text" title="Solo se permite todo" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                            <input type="text" title="Solo se permite todo" class="form33" name="nLicencia_e" id="nLicencia_e" maxlength="10" required="">
                           </div>
 
                            <div class="row">
                             <label for="areaTerreno_e" class="cajalabel2">N° trabajadores </label>
-                            <input type="number" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                            <input type="number" title="Solo se permiten números" class="form33" name="nTrabajadores_e" id="nTrabajadores_e" maxlength="10" required="">
                           </div>
 
                           <!-- VALOR ARANCEL-->
@@ -1278,14 +1277,14 @@ $concatenado_id=$idParam;
                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
                         
                         <div class="row">
-                            <label for="areaTerreno_e" class="cajalabel2">N° mesas</label>
-                            <input type="number" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
-                          </div>
+                            <label for="nMesas_e" class="cajalabel2">N° mesas</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="nMesas_e" id="nMesas_e" maxlength="10" required="">
+                        </div>
                           
                           <!-- ENTRADA AREA TERRENO-->
                           <div class="row">
-                            <label for="areaTerreno_e" class="cajalabel2">Area neg. m2</label>
-                            <input type="text" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
+                            <label for="areaNegocio_e" class="cajalabel2">Area neg. m2</label>
+                            <input type="text" title="Solo se permiten números" class="form33" name="areaNegocio_e" id="areaNegocio_e" maxlength="10" required="">
                           </div>
                           <!-- VALOR ARANCEL-->
                          
@@ -1294,6 +1293,43 @@ $concatenado_id=$idParam;
                         </div>
 
                          <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                        <div class="row">
+                            <label for="npersonas_e" class="cajalabel2">N° person.</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="npersonas_e" id="npersonas_e" maxlength="10" required="">
+                       
+                       
+                          </div>
+
+                     <div class="row align-items-center">
+                      <div class="d-flex align-items-center">
+                      <span class="cajalabet">¿Tiene agua?</span>
+                      </div>
+
+                     <div class="col-auto d-flex align-items-center">
+                    <input type="radio" id="agua_si" name="tieneAgua" value="si" />
+                    <label for="agua_si" class="cajalabet">Sí</label>
+
+                    <input type="radio" id="agua_no" name="tieneAgua" value="no" />
+                    <label for="agua_no" class="cajalabet">No</label>
+                  </div>
+
+
+                    </div>
+                           <div class="row"  id="paga_otro_nombre_row">
+                          <label for="paga_otro_nombre_e" class="cajalabel2">Paga a otro nombre(opci)</label>
+                            <input type="text" title="Solo se permiten números" class="form33" name="paga_otro_nombre_e" id="paga_otro_nombre_e" maxlength="150" required="">
+                       
+                          </div>
+
+                          
+                          
+                          
+                                  
+                         
+                        </div>
+
+                          <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
                         
                            <div class="row">
                               <label for="areaTerreno_e" class="cajalabel2"> Tenencia neg. </label>
@@ -1305,21 +1341,11 @@ $concatenado_id=$idParam;
                                
                               </select>
                             </div>
-                            
-                              <div class="row"  id="otroInputRow" >
-                            <label for="areaTerreno_e" class="cajalabel2"></label>
-                            <input type="text" title="Solo se permiten números" class="form33" name="areaTerreno_e" id="areaTerreno_e" maxlength="10" required="">
-                          </div>
-                          
-                         
-                         
-                        </div>
 
-                          <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                        
+
                            <div class="row">
                               <label for="areaTerreno_e" class="cajalabel2"> Personeria </label>
-                              <select class="form33" name="persononeria_jur_e" id="persononeria_jur_e">
+                              <select class="form33" name="personeria_e" id="personeria_e">
                                 <option value="" selected="" >Seleccione</option>
                                  <option value="PERSONA_NATURAL" >Persona natural</option>
                                   <option value="PERSONA_JURIDICA"  >Persona juridica</option>
@@ -1330,10 +1356,10 @@ $concatenado_id=$idParam;
 
                              <div class="row" id="otroInputRowJuridica" >
                               <label for="areaTerreno_e" class="cajalabel2"> Tipo soc. </label>
-                              <select class="form33" name="tipoPredio_e" id="tipoPredio_e">
+                              <select class="form33" name="tipoPersona_e" id="tipoPersona_e">
                                 <option value="" selected="" >Seleccione</option>
                                  <option value="SA"  >S.A.</option>
-                                  <option value="SAS" >S.A.S.</option>
+                                  <option value="SAC" >S.A.C.</option>
                                     <option value="SRL"  >S.R.L.</option>
                                      <option value="EIRL" >E.I.R.L.</option>
                                     

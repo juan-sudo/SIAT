@@ -60,13 +60,13 @@ class Caja {
     window.location = "index.php?ruta=caja&id=" + id;
   }
   manejarClicFila_caja(fila) {
-    this.estadoS_tem = fila.find("td:eq(9)").text();
-    this.gastoText_tem = fila.find("td:eq(5)").text();
-    this.subtotalText_tem = fila.find("td:eq(6)").text();
-    this.timText_tem = fila.find("td:eq(7)").text();
-    this.totalText_tem = fila.find("td:eq(8)").text();
-    this.importeText_tem = fila.find("td:eq(4)").text();
-    this.tributoText_tem = fila.find("td:eq(0)").text();
+    this.estadoS_tem = fila.find("td:eq(10)").text();
+    this.gastoText_tem = fila.find("td:eq(6)").text();
+    this.subtotalText_tem = fila.find("td:eq(7)").text();
+    this.timText_tem = fila.find("td:eq(8)").text();
+    this.totalText_tem = fila.find("td:eq(9)").text();
+    this.importeText_tem = fila.find("td:eq(5)").text();
+    this.tributoText_tem = fila.find("td:eq(1)").text();
 
     this.gasto_tem = parseFloat(this.gastoText_tem);
     this.subtotal_tem = parseFloat(this.subtotalText_tem);
@@ -91,7 +91,7 @@ class Caja {
       this.totalTotal_caja -= this.total_tem;
       this.totalImporte_caja -= this.importe_tem;
 
-      fila.find("td:eq(9)").text("");
+      fila.find("td:eq(10)").text("");
       fila.css("background-color", "");
 
       // Eliminar el valor del id de la fila del array (si existe)
@@ -115,7 +115,7 @@ class Caja {
       this.totalTIM_caja += this.tim_tem;
       this.totalTotal_caja += this.total_tem;
       this.totalImporte_caja += this.importe_tem;
-      fila.find("td:eq(9)").text("1");
+      fila.find("td:eq(10)").text("1");
       fila.css("background-color", "rgb(255, 248, 167)");
       
       if (!this.idsSeleccionados_caja.includes(filaId)) {
@@ -190,17 +190,17 @@ manejarClicS_caja(thS) {
   thS.text(todasSeleccionadas ? "S" : "S");
 
   // Actualizar los totales en la segunda tabla
-  $("#segundaTabla_caja tbody th:eq(1)").text(
+  $("#segundaTabla_caja tbody th:eq(2)").text(
       this.totalImporte_caja.toFixed(2)
   );
-  $("#segundaTabla_caja tbody th:eq(2)").text(
+  $("#segundaTabla_caja tbody th:eq(3)").text(
       this.totalGasto_caja.toFixed(2)
   );
-  $("#segundaTabla_caja tbody th:eq(3)").text(
+  $("#segundaTabla_caja tbody th:eq(4)").text(
       this.totalSubtotal_caja.toFixed(2)
   );
-  $("#segundaTabla_caja tbody th:eq(4)").text(this.totalTIM_caja.toFixed(2));
-  $("#segundaTabla_caja tbody th:eq(5)").text(
+  $("#segundaTabla_caja tbody th:eq(5)").text(this.totalTIM_caja.toFixed(2));
+  $("#segundaTabla_caja tbody th:eq(6)").text(
       this.totalTotal_caja.toFixed(2)
   );
   document.getElementById("efectivo").value = "";
@@ -346,6 +346,7 @@ manejarClicS_caja(thS) {
     console.log("propietario_baoucher:" + caja.idContribuyente_caja);
     console.log("id_cuenta boucher:" + caja.idsSeleccionados_caja);
     console.log (datos_baucher);
+    
     caja.reniciar_valor();
     caja.tipo_papel();
     console.log("tipo_papel_generar_IMPRIMIR:" + self.tipo_papel_valor);
@@ -486,6 +487,7 @@ function sumarValores() {
 //Mostrar el Pop up para confirma si pagar o no
 $(document).on("click", ".generar_boleta", function () {
   if (caja.totalTotal_caja > 0) {
+    
     $("#modalPagar_si_no").modal("show");
     //miInstanciaImprimir.imprimirDJ();
   } else {

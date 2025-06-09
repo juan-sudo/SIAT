@@ -68,30 +68,7 @@ $idArray = array_filter($idArray);
 
 
          
-    // $porcentaje = 0;
-    // $color = '#ccc';
-
-    // if (!empty($datos_contribuyente)) {
-    //     // Obtener el primer elemento del array (sin importar la clave)
-    //     $primer_contribuyente = reset($datos_contribuyente); // array con índice 0 => datos
-    //     if (!empty($primer_contribuyente) && isset($primer_contribuyente[0]['Estado_progreso'])) {
-    //         $estado_progreso = $primer_contribuyente[0]['Estado_progreso'];
-
-    //         if ($estado_progreso === 'P') {
-    //             $porcentaje = 30;
-    //             $color = 'rgb(255, 193, 7)';
-    //         } elseif ($estado_progreso === 'E') {
-    //             $porcentaje = 60;
-    //             $color = 'rgb(23, 162, 184)';
-    //         } elseif ($estado_progreso === 'C') {
-    //             $porcentaje = 100;
-    //             $color = 'rgb(40, 167, 69)';
-    //         } elseif ($estado_progreso === NULL) {
-    //             $porcentaje = 0;
-    //             $color = '#ccc';
-    //         }
-    //     }
-    // }
+  
             
               
 
@@ -100,6 +77,9 @@ $idArray = array_filter($idArray);
      <div class="progress-bar" role="progressbar" style="width: <?php echo $porcentaje; ?>%; height: 100%; background-color: <?php echo $color; ?>; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
         <?php echo $porcentaje . '%'; ?>
     </div>
+
+
+    
 
       </div>
       

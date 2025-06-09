@@ -289,9 +289,22 @@ class ModeloPredio
 						Valor_Predio_Aplicar =:Valor_predio_total,
                         id_usuario = :id_usuario,
 						Direccion_completo=:Direccion_completo,
-						Fecha_Inicio_exo=:Fecha_Inicio_exo,
-						Fecha_fin_exo=:Fecha_fin_exo,
-						Numero_Expediente=:Numero_Expediente
+
+						Fecha_Inicio_exo =:Fecha_Inicio_exo,
+                        Fecha_fin_exo = :Fecha_fin_exo,
+						Numero_Expediente=:Numero_Expediente,
+
+						N_Licencia =:N_Licencia,
+                        N_Trabajadores = :N_Trabajadores,
+						N_Mesas=:N_Mesas,
+						Area_negocio =:Area_negocio,
+                        Tenencia_Negocio = :Tenencia_Negocio,
+						Personeria=:Personeria,
+						Tipo_personeria=:Tipo_personeria,
+						N_Personas=:N_Personas,
+						T_Agua=:T_Agua,
+						Otro_Nombre=:Otro_Nombre
+
                      WHERE Id_Predio = :Id_Predio");
 		$stmt3->bindParam(":Fecha_Adquisicion", $datos['Fecha_Adquisicion']);
 		$stmt3->bindParam(":Numero_Luz", $datos['Numero_Luz']);
@@ -316,11 +329,24 @@ class ModeloPredio
 		$stmt3->bindParam(":Id_Predio", $datos['Id_Predio']);
 		$stmt3->bindParam(":Direccion_completo", $direccionCompleto);
 
+		//EXONERACION
 		$stmt3->bindParam(":Fecha_Inicio_exo", $datos['Fecha_Inicio_exo']);
 		$stmt3->bindParam(":Fecha_fin_exo", $datos['Fecha_fin_exo']);
 		$stmt3->bindParam(":Numero_Expediente", $datos['Numero_Expediente']);
 
-
+		//LEVANTANMIENTODE DATOS	
+		$stmt3->bindParam(":N_Licencia", $datos['N_Licencia']);
+		$stmt3->bindParam(":N_Trabajadores", $datos['N_Trabajadores']);
+		$stmt3->bindParam(":N_Mesas", $datos['N_Mesas']);
+		$stmt3->bindParam(":Area_negocio", $datos['Area_negocio']);
+		$stmt3->bindParam(":Tenencia_Negocio", $datos['Tenencia_Negocio']);
+		$stmt3->bindParam(":Personeria", $datos['Personeria']);
+		$stmt3->bindParam(":Tipo_personeria", $datos['Tipo_personeria']);
+		$stmt3->bindParam(":N_Personas", $datos['N_Personas']);
+		$stmt3->bindParam(":T_Agua", $datos['T_Agua']);	
+		$stmt3->bindParam(":Otro_Nombre", $datos['Otro_Nombre']);
+		
+		
 		if ($stmt3->execute()) {
 			$stmt = $pdo->prepare("UPDATE predio SET Direccion_completo = :Direccion_completo WHERE Id_Catastro = :id_catastro");
 			$stmt->bindParam(":id_catastro", $idCatastro);
@@ -331,6 +357,9 @@ class ModeloPredio
 			return 'error';
 		}
 	}
+
+
+	
 
 	public static function mdlEditarPredioR($datos)
 	{

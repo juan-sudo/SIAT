@@ -122,6 +122,7 @@ class ModeloCaja
 			$ids_cuenta = $datos['id_cuenta'];
 			$array = explode('-',$datos['id_propietarios']);
             sort($array);
+			$id_contribuyente = $array[0];
             $id_propietario=implode('-', $array);
 			//obteniedo el numero de caja
 			$pdo  = Conexion::conectar();
@@ -131,6 +132,7 @@ class ModeloCaja
 		    $stmt->execute();
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 			$numeracion = $row['Numero_Recibo']+1;	
+
 			$stmt = $pdo->prepare("INSERT INTO ingresos_tributos
 			     (Concatenado_idc,
 				  Codigo_Catastral,
@@ -192,6 +194,7 @@ class ModeloCaja
 				FROM estado_cuenta_corriente
 				WHERE Id_Estado_Cuenta_Impuesto IN ($ids_cuenta) AND Concatenado_idc = '$id_propietario';
 			");
+
 			//Vincular parámetros
 			$stmt->bindParam(':numero_caja',$numeracion);
 			$stmt->bindValue(':id_area',1);
@@ -200,6 +203,24 @@ class ModeloCaja
 			$stmt->bindValue(':estado','P');
 			$stmt->bindValue(':cierre','0');
 			$stmt->execute();
+
+
+			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS TRIBUTOS
+			$stmt = $pdo->prepare("
+					SELECT COALESCE(SUM(Total_Pagar), 0) AS Total,
+					Numeracion_caja
+					FROM ingresos_tributos
+					WHERE Numeracion_Caja = :numero_caja
+				");
+				$stmt->bindValue(':numero_caja', $numeracion); 
+				$stmt->execute();
+				$rowTotal = $stmt->fetch(PDO::FETCH_ASSOC);
+				$Total = $rowTotal['Total'];
+				$Numeracion_caja = $rowTotal['Numeracion_caja'];
+
+			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS TRIBUTOS FIN
+
+
 			$stmt = $pdo->prepare("UPDATE configuracion set Numero_Recibo=$numeracion; ");
 		    $stmt->execute();
 			//actulizar estado de cuenta como pagado y poner el numero de recibo
@@ -207,6 +228,47 @@ class ModeloCaja
 			SET Numero_Recibo = $numeracion, Estado = 'H', Fecha_pago = '$fecha_actual'
 			WHERE Id_Estado_Cuenta_Impuesto IN ($ids_cuenta) ");
 		    $stmt->execute();
+
+
+
+			//INSERTAR PARA COACTIVO
+
+			// Verificar si el contribuyente tiene coactivo activado
+			$stmt = $pdo->prepare("SELECT Coactivo FROM contribuyente WHERE Id_Contribuyente = :id");
+			$stmt->bindValue(':id', $id_contribuyente, PDO::PARAM_INT); // Usamos el primer ID del array, ya que es el contribuyente base
+			$stmt->execute();
+			$coactivoData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			$coactivoActivo = $coactivoData && $coactivoData['Coactivo'] == 1;
+
+	
+			if ($coactivoActivo) {
+    $stmt = $pdo->prepare("INSERT INTO ingreso_coactivo (Fecha_Registro, Total, Numeracion_caja) 
+                           VALUES (:Fecha_Registro, :Total, :Numeracion_caja)");
+    $stmt->bindValue(':Fecha_Registro', date('Y-m-d'));
+    $stmt->bindValue(':Total', $Total);
+    $stmt->bindValue(':Numeracion_caja', $Numeracion_caja);
+    $stmt->execute();
+
+    // Obtener el ID del último registro insertado
+    $idCoactivo = $pdo->lastInsertId();
+
+    $stmt = $pdo->prepare("UPDATE ingresos_tributos 
+                           SET Id_Ingreso_Coactivo = :idCoactivo 
+                           WHERE Concatenado_idc = :Concatenado_idc 
+                             AND Numeracion_caja = :Numeracion_caja");
+    $stmt->bindValue(':idCoactivo', $idCoactivo, PDO::PARAM_INT);
+    $stmt->bindValue(':Concatenado_idc', $id_propietario, PDO::PARAM_INT);
+    $stmt->bindValue(':Numeracion_caja', $Numeracion_caja, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+			
+			//END INSERTAR PARA OCATIVO
+
+
+
+
 			$pdo->commit();
 
 			return "ok";

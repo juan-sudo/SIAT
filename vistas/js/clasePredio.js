@@ -45,13 +45,22 @@ class PredioClass {
     this.Colindante_Este_DenominacionC=null;
     this.Colindante_Este_NombreC=null;
 
-    //AGREGADOS PARA URBANO
+    //AGREGADOS PARA LEVANTAMIENTO
     this.nLicenciaC=null;
     this.nTrabajadoresC=null;
     this.nMesasC=null;
     this.areaNegocioC=null;
     this.tenencia_negocioC=null;
+    this.personeriaC=null;
+    this.tipoPersonaC=null;
+    this.nPersonasC=null;
+    this.tAguaC=null;
+    this.otroNombreC=null;
 
+    //EXONERADO
+    this.Fecha_Inicio_exoC = null;
+    this.Fecha_fin_exoC = null;
+    this.Numero_ExpedienteC = null;
 
 
     this.idCatasroR=null;

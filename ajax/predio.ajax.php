@@ -140,11 +140,33 @@ class AjaxPredio
 			'Id_Arbitrios' => $_POST["afectacionArb"], //24+
 			'Id_Condicion_Predio' => $_POST["condicionDuenio"], //25	 +
 			'Id_Predio' => $_POST["idPredioE"],        //+
-			'id_usuario' => $_SESSION['id'], //30	    	+	
+			'id_usuario' => $_SESSION['id'],//30	    	+	
 			
-			'Fecha_Inicio_exo' => $_POST['fecha_inicio_expe'], //30	    	+	
-			'Fecha_fin_exo' => $_POST['fecha_fin_expe'],//30	    	+	
-			'Numero_Expediente' => $_POST['numero_expediente'] //30	
+			//EXONERACION
+			'Fecha_Inicio_exo' => $_POST['fechaInicio'], //30	    	+	
+			'Fecha_fin_exo' => $_POST['fechaFin'],//30	    	+	
+			'Numero_Expediente' => $_POST['numeroExpediente'], //30	
+
+			// //LEVANTAMEINTO EN INFORMACION
+
+			'N_Licencia' => $_POST['nLicencia'], //30	    	+	
+			'N_Trabajadores' => $_POST['nTrabajadores'],//30	    	+	
+			'N_Mesas' => $_POST['nMesas'], //30	
+			'Area_negocio' => $_POST['areaNegocio'], //30	    	+	
+			'Tenencia_Negocio' => $_POST['tenenciaNegocio'],//30	    	+	
+			'Personeria' => $_POST['personeria'], //30	
+			'Tipo_personeria' => $_POST['tipoPersona'], //30	    	
+			'N_Personas' => $_POST['nPersonas'],//30	 
+			'T_Agua' => $_POST['tAgua'], //30
+			'Otro_Nombre' => $_POST['otroNombre'] //30	   
+				
+			
+			
+
+
+
+
+
 			
 		);
 		$respuesta = ControladorPredio::crtEditarPrediou($datos);

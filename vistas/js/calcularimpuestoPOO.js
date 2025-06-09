@@ -743,25 +743,7 @@ $(".btnCalcular_impuesto").on("click", function (e) {
 //APARESCA CUANDO SE SELCIONA EXonerado
 //LAS FECHAS INCIO Y FECHA FUIN
 
-$(document).ready(function() {
-  // Cuando se selecciona una opción del select
-  $('#regInafecto_e').on('change', function() {
-    // Verifica si hay una opción seleccionada
-    var selectedValue = $(this).val();
-    
-    // Si se selecciona una opción, mostrar las divs
-    if (selectedValue === "5") {
-      $('#fecha_ini_div').show(); // Muestra la primera div
-      $('#fecha_fin_div').show(); // Muestra la segunda div
-      $('#expediente_div').show(); // Muestra la tercera div
-    } else {
-      // Si no hay opción seleccionada, las ocultas
-      $('#fecha_ini_div').hide();
-      $('#fecha_fin_div').hide();
-      $('#expediente_div').hide();
-    }
-  });
-});
+
 
 //EFECTO DE CELULAR EN EDITAR
 //  $(document).ready(function() {

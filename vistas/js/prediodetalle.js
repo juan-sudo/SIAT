@@ -266,7 +266,7 @@ $(document).ready(function () {
         //  window.location.reload();
         general.mostrarAlerta("success", "Registro de Predio Urbano", "Se ha registrado el Predio de forma correcta", { limpiarFormulario: "formRegisroPredio" });
         $("#itemsRC").empty();
-        
+
         //$('#formRegisroPredio')[0].reset();
         $("#descripcionPredioU_ubigeo").hide();
         $("#descripcionPredioR_ubigeo").hide();
@@ -280,7 +280,7 @@ $(document).ready(function () {
         $("#div_propietario").html("");
         $("#valorArancel").html("-");
         $("#valorTerreno").html("-");
-        $("#valorPredioAnio").html("-");  
+        $("#valorPredioAnio").html("-");
         }
         else {
           general.mostrarAlerta("error", "Error", respuesta);
@@ -358,10 +358,10 @@ $(document).ready(function () {
             $("#div_propietario").html("");
             $("#valorArancel").html("-");
             $("#valorTerreno").html("-");
-            $("#valorPredioAnio").html("-");  
+            $("#valorPredioAnio").html("-");
             general.mostrarAlerta("success", "Registro de Predio Rustico", "Se ha registrado el Predio de forma correcta", { limpiarFormulario: "formRegisroPredio" });
-            
-            
+
+
 
           } else {
             general.mostrarAlerta("error", "Error", respuesta);
@@ -384,7 +384,7 @@ $(document).ready(function () {
     predioEdit.idAnioFiscalC= $("#selectnum").val();
   });
 
-  
+
 
   $("#btnEditarPredioU").click(function () {
 
@@ -404,6 +404,7 @@ $(document).ready(function () {
         success: function (respuesta) {
 
           console.log("para editar predio--",respuesta);
+
 
           predioEdit.idPredioC = respuesta.Id_Predio;
           predioEdit.fechaAdquisicionC = respuesta.Fecha_Adquisicion;
@@ -443,13 +444,8 @@ $(document).ready(function () {
           predioEdit.idTipoEscrituraC = respuesta.Id_Tipo_Escritura;
           predioEdit.fechaDocInscripC = respuesta.Fecha_Escritura;
 
-          //LEVANTAMIENTO DATOS
-            predioEdit.nLicenciaC = respuesta.Id_Denominacion_Rural;
-          predioEdit.nTrabajadoresC = respuesta.Id_Detalle_Transferencia;
-          predioEdit.nMesasC = respuesta.Id_Documento_Inscripcion;
-          predioEdit.areaNegocioC = respuesta.Numero_Documento_Inscripcion;
-          predioEdit.tenencia_negocioC = respuesta.Id_Tipo_Escritura;
-          
+
+
           predioEdit.numUbicacionC = respuesta.Numero_Ubicacion;
           predioEdit.numLoteC = respuesta.Numero_Lote;
           predioEdit.codCofopriC = respuesta.Codigo_COFOPRI;
@@ -470,11 +466,26 @@ $(document).ready(function () {
           predioEdit.Colindante_Este_DenominacionC = respuesta.Colindante_Este_Denominacion;
           predioEdit.Colindante_Este_NombreC = respuesta.Colindante_Este_Nombre;
 
-          predioEdit.Fecha_Inicio_exo = respuesta.Fecha_Inicio_exo;
-          predioEdit.Fecha_fin_exo = respuesta.Fecha_fin_exo;
-          predioEdit.Numero_Expediente = respuesta.Numero_Expediente;
+          //EXONERACION
+           predioEdit.Fecha_Inicio_exoC = respuesta.Fecha_Inicio_exo;
+           predioEdit.Fecha_fin_exoC = respuesta.Fecha_fin_exo;
+           predioEdit.Numero_ExpedienteC = respuesta.Numero_Expediente;
+
+         //LEVANTAMIENTO DATOS
+          predioEdit.nLicenciaC = respuesta.N_Licencia;
+          predioEdit.nTrabajadoresC = respuesta.N_Trabajadores;
+          predioEdit.nMesasC = respuesta.N_Mesas;
+          predioEdit.areaNegocioC = respuesta.Area_negocio;
+          predioEdit.tenencia_negocioC = respuesta.Tenencia_Negocio;
+          predioEdit.personeriaC = respuesta.Personeria;
+          predioEdit.tipoPersonaC = respuesta.Tipo_personeria;
+
+          predioEdit.nPersonasC = respuesta.N_Personas;
+
+         predioEdit.tAguaC=respuesta.T_Agua ;
 
 
+           predioEdit.otroNombreC = respuesta.Otro_Nombre;
 
           let DirecccioncompletoC = respuesta.Direccion_completo;
 
@@ -493,7 +504,7 @@ $(document).ready(function () {
           if (predioEdit.predioURC == "U") {
             $("#divUbigeoPreu").show();
             $("#divDescripPreu").show();
-           
+
             $("#divUbigeoPreR").hide();
             $("#divDescriPreR").hide();
             asignarvaloreurbanos();
@@ -503,7 +514,7 @@ $(document).ready(function () {
             $("#divDescriPreR").show();
             $("#divUbigeoPreu").hide();
             $("#divDescripPreu").hide();
-             
+
             asignarValoresRusticos();
             informacionUbigeor(predioEdit.idValviC, predioEdit.idAnioFiscalC);
           }
@@ -511,12 +522,19 @@ $(document).ready(function () {
       });
       //traer informacion de ubigeo
       $("#modalEditarPredio").modal("show");
+
+
+
+
     } else {
       alert("Debe Seleccionar un Predio a Modificar");
     }
   });
 
   function asignarvaloreurbanos() {
+
+ console.log("valor de agua",predioEdit.tAguaC);
+
     $("#nroUbicacion_e").val(predioEdit.numUbicacionC);
     $("#nroLote_e").val(predioEdit.numLoteC);
     $("#reciboLuz_e").val(predioEdit.numeroLuzC);
@@ -530,7 +548,9 @@ $(document).ready(function () {
     $("#areaConstruc_e").text(predioEdit.areaConstruccionC);
     $("#valorPredioAnio_e").text(predioEdit.valorPredioC);
     $("#valorOtrasIns_e").text(predioEdit.valorOtrasInstalaC);
-    $("#giroPredio_e").val(predioEdit.giroEstablecimientoC);
+
+    $("#giroPredio_e").val(predioEdit.giroEstablecimientoC).trigger('change');
+
     $("#condicionPredio_e").val(predioEdit.idCondicionPredioC);
     $("#estadoPredio_e").val(predioEdit.idEstadoPredioC);
     $("#tipoPredioUR_e").val(predioEdit.predioURC);
@@ -543,16 +563,47 @@ $(document).ready(function () {
     $("#nroDocIns_e").val(predioEdit.numDocInscripC);
     $("#tipoEscritura_e").val(predioEdit.idTipoEscrituraC);
     $("#fechaEscritura_e").val(predioEdit.fechaDocInscripC);
+
     $("#fechaAdqui_e").val(predioEdit.fechaAdquisicionC);
+
     $("#regInafecto_e").val(predioEdit.idRegimenAfectoC);
     $("#afecto_e").val(predioEdit.idInafectoC);
     $("#afectacionArb_e").val(predioEdit.idArbitriosC);
     $("#nroExpediente_e").val(predioEdit.expedienteTramiteC);
     $("#observacion_e").val(predioEdit.obsercacionesC);
 
-     $("#fechaInicio_e").val(predioEdit.Fecha_Inicio_exo);
-     $("#fechaFin_e").val(predioEdit.Fecha_fin_exo);
-     $("#numeroExpediente_e").val(predioEdit.Numero_Expediente);
+  //   //EXONERACION
+      $("#fechaInicio_e").val(predioEdit.Fecha_Inicio_exoC);
+      $("#fechaFin_e").val(predioEdit.Fecha_fin_exoC);
+      $("#numeroExpediente_e").val(predioEdit.Numero_ExpedienteC);
+
+  //    //LEVANTAMIENTO DATOS
+     $("#nLicencia_e").val(predioEdit.nLicenciaC);
+     $("#nTrabajadores_e").val(predioEdit.nTrabajadoresC);
+     $("#nMesas_e").val(predioEdit.nMesasC);
+     $("#areaNegocio_e").val(predioEdit.areaNegocioC);
+     $("#tenencia_e").val(predioEdit.tenencia_negocioC);
+     $("#personeria_e").val(predioEdit.personeriaC);
+     $("#tipoPersona_e").val(predioEdit.tipoPersonaC);
+
+     $("#npersonas_e").val(predioEdit.nPersonasC);
+
+
+     $("input[name='tieneAgua'][value='" + predioEdit.tAguaC + "']").prop("checked", true);
+     $("#paga_otro_nombre_e").val(predioEdit.otroNombreC);
+
+  //     if (valorAgua === "si" || valorAgua === "no") {
+  //   $("input[name='tieneAgua'][value='" + valorAgua + "']").prop("checked", true);
+  // }
+
+  //     $("#paga_otro_nombre_e").val(predioEdit.Otro_Nombre);
+
+
+
+     
+
+
+
 
 
   }
@@ -581,6 +632,7 @@ $(document).ready(function () {
     $("#usoPredioR_e").val(predioEdit.idUsoPredioC);
     $("#estadoPredioR_e").val(predioEdit.idEstadoPredioC);
     $("#condicionPredioR_e").val(predioEdit.idCondicionPredioC);
+
     $("#fechaAdquiR_e").val(predioEdit.fechaAdquisicionC);
 
     //regimen
@@ -593,9 +645,9 @@ $(document).ready(function () {
 
     $("#valorTerrenoR_e").text(predioEdit.valorTerrenoC);
     $("#valorPredioRAnio_e").text(predioEdit.valorTerrenoC);
-    
+
   }
-  
+
   function informacionUbigeo(idubicavia, idanioedit) {
     // OPTENIENDO LA DIRECCION DEL CONTRIBUYENTE
     $.ajax({
@@ -672,37 +724,59 @@ $(document).ready(function () {
     predioEdit.idEstadoPredioC = $("#estadoPredio_e").val();
     predioEdit.giroEstablecimientoC = $("#giroPredio_e").val();
     predioEdit.idCondicionPredioC = $("#condicionPredio_e").val();
+
     predioEdit.fechaAdquisicionC = $("#fechaAdqui_e").val();
+
     predioEdit.idRegimenAfectoC = $("#regInafecto_e").val();
     predioEdit.idInafectoC = $("#afecto_e").val();
     predioEdit.idArbitriosC = $("#afectacionArb_e").val();
     predioEdit.expedienteTramiteC = $("#nroExpediente_e").val();
     predioEdit.obsercacionesC = $("#observacion_e").val();
     predioEdit.valorPredioC = $("#valorPredioAnio_e").text();
+
+    // //EXONERACION
+     predioEdit.Fecha_Inicio_exoC = $("#fechaInicio_e").val();
+     predioEdit.Fecha_fin_exoC = $("#fechaFin_e").val();
+     predioEdit.Numero_ExpedienteC = $("#numeroExpediente_e").val();
+
+    // //LEVANTAMIENTO DATOS
+    predioEdit.nLicenciaC = $("#nLicencia_e").val();
+    predioEdit.nTrabajadoresC = $("#nTrabajadores_e").val();
+    predioEdit.nMesasC = $("#nMesas_e").val();
+    predioEdit.areaNegocioC = $("#areaNegocio_e").val();
+    predioEdit.tenencia_negocioC = $("#tenencia_e").val();
+    predioEdit.personeriaC = $("#personeria_e").val();
+    predioEdit.tipoPersonaC = $("#tipoPersona_e").val();
+
+    predioEdit.nPersonasC = $("#npersonas_e").val();
+
+    //predioEdit.tAguaC = $("input[name='tieneAgua']:checked").val();
+
+    let valorAgua = $("input[name='tieneAgua']:checked").val();
+    // if (!valorAgua) {
+    //   alert("Debe seleccionar si tiene agua.");
+    //   return;
+    // }
+    predioEdit.tAguaC = valorAgua;
+
+    predioEdit.otroNombreC = $("#paga_otro_nombre_e").val();
+
+
+
+
+
   }
-  
+
 
 
 
   //GUARDAR EDIATR PREDIO
-  $(document).on("click", "#btnGuardarPredio_e", function () {
-   
+   $(document).on("click", "#btnGuardarPredio_e", function () {
     if (predioEdit.predioURC === "U") {
-
           capturarValoresUrbanosE();
           // =========== REGISTRO PREDIO =============================
           predioEdit.idViaC = $("#idvia_Predio").text();
-
-          predioEdit.Fecha_Inicio_exo = $("#fechaInicio_e").val();
-          predioEdit.Fecha_fin_exo = $("#fechaFin_e").val();
-
-
-          predioEdit.Numero_Expediente = $("#numeroExpediente_e").val();
-
-          
-
           let formd = new FormData();
-
           formd.append("predio_UR", predioEdit.predioURC); //16
           formd.append("tipoDocInscripcion", predioEdit.idDocInscripcionC); //16
           formd.append("nroDocIns", predioEdit.numDocInscripC); //13
@@ -740,66 +814,62 @@ $(document).ready(function () {
           formd.append("observacion", predioEdit.obsercacionesC); //10
           formd.append("idPredioE", predioEdit.idPredioC); //
 
-          //LEVANTAMIENTO DE DATOS
-
-            formd.append("nLicenciaC", predioEdit.nLicenciaC); //23
-          formd.append("nTrabajadoresC", predioEdit.nTrabajadoresC); //24
-          formd.append("nMesasC", predioEdit.nMesasC); //9
-          formd.append("areaNegocioC", predioEdit.areaNegocioC); //10
-          formd.append("tenencia_negocioC", predioEdit.tenencia_negocioC); //X|
+          //EXONERACION
+          formd.append("fechaInicio", predioEdit.Fecha_Inicio_exoC); //11
+          formd.append("fechaFin", predioEdit.Fecha_fin_exoC); //12
+          formd.append("numeroExpediente", predioEdit.Numero_ExpedienteC); //15
 
 
+          //LEVANTAMIENTO DATOS
+          formd.append("nLicencia", predioEdit.nLicenciaC); //26
+          formd.append("nTrabajadores", predioEdit.nTrabajadoresC); //27
+          formd.append("nMesas", predioEdit.nMesasC); //28
+          formd.append("areaNegocio", predioEdit.areaNegocioC); //29
+          formd.append("tenenciaNegocio", predioEdit.tenencia_negocioC); //31
+          formd.append("personeria", predioEdit.personeriaC); //32
+          formd.append("tipoPersona", predioEdit.tipoPersonaC); //33
+          formd.append("nPersonas", predioEdit.nPersonasC); //34
+          formd.append("tAgua", predioEdit.tAguaC); //34
+          formd.append("otroNombre", predioEdit.otroNombreC); //34
+
+          
 
 
 
-          formd.append("fecha_inicio_expe", predioEdit.Fecha_Inicio_exo); //
-          formd.append("fecha_fin_expe", predioEdit.Fecha_fin_exo); //
-          formd.append("numero_expediente", predioEdit.Numero_Expediente); //
+          for (let [key, value] of formd.entries()) {
+              console.log(`${key}: ${value}`);
+          }
+
 
 
           formd.append("predioUrbanoE", "predioUrbanoE");
+            $.ajax({
+              type: "POST",
+              url: "ajax/predio.ajax.php",
+              data: formd,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (respuesta) {
+                if (respuesta.tipo === "advertencia") {
+                  $("#respuestaAjax_srm").html(respuesta.mensaje);
+                  $("#respuestaAjax_srm").show(); // Mostrar el elemento
+                  setTimeout(function () {
+                    $("#respuestaAjax_srm").hide();
+                  }, 5000); // 3000 milisegundos = 3 segundos
+          } else {
+            predio.lista_predio(predio.anio_predio);
+            $("#modalEditarPredio").modal("hide");
+            $("#respuestaAjax_srm").html(respuesta.mensaje);
+            $("#respuestaAjax_srm").show(); // Muestra el mensaje
 
-          for (let pair of formd.entries()) {
-
-                console.log(pair[0] + ': ' + pair[1]);
-
-            }
-
-          //GERGADOS
-          
-      //       $.ajax({
-
-      //         type: "POST",
-      //         url: "ajax/predio.ajax.php",
-      //         data: formd,
-      //         cache: false,
-      //         contentType: false,
-      //         processData: false,
-      //         success: function (respuesta) {
-      //           if (respuesta.tipo === "advertencia") {
-      //             $("#respuestaAjax_srm").html(respuesta.mensaje);
-      //             $("#respuestaAjax_srm").show(); // Mostrar el elemento
-      //             setTimeout(function () {
-      //               $("#respuestaAjax_srm").hide();
-      //             }, 5000); // 3000 milisegundos = 3 segundos
-      //     } else {
-      //       predio.lista_predio(predio.anio_predio);
-      //       $("#modalEditarPredio").modal("hide");
-      //       $("#respuestaAjax_srm").html(respuesta.mensaje);
-      //       $("#respuestaAjax_srm").show(); // Muestra el mensaje
-
-      //       // Obtener los parámetros actuales de la URL
-      //       setTimeout(function () {
-      //         $("#respuestaAjax_srm").hide(); //
-      //       }, 5000); // 3 segundos
-      //     }
-      //   },
-      // });
-
-
-
-
-
+            // Obtener los parámetros actuales de la URL
+            setTimeout(function () {
+              $("#respuestaAjax_srm").hide(); //
+            }, 5000); // 3 segundos
+          }
+        },
+      });
     } else {
 
     // =========== REGISTRO PREDIO =============================
@@ -922,7 +992,7 @@ $(document).ready(function () {
     var contribuyentes = [];
     var predios= [];
     var tabla_predio = document.getElementById('tablalistapredios2');
-    var tabla_contribuyente = document.getElementById('tabla_contribuyente_predio');  
+    var tabla_contribuyente = document.getElementById('tabla_contribuyente_predio');
 
     console.log("predio selecionado",tabla_predio);
 
@@ -977,7 +1047,7 @@ $(document).ready(function () {
                 text: "Este contribuyente ya existe en esta carpeta con codigo"+ coincidencia,
                 confirmButtonText: 'Entendido'
               })
-      
+
   }else{
     if(contribuyentes.length===0){
       Swal.fire({
@@ -1049,37 +1119,227 @@ $(document).ready(function () {
 
 //BUSCADOR DE SELECTORES
  // Asegúrate de que el DOM esté cargado
-$(document).ready(function () {
-  $('#giroPredio_e').select2({
-    placeholder: "Seleccione", // Este placeholder se muestra solo si hay una opción vacía
-    allowClear: true,
-    width: 'resolve'
+// $(document).ready(function () {
+//   $('#giroPredio_e').select2({
+//     placeholder: "Seleccione", // Este placeholder se muestra solo si hay una opción vacía
+//     allowClear: true,
+//     width: 'resolve'
+//   });
+
+
+// });
+
+
+
+
+
+  //  $(document).ready(function () {
+  //   $('#persononeria_jur_e').on('change', function () {
+  //     if ($(this).val() === 'PERSONA_JURIDICA') {
+  //       $('#otroInputRowJuridica').show();
+  //     } else {
+  //       $('#otroInputRowJuridica').hide();
+  //     }
+  //   });
+  // });
+
+
+
+  //REGIMEN AFECTO
+
+  $(document).ready(function () {
+
+  function toggleCamposRegimen(valor) {
+    if (valor === 5 || valor===6) {
+      $('#fecha_ini_div').show();
+      $('#fecha_fin_div').show();
+      $('#expediente_div').show();
+    } else {
+      $('#fecha_ini_div').hide();
+      $('#fecha_fin_div').hide();
+      $('#expediente_div').hide();
+    }
+  }
+
+  $('#regInafecto_e').on('change', function () {
+    const valor = parseInt($(this).val());
+    toggleCamposRegimen(valor);
+  });
+
+  $('#modalEditarPredio').on('shown.bs.modal', function () {
+    const valor = parseInt($('#regInafecto_e').val());
+    toggleCamposRegimen(valor);
+  });
+});
+
+// PEROSNORIA JURIDICA
+
+ $(document).ready(function () {
+
+  function toggleCamposRegimen(valor) {
+    if (valor === "PERSONA_JURIDICA" ) {
+      $('#otroInputRowJuridica').show();
+
+    } else {
+      $('#otroInputRowJuridica').hide();
+       // Limpiar la selección en el dropdown de tipo sociedad si es Persona Natural
+      $('#tipoPersona_e').val('');
+
+
+    }
+  }
+
+  $('#personeria_e').on('change', function () {
+    const valor =$(this).val();
+    console.log("personeria...", valor );
+    toggleCamposRegimen(valor);
   });
 
   
+
+$('#modalEditarPredio').on('shown.bs.modal', function () {
+    const valor = $('#personeria_e').val();
+    toggleCamposRegimen(valor);
+  });
+
+
+});
+
+//  $(document).ready(function () {});
+
+
+
+
+
+//TIENE AGUA
+// $(document).ready(function () {
+//   // Función para mostrar u ocultar el input y su label según el valor del radio button
+//   function toggleCamposRegimen() {
+//     // Obtener el valor de los radio buttons seleccionados
+//     const valor = $("input[name='tieneAgua']:checked").val();
+
+//     // Mostrar el input y el label si el valor es "si", ocultarlos si es "no" o está vacío
+//     if (valor === "si") {
+//       $('#paga_otro_nombre_row').show();  // Muestra tanto el label como el input
+//     } else {
+//       $('#paga_otro_nombre_row').hide();  // Oculta tanto el label como el input
+//         // Si el valor seleccionado es "No", vaciar el input
+//       $('#paga_otro_nombre').val('');
+//     }
+//   }
+
+//   // Evento cuando cambia el valor del radio button
+//   $("input[name='tieneAgua']").on('change', function () {
+//     toggleCamposRegimen();  // Actualizar la visibilidad del input y label
+//   });
+
+//   // Ejecutar cuando el modal se abre o al cargar la página para verificar el estado inicial
+//   // $('#modalEditarPredio').on('shown.bs.modal', function () {
+//   //   toggleCamposRegimen();  // Verificar si el input y el label deben mostrarse o no
+//   // });
+
+//   $('#modalEditarPredio').on('shown.bs.modal', function () {
+//   $("input[name='tieneAgua'][value='" + predioEdit.tAguaC + "']").prop("checked", true);
+//   toggleCamposRegimen();
+// });
+
+
+//   // Inicializar el estado del input y label al cargar la página
+//   toggleCamposRegimen();
+// });
+
+
+
+//AGUA NUEVO
+
+// $(document).ready(function () {
+//   // Función para mostrar u ocultar el input y su label según el valor del radio button
+//   function toggleCamposRegimen() {
+//     const valor = $("input[name='tieneAgua']:checked").val();
+
+//     if (valor === "si") {
+//       $('#paga_otro_nombre_row').show();
+//     } else {
+//       $('#paga_otro_nombre_row').hide();
+//       $('#paga_otro_nombre_e').val(''); // <- corrección aquí
+//     }
+//   }
+
+//   // Evento al cambiar la selección de radio
+//   $("input[name='tieneAgua']").on('change', function () {
+//     toggleCamposRegimen();
+//   });
+
+//   // Al abrir el modal, marcar el valor guardado y aplicar la lógica
+//   $('#modalEditarPredio').on('shown.bs.modal', function () {
+//     $("input[name='tieneAgua'][value='" + predioEdit.tAguaC + "']").prop("checked", true);
+//   const valor = $('#personeria_e').val();
+
+
+//     toggleCamposRegimen();
+//   });
+
+//   // Estado inicial
+//   toggleCamposRegimen();
+// });
+
+
+//PRUEBA ----------------------------------
+
+ $(document).ready(function () {
+
+  function toggleCamposRegimen(valor) {
+
+
+    if (valor ===  "si") {
+       $('#paga_otro_nombre_row').show();
+
+    } else {
+      $('#paga_otro_nombre_row').hide();
+      $('#paga_otro_nombre_e').val(''); // <- corrección aquí
+
+
+    }
+  }
+
+
+    $("input[name='tieneAgua']").on('change', function () {
+       const valor =$(this).val();
+    toggleCamposRegimen(valor);
+  });
+  
+
+$('#modalEditarPredio').on('shown.bs.modal', function () {
+   // const valor = $('#personeria_e').val();
+    const valor = $("input[name='tieneAgua']:checked").val();
+    toggleCamposRegimen(valor);
+  });
+
+
 });
 
 
- $(document).ready(function () {
-    $('#tenencia_e').on('change', function () {
-      if ($(this).val() === 'OTRO') {
-        $('#otroInputRow').show();
-      } else {
-        $('#otroInputRow').hide();
-      }
-    });
-  });
 
 
-   $(document).ready(function () {
-    $('#persononeria_jur_e').on('change', function () {
-      if ($(this).val() === 'PERSONA_JURIDICA') {
-        $('#otroInputRowJuridica').show();
-      } else {
-        $('#otroInputRowJuridica').hide();
-      }
-    });
-  });
+//   $(document).ready(function() {
 
+//     console.log("cundo incia la carga ",predioEdit.idRegimenAfectoC)
+//   // Cuando se selecciona una opción del select
+//   $('#regInafecto_e').on('change', function() {
+//     // Verifica si hay una opción seleccionada
+//     var selectedValue = $(this).val();
 
- 
+//     // Si se selecciona una opción, mostrar las divs
+//     if (selectedValue === "5" ||predioEdit.idRegimenAfectoC===5 ) {
+//       $('#fecha_ini_div').show(); // Muestra la primera div
+//       $('#fecha_fin_div').show(); // Muestra la segunda div
+//       $('#expediente_div').show(); // Muestra la tercera div
+//     } else {
+//       // Si no hay opción seleccionada, las ocultas
+//       $('#fecha_ini_div').hide();
+//       $('#fecha_fin_div').hide();
+//       $('#expediente_div').hide();
+//     }
+//   });
+// });
+
