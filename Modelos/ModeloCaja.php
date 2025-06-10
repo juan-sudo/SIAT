@@ -115,7 +115,7 @@ class ModeloCaja
 	}
 
 	//AQUI ENCONTRO
-	public static function mdlRegistro_ingresos($datos)
+	public static function  mdlRegistro_ingresos($datos)
 	{  
 		
 		try {
@@ -205,18 +205,39 @@ class ModeloCaja
 			$stmt->execute();
 
 
-			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS TRIBUTOS
+			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS TRIBUTOS IMPUESTO PREDIAL
 			$stmt = $pdo->prepare("
 					SELECT COALESCE(SUM(Total_Pagar), 0) AS Total,
-					Numeracion_caja
+					Numeracion_caja,
+					Tipo_Tributo
 					FROM ingresos_tributos
-					WHERE Numeracion_Caja = :numero_caja
+					WHERE Numeracion_Caja = :numero_caja AND Tipo_Tributo='006'
 				");
 				$stmt->bindValue(':numero_caja', $numeracion); 
 				$stmt->execute();
 				$rowTotal = $stmt->fetch(PDO::FETCH_ASSOC);
-				$Total = $rowTotal['Total'];
+				$Total_Predial = $rowTotal['Total'];
 				$Numeracion_caja = $rowTotal['Numeracion_caja'];
+				$Impuesto_Predial = $rowTotal['Tipo_Tributo'];
+
+			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS TRIBUTOS FIN
+
+
+			
+			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS ARBITRIO MUNICIPAL
+			$stmt = $pdo->prepare("
+					SELECT COALESCE(SUM(Total_Pagar), 0) AS Total,
+					Numeracion_caja,
+					Tipo_Tributo
+					FROM ingresos_tributos
+					WHERE Numeracion_Caja = :numero_caja AND Tipo_Tributo='742'
+				");
+				$stmt->bindValue(':numero_caja', $numeracion); 
+				$stmt->execute();
+				$rowTotal = $stmt->fetch(PDO::FETCH_ASSOC);
+				$Total_arbitrios = $rowTotal['Total'];
+				$Numeracion_caja = $rowTotal['Numeracion_caja'];
+				$Arbitrio_Municipal = $rowTotal['Tipo_Tributo'];
 
 			// OBTENER TODO LO QUE SE INSERTO EN LA TABLA INGRESOS TRIBUTOS FIN
 
@@ -243,25 +264,64 @@ class ModeloCaja
 
 	
 			if ($coactivoActivo) {
-    $stmt = $pdo->prepare("INSERT INTO ingreso_coactivo (Fecha_Registro, Total, Numeracion_caja) 
-                           VALUES (:Fecha_Registro, :Total, :Numeracion_caja)");
-    $stmt->bindValue(':Fecha_Registro', date('Y-m-d'));
-    $stmt->bindValue(':Total', $Total);
-    $stmt->bindValue(':Numeracion_caja', $Numeracion_caja);
-    $stmt->execute();
 
-    // Obtener el ID del último registro insertado
-    $idCoactivo = $pdo->lastInsertId();
+				if($Impuesto_Predial==='006' && $numeracion>0){
 
-    $stmt = $pdo->prepare("UPDATE ingresos_tributos 
-                           SET Id_Ingreso_Coactivo = :idCoactivo 
-                           WHERE Concatenado_idc = :Concatenado_idc 
-                             AND Numeracion_caja = :Numeracion_caja");
-    $stmt->bindValue(':idCoactivo', $idCoactivo, PDO::PARAM_INT);
-    $stmt->bindValue(':Concatenado_idc', $id_propietario, PDO::PARAM_INT);
-    $stmt->bindValue(':Numeracion_caja', $Numeracion_caja, PDO::PARAM_INT);
-    $stmt->execute();
-}
+					$stmt = $pdo->prepare("INSERT INTO ingreso_coactivo (Fecha_Registro, Total_Predial, Numeracion_caja,Impuesto_Predial) 
+										VALUES (:Fecha_Registro, :Total_Predial, :Numeracion_caja,:Impuesto_Predial)");
+					$stmt->bindValue(':Fecha_Registro', date('Y-m-d'));
+					$stmt->bindValue(':Total_Predial', $Total_Predial);
+					$stmt->bindValue(':Numeracion_caja', $numeracion);
+					$stmt->bindValue(':Impuesto_Predial', $Impuesto_Predial);
+					$stmt->execute();
+
+
+					// Obtener el ID del último registro insertado
+					$idCoactivo = $pdo->lastInsertId();
+
+					$stmt = $pdo->prepare("UPDATE ingresos_tributos 
+										SET Id_Ingreso_Coactivo = :idCoactivo 
+										WHERE Concatenado_idc = :Concatenado_idc 
+											AND Numeracion_caja = :Numeracion_caja");
+					$stmt->bindValue(':idCoactivo', $idCoactivo, PDO::PARAM_INT);
+					$stmt->bindValue(':Concatenado_idc', $id_propietario, PDO::PARAM_INT);
+					$stmt->bindValue(':Numeracion_caja', $numeracion, PDO::PARAM_INT);
+					$stmt->execute();
+
+				}
+
+				if($Arbitrio_Municipal==='742' && $numeracion>0){
+
+					$stmt = $pdo->prepare("INSERT INTO ingreso_coactivo (Fecha_Registro, Total_arbitrios, Numeracion_caja,Arbitrio_Municipal) 
+										VALUES (:Fecha_Registro, :Total_arbitrios, :Numeracion_caja,:Arbitrio_Municipal)");
+					$stmt->bindValue(':Fecha_Registro', date('Y-m-d'));
+					$stmt->bindValue(':Total_arbitrios', $Total_arbitrios);
+					$stmt->bindValue(':Numeracion_caja', $numeracion);
+					$stmt->bindValue(':Arbitrio_Municipal', $Arbitrio_Municipal);
+					$stmt->execute();
+
+
+					// Obtener el ID del último registro insertado
+					$idCoactivo = $pdo->lastInsertId();
+
+					$stmt = $pdo->prepare("UPDATE ingresos_tributos 
+										SET Id_Ingreso_Coactivo = :idCoactivo 
+										WHERE Concatenado_idc = :Concatenado_idc 
+											AND Numeracion_caja = :Numeracion_caja");
+					$stmt->bindValue(':idCoactivo', $idCoactivo, PDO::PARAM_INT);
+					$stmt->bindValue(':Concatenado_idc', $id_propietario, PDO::PARAM_INT);
+					$stmt->bindValue(':Numeracion_caja', $numeracion, PDO::PARAM_INT);
+					$stmt->execute();
+
+				}
+
+
+				
+
+
+
+
+			}
 
 			
 			//END INSERTAR PARA OCATIVO

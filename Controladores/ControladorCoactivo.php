@@ -20,6 +20,17 @@ class ControladorCoactivo
 		return $respuesta;
 	}
 
+	public static function ctrMostrar_lista_coactivo_a($datos)
+	{
+	
+		$respuesta = ModeloCoactivo::mdlMostrar_lista_coactivo_a($datos);
+
+
+		
+
+		return $respuesta;
+	}
+
 
 	
 

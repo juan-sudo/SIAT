@@ -2685,4 +2685,14 @@ color: white;
     box-sizing: border-box;
   }
 
-  
+  /* SCROLL DE INGRESO COACTIVO */
+
+  /* Establece el tamaño fijo para el tbody con scroll */
+
+.table-responsive_i {
+    display: block;
+    max-height: 400px;  /* Ajusta la altura máxima */
+    overflow-y: auto;   /* Activar el scroll si el contenido excede el tamaño */
+}
+
+

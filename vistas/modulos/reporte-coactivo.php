@@ -6,16 +6,16 @@ use Controladores\ControladorContribuyente;
 
 <div class="content-wrapper panel-medio-principal">
   <section class="container-fluid panel-medio">
-      <div class="box"><h6>Pagos coactivo</h6></div> 
+      <div class="box"><h6>Reporte ingreso coactivo</h6></div> 
   </section>
 <!-- seccion de la Id-->
   <section class="container-fluid panel-medio">
         <div class="row">
             <div class="col">
-                <div class="table-responsive col-md-8 div-background">
+                <div class="table-responsive col-md-6 div-background">
                             <div class="col-md-12"> 
                                     <span class="caption_"> 
-                                        Reporte de Ingresos tributario coactivo
+                                        Impuesto predial 
                                     </span>   
 
                                    
@@ -51,6 +51,62 @@ use Controladores\ControladorContribuyente;
                                 <tr>
                                   <td colspan="2" class="text-right total-text"><strong>Total:</strong></td>
                                   <td id="total_ingreso_coactivo" class="text-center total-text"><strong>0.00</strong></td>
+                                </tr>
+                              </tfoot>
+
+
+                            </table>
+                            </div>
+                </div>
+
+
+
+                <div class="table-responsive col-md-6 div-background">
+                            <div class="col-md-12"> 
+                                    <span class="caption_"> 
+                                        Arbitrio municipal
+                                    </span>   
+
+                                   
+
+                                    <div class="pull-right" style="margin-left: 10px;">
+                                      <label for="fecha_filtro_fin_a" style="margin-right: 5px;">Fecha fin:</label>
+                                      <input class="busqueda_filtros_anio" type="date" id="fecha_filtro_fin_a" name="fecha_filtro_fin_a">
+                                    </div>
+
+                                    <div class="pull-right" style="margin-left: 10px;">
+                                    <label for="fecha_filtro_inicio_a" style="margin-right: 5px;">Fecha inicio:</label>
+                                    <input class="busqueda_filtros_anio" type="date" id="fecha_filtro_inicio_a" name="fecha_filtro_inicio_a">
+                                  </div>
+
+                                    
+                            </div>
+                            <div class="box div_1 table-responsive_i">
+                            <table class="table-container " id="tabla_extorno">
+                              <thead>
+                                <tr>
+                                  <th class="text-center" style="width: 80px;">Fecha de Pago</th> 
+                                  <th class="text-center" style="width: 50px;">N° Recibo</th>
+                                  <th class="text-center" style="width: 50px;">Total</th>
+                                 
+                                
+                                </tr>
+                              </thead>
+
+                            
+                              <tbody id="reporte_ingreso_coactivo_a" >
+                                <!-- Aqui Aparecen el estado de cuenta Agua-->
+                              </tbody>
+
+                              
+                             
+
+
+
+                             <tfoot>
+                                <tr>
+                                  <td colspan="2" class="text-right total-text"><strong>Total:</strong></td>
+                                  <td id="total_ingreso_coactivo_a" class="text-center total-text"><strong>0.00</strong></td>
                                 </tr>
                               </tfoot>
 
