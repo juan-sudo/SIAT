@@ -100,7 +100,8 @@ $tiem = time();
 				"campana" => "campana.php",
 				"buscarcontribuyente-caja" => "buscarcontribuyente-caja.php",
 				"caja" => "caja.php",
-				"licencia-agua" => "licencia-agua.php",
+				"licencia-agua" => "licencia-agua.php", 
+				"reporte-general" => "reporte-general.php",
 				"proveidos" => "proveidos.php",
 				"proveidoslista" => "proveidoslista.php",
 				"caja-proveido" => "caja-proveido.php",
@@ -163,7 +164,7 @@ $tiem = time();
 	<script src="vistas/js/tim.js"></script>
 	<script src="vistas/js/viascalles.js"></script>
 	<script src="vistas/js/registrarcontribuyente.js"></script>
-	<script src="vistas/js/carpeta.js"></script>
+	<script src="vistas/js/carpeta.js"></script> 
 	<script src="vistas/js/predio.js"></script>
 	<script src="vistas/js/pisos.js"></script>
 	<script src="vistas/js/prediodetalle.js"></script>
@@ -191,7 +192,8 @@ $tiem = time();
 	<script src="vistas/js/reimprimir.js"></script>
 	<script src="vistas/js/calcularimpuestoPOO.js"></script>
 	<script src="vistas/js/foto.js"></script>
-	<script src="vistas/js/prescripcion.js"></script>
+	<script src="vistas/js/prescripcion.js"></script>  
+	<script src="vistas/js/reporteGeneral.js"></script> 
 
 	<script>
   	$.fn.modal.Constructor.prototype.enforceFocus = function() {};
@@ -217,6 +219,7 @@ $tiem = time();
 			$(".reload-all").hide();
 		})
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <div id="respuestaAjax_srm" ></div>
 
