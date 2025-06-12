@@ -3291,8 +3291,38 @@ $concatenado_id=$idParam;
 </div>
 <!-- CALCULAR IMPUESTO SECCION DE ICONOS FIN -->
 
-<!-- SECCION DE FOTO-->
+
 <div class="modal fade" id="modal_foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 10px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);">
+      <!-- Encabezado del modal con color suave y texto centrado -->
+      <div class="modal-header" style="background-color: #6c757d; color: white; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+        <h4 class="modal-title" id="exampleModalCenterTitle" style="text-align: center;">Gestionar Foto</h4>
+      </div>
+
+      <!-- Cuerpo del modal con contenido y espacio más organizado -->
+      <div class="modal-body" style="padding: 25px; text-align: center;">
+        <p style="font-size: 18px; font-weight: 500; color: #555;">Sube tu imagen (máximo 1)</p>
+        
+        <!-- Input de imagen con estilo sencillo y moderno -->
+        <input type="file" id="imageInput" accept="image/*" capture="environment" 
+               class="form-control" >
+        
+        <!-- Contenedor para las imágenes subidas -->
+        <div class="image-container" id="imageContainer" style="margin-top: 20px; text-align: center;"></div>
+      </div>
+
+      <!-- Pie del modal con botones con bordes suaves -->
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-primary" id="popiguardarfoto">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCION DE FOTO-->
+<!-- <div class="modal fade" id="modal_foto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-content-e">
       <div class="modal-header">
@@ -3300,11 +3330,9 @@ $concatenado_id=$idParam;
       </div>
       <div class="modal-body">
         <span>Sube tus imágenes (máximo 3)</span>
-        <input type="file" id="imageInput" multiple accept="image/*">
+        <input type="file" id="imageInput"  accept="image/*" capture="environment" >
        
-       <button type="button" id="btnTakePhoto" class="visible-xs">Tomar foto</button>
-      <input type="file" id="imageInput" accept="image/*" capture="environment" style="display:none;">
-
+      
        <div class="image-container" id="imageContainer"></div>
       </div>
       <div class="modal-footer">
@@ -3313,7 +3341,7 @@ $concatenado_id=$idParam;
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- FIN DE SECCION DE FOTO -->
 
 

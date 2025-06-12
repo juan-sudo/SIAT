@@ -466,7 +466,14 @@ MostrarFotosPredioModal(id_predio) {
   }
 
 
+
+  
+
+
 }
+
+
+
 const foto = new Foto();
 
 
@@ -648,9 +655,6 @@ $("#popiguardarfoto").on("click", function (e) {
 });
 
 //tomar foto
-$('#btnTakePhoto').on('click', function() {
-  $('#imageInput').click();
-});
 
  
 

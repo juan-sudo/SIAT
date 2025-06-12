@@ -2186,16 +2186,18 @@ color: white;
 /*Seccion de Fotos*/
 .image-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Tres columnas */
-  gap: 10px; /* Espacio entre las imágenes */
+  grid-template-columns: 1fr; /* Tres columnas */
+  
   justify-items: center; /* Centrar los elementos */
-  margin-top: 20px;
+ 
 }
+
+
 .image-box {
   position: relative;
-  width: 150px;
-  height: 150px;
-  border: 2px solid #ddd;
+  width: 100%;
+  height: 300px;
+ 
   display: flex;
   justify-content: center;
   align-items: center;
