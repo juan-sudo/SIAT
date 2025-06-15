@@ -466,9 +466,14 @@ public static function mdlEstadoCuenta_pdfanios($propietarios, $id_cuenta, $cond
 		$content = "";
 		$filas_afectadas = $stmt->rowCount();
 
+       
 		// Verificar si hay filas afectadas
 		if ($filas_afectadas > 0) {
 				foreach ($campos as $key => $value) {
+
+
+                
+
 					if ($value['Tipo_Tributo'] == '006') {
 						$tributo = 'Imp. Predial';
 					} else {
@@ -505,7 +510,7 @@ public static function mdlEstadoCuenta_pdfanios($propietarios, $id_cuenta, $cond
                     </center> 
                 
                 </td>
-                                                <td class="text-center">' . $value['Tipo_Tributo'] . '</td>
+                        <td class="text-center">' . $value['Tipo_Tributo'] . '</td>
                                     
 									<td class="text-center">' . $tributo . '</td>      
 									<td class="text-center">' . $value['Anio'] . '</td>
@@ -513,6 +518,8 @@ public static function mdlEstadoCuenta_pdfanios($propietarios, $id_cuenta, $cond
 									<td class="text-center">' . $value['Importe'] . '</td>
 									<td class="text-center">' . $value['Gasto_Emision'] . '</td>
 									<td class="text-center">' . $value['Saldo'] . '</td>';
+
+                                    
 									if ($condicion == 'estadocuenta') {
 				$content .='	<td class="text-center">' . $value['Descuento'] . '</td>';
 									}

@@ -179,7 +179,7 @@ error_reporting(0);
             <td class="ancho-im-th-total" id="predio_afecto" colspan=""></td>
           </tr>
           <tr>
-            <th class="ancho-im-th">Total Valor Afecto</th>
+            <th class="ancho-im-th">Total Valor Afecto i</th>
             <td id='base_imponible' class="ancho-im-th-total"></td>
             <th class="ancho-im-th">Impuesto Anual</th>
             <td id='impuesto_anual' class="ancho-im-th-total"></td>
@@ -207,7 +207,7 @@ error_reporting(0);
           </div>
         </div>
         <div class="row divPredio_impuesto">
-          <table class="table-container" width="100%">
+          <table class="table-container" id='tablap' width="100%">
             <thead>
               <th class="text-center">Codigo</th>
               <th class="text-center">Tipo</th>
@@ -221,9 +221,13 @@ error_reporting(0);
           </table>
         </div>
       </div>
+
+
       <div class="row2 col-md-12" id="respuestaAjax">
         <!--CONTENIDO DINAMICO DE MENSAJE POR NO COMPLETAR CAMPOS -->
       </div>
+
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary boton_calcular_no" data-dismiss="modal">Salir</button>
         <button type="button" data-target="#modalCalcularImpuesto_si_no" class="btn btn-primary boton_calcular">Calcular i</button>

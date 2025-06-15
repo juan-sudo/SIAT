@@ -80,6 +80,7 @@ $tiem = time();
 				"viascalles" => "viascalles.php",
 				"crear-guia" => "crear-guia.php",
 				"reportes" => "reportes.php",
+				"compensacion" => "compensacion.php",
 				"empresa" => "empresa.php",
 				"ver-guias" => "ver-guias.php",
 				"especiesvaloradas" => "especiesvaloradas.php",

@@ -676,12 +676,14 @@ class ControladorPredio
 			return $respuesta;
 		} else {
 			$respuesta = array(
+
 				'tipo' => 'advertencia',
 				'mensaje' => '<div class="alert warning">
 				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
 				<span aria-hidden="true" class="letra">×</span>
 				</button><p class="inner"><strong class="letra">Exito!</strong> 
 				<span class="letra">Algo salio mal comunicate con el Administrador</span></p></div>'
+			
 			);
 			return $respuesta;
 		}

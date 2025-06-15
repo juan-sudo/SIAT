@@ -21,9 +21,9 @@ class ImpuestoCalculator {
     this.tipopredio_la = null;
     this.idcontribuyente_tim = null;
     this.predios_seleccionados=[];
-    //this.Id_Regimen_Afecto = null;
-    this.Id_Regimen_Afecto = [];
-    this.tipo_predio=[];
+   
+     this.Id_Regimen_Afecto = null;
+    // this.tipo_predio=[];
 
     const tabla_dj = document
       .getElementById("predio_dj_table")
@@ -66,6 +66,7 @@ class ImpuestoCalculator {
   }
 
   
+  //PARA SELECIONADOS---------------------------PREDIO
   calcularImpuesto() {
     const self = this;
     let datos = new FormData();
@@ -94,6 +95,10 @@ class ImpuestoCalculator {
         contentType: false,
         processData: false,
         success: function (respuesta) {
+
+          console.log("valores despues del select---", respuesta);
+
+
           self.impuesto_anual = respuesta["impuesto_anual"];
           self.base_imponible = respuesta["base_imponible"];
           self.impuesto_trimestral = respuesta["impuesto_trimestral"];
@@ -103,7 +108,10 @@ class ImpuestoCalculator {
           $("#total_predio").text(respuesta["total_predio"]);
           $("#impuesto_anual").text(self.impuesto_anual);
           $("#predio_afecto").text(respuesta["total_predio_afecto"]);
+          
           $("#base_imponible").text(self.base_imponible);
+
+
           $("#impuesto_trimestral").text(self.impuesto_trimestral);
           $("#gasto_emision").text(self.gasto_emision);
           $("#total_pagar").text(self.total_pagar);
@@ -135,17 +143,40 @@ class ImpuestoCalculator {
 
 
 //PARA RECALCULO -------------------------------
+ registrarImpuesto(recalculo) {
 
-  registrarImpuesto(recalculo) {
-    
-    
-    console.log("estas para recalculo para estado de cuenta");
+    // const regimenAfecto = $(this).data('regimen_afecto');
+    // const regimenAfecto = $('#id_regimen_p').val(); // Esto obtiene el valor del select
 
-    console.log("ejecutando registrar-probar: ",this.predios_seleccionados, this.Id_Regimen_Afecto);
+
+      let regimenAfectoLista = []; // Definir como un arreglo vacío
+      let prediosTotales = []; // Definir como un arreglo vacío
+
+    // REGIMEN
+    $('#tablap tbody tr').each(function() {
+        // Capturar el valor de la celda con id_regimen_p
+        const regimenAfecto = $(this).find('td#id_regimen_p').text().trim(); // Obtener el texto de la celda
+
+        // Solo agregar si el valor no es vacío
+        if (regimenAfecto) {
+            regimenAfectoLista.push(regimenAfecto); // Agregar el valor a la lista
+        }
+    });
+
+    //PREDIO
+     $('#tablap tbody tr').each(function() {
+        // Capturar el valor de la celda con id_regimen_p
+        const regimenAfecto = $(this).find('td#id_predio_p').text().trim(); // Obtener el texto de la celda
+
+        // Solo agregar si el valor no es vacío
+        if (regimenAfecto) {
+            prediosTotales.push(regimenAfecto); // Agregar el valor a la lista
+        }
+    });
+
 
     //const self = this;
     let datos = new FormData();
-
     datos.append("idContribuyente_impuesto", predio.id_propietario);
     datos.append("selectnum", this.selectnum);
     datos.append("impuesto_anual", this.impuesto_anual);
@@ -154,30 +185,30 @@ class ImpuestoCalculator {
     datos.append("gasto_emision", this.gasto_emision);
     datos.append("total_pagar", this.total_pagar);
     datos.append("registrar_impuesto", "registrar_impuesto");
-    //datos.append("id_Regimen_Afecto", this.Id_Regimen_Afecto);
-
-
-   //datos.append("tipo_predio", this.tipo_predio);
-
     datos.append("recalcular", recalculo);
    
     if ($("#calculo_predio_select").is(':checked')&& this.predios_seleccionados.length > 0) {
       datos.append("predio_select", "si");
       datos.append("predios_seleccionados",this.predios_seleccionados);
-      datos.append("id_Regimen_Afecto",this.Id_Regimen_Afecto);
-      datos.append("tipo_predio", this.tipo_predio);
+        datos.append("id_Regimen_Afecto",regimenAfectoLista);
+       datos.append("predios_totales",prediosTotales);
     }
+
+
     else{
       datos.append("predios_seleccionados","null");
       datos.append("predio_select", "no");
+      
+
+      //REGIMEN
+      datos.append("id_Regimen_Afecto",regimenAfectoLista);
+       datos.append("predios_totales",prediosTotales);
+
     }
   
     for (const pair of datos.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-
-
-
     $.ajax({
       url: "ajax/calcular.ajax.php",
       method: "POST",
@@ -190,6 +221,7 @@ class ImpuestoCalculator {
         $("#modal_cargar").modal("show");
       },
       success: function (respuesta) {
+        console.log("respuesta de registrar impuesto -------------",respuesta);
         if (respuesta.tipo === "correcto") {
           $("#modal_cargar").modal("hide");
           $("#respuestaAjax").show(); // Mostrar el elemento #error antes de establecer el mensaje
@@ -200,7 +232,9 @@ class ImpuestoCalculator {
             $("#respuestaAjax").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
             // Recargar la página manteniendo los parámetros actuales
           }, 10000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
-        } else {
+        
+        }
+        else {
           $("#modal_cargar").modal("hide");
           $("#respuestaAjax").show(); // Mostrar el elemento #error antes de establecer el mensaje
           $("#respuestaAjax").html(respuesta.mensaje);
@@ -213,13 +247,113 @@ class ImpuestoCalculator {
         }
       },
       error: function() {
-        $("#modal_cargar").text("Error al cargar el archivo.");
+
+        //  $("#modal_cargar").modal("hide");
+        //   $("#respuestaAjax").show(); // Mostrar el elemento #error antes de establecer el mensaje
+        //   $("#respuestaAjax").html(respuesta.mensaje);
+        //  $("#modalCalcularImpuesto_si_no").modal("hide");
+        //   $("#modalRecalcularImpuesto_si_no").modal("hide");
+        //   setTimeout(function () {
+        //     $("#respuestaAjax").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+        //     // Recargar la página manteniendo los parámetros actuales
+        //   }, 10000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
+        
+      $("#modal_cargar").modal("hide");
+    //$("#modal_cargar").text("Error al cargar el archivo.");
+    //   $("#modalRecalcularImpuesto_si_no").modal("hide");
+
+
     }
+
+    
     });
+  }
+
+
+
+
+  // registrarImpuesto(recalculo) {
+    
+    
+  //   console.log("estas para recalculo para estado de cuenta");
+
+  //   console.log("ejecutando registrar-probar: ",this.predios_seleccionados, this.Id_Regimen_Afecto);
+
+  //   //const self = this;
+  //   let datos = new FormData();
+
+  //   datos.append("idContribuyente_impuesto", predio.id_propietario);
+  //   datos.append("selectnum", this.selectnum);
+  //   datos.append("impuesto_anual", this.impuesto_anual);
+  //   datos.append("base_imponible", this.base_imponible);
+  //   datos.append("impuesto_trimestral", this.impuesto_trimestral);
+  //   datos.append("gasto_emision", this.gasto_emision);
+  //   datos.append("total_pagar", this.total_pagar);
+  //   datos.append("registrar_impuesto", "registrar_impuesto");
+    
+  //  //datos.append("tipo_predio", this.tipo_predio);
+
+  //   datos.append("recalcular", recalculo);
+   
+  //   if ($("#calculo_predio_select").is(':checked')&& this.predios_seleccionados.length > 0) {
+  //     datos.append("predio_select", "si");
+  //     datos.append("predios_seleccionados",this.predios_seleccionados);
+  //     datos.append("id_Regimen_Afecto",this.Id_Regimen_Afecto);
+  //     datos.append("tipo_predio", this.tipo_predio);
+  //   }
+  //   else{
+  //     datos.append("predios_seleccionados","null");
+  //     datos.append("predio_select", "no");
+  //   }
+  
+  //   for (const pair of datos.entries()) {
+  //     console.log(pair[0] + ", " + pair[1]);
+  //   }
+
+
+
+  //   $.ajax({
+  //     url: "ajax/calcular.ajax.php",
+  //     method: "POST",
+  //     data: datos,
+  //     cache: false,
+  //     contentType: false,
+  //     processData: false,
+  //     beforeSend: function() {
+  //       $(".cargando").html(loadingMessage_s);
+  //       $("#modal_cargar").modal("show");
+  //     },
+  //     success: function (respuesta) {
+  //       if (respuesta.tipo === "correcto") {
+  //         $("#modal_cargar").modal("hide");
+  //         $("#respuestaAjax").show(); // Mostrar el elemento #error antes de establecer el mensaje
+  //         $("#respuestaAjax").html(respuesta.mensaje);
+  //         $("#modalCalcularImpuesto_si_no").modal("hide");
+  //         $("#modalRecalcularImpuesto_si_no").modal("hide");
+  //         setTimeout(function () {
+  //           $("#respuestaAjax").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+  //           // Recargar la página manteniendo los parámetros actuales
+  //         }, 10000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
+  //       } else {
+  //         $("#modal_cargar").modal("hide");
+  //         $("#respuestaAjax").show(); // Mostrar el elemento #error antes de establecer el mensaje
+  //         $("#respuestaAjax").html(respuesta.mensaje);
+  //         $("#modalCalcularImpuesto_si_no").modal("hide");
+  //         $("#modalRecalcularImpuesto_si_no").modal("show");
+  //         setTimeout(function () {
+  //           $("#respuestaAjax").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+  //           // Recargar la página manteniendo los parámetros actuales
+  //         }, 10000); // 3000 milisegundos = 3 segundos (ajusta según tus preferencias)
+  //       }
+  //     },
+  //     error: function() {
+  //       $("#modal_cargar").text("Error al cargar el archivo.");
+  //   }
+  //   });
 
 
     
-  }
+  // }
 
   reiniciarValores() {
     // Reiniciar los valores en la interfaz
@@ -608,6 +742,9 @@ $(document).on("click", ".btnImprimir_cartilla", function () {
   impuestoCalculator.mostrarPredios_LA();
 });
 
+
+
+
 //muestra el valor del impuesto calculado pero no lo guarda
 $(document).on("click", ".boton_calcular", function () {
   impuestoCalculator.calcularImpuesto()
@@ -619,6 +756,9 @@ $(document).on("click", ".boton_calcular", function () {
       // Manejo de errores si es necesario
     });
 });
+
+
+
 
 
 //registra el impuesto calculado
@@ -705,30 +845,48 @@ $(document).on("click", ".boton_calcular_no", function () {
 //SELECIONANDO PREDIOS PARA RECALCULAR
 
 $(document).on('change', '#select_predio_calcular', function() {
- 
   const idPredio = $(this).data('id');
-  const regimenAfecto = $(this).data('regimen_afecto');
-  const tipoPredio= $(this).data('tipo_ru');
-   console.log("click aqui-- checked",idPredio, regimenAfecto,tipoPredio);
-  
-
   if ($(this).is(':checked')) {
     // Si el checkbox se selecciona, agrega el id al array
     if (!impuestoCalculator.predios_seleccionados.includes(idPredio)) {
-
       impuestoCalculator.predios_seleccionados.push(idPredio);
-      impuestoCalculator.Id_Regimen_Afecto.push(regimenAfecto);
-      impuestoCalculator.tipo_predio.push(tipoPredio);
-
     }
   } else {
     // Si el checkbox se deselecciona, remueve el id del array
     impuestoCalculator.predios_seleccionados = impuestoCalculator.predios_seleccionados.filter(item => item !== idPredio);
- 
- 
   }
- // console.log("selecionando ahora--",impuestoCalculator.predios_seleccionados);
+  console.log("seelcionados------------",impuestoCalculator.predios_seleccionados);
 });
+
+// $(document).on('change', '#select_predio_calcular', function() {
+ 
+//   const idPredio = $(this).data('id');
+//   const regimenAfecto = $(this).data('regimen_afecto');
+//   const tipoPredio= $(this).data('tipo_ru');
+
+
+//    console.log("click aqui-- checked",idPredio, regimenAfecto,tipoPredio);
+
+   
+  
+
+//   if ($(this).is(':checked')) {
+//     // Si el checkbox se selecciona, agrega el id al array
+//     if (!impuestoCalculator.predios_seleccionados.includes(idPredio)) {
+
+//       impuestoCalculator.predios_seleccionados.push(idPredio);
+//       impuestoCalculator.Id_Regimen_Afecto.push(regimenAfecto);
+//       impuestoCalculator.tipo_predio.push(tipoPredio);
+
+//     }
+//   } else {
+//     // Si el checkbox se deselecciona, remueve el id del array
+//     impuestoCalculator.predios_seleccionados = impuestoCalculator.predios_seleccionados.filter(item => item !== idPredio);
+ 
+ 
+//   }
+//  // console.log("selecionando ahora--",impuestoCalculator.predios_seleccionados);
+// });
 
 
 $(".btnCalcular_impuesto").on("click", function (e) {

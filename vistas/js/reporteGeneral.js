@@ -509,3 +509,87 @@ class ReporteGeneralClass {
     });
 
 });
+
+
+//PRUEBA----------------------------
+
+$(document).ready(function() {
+
+    // Obtener el contexto del canvas
+    let ctx = $('#myChartlll')[0].getContext('2d');
+
+    // Datos estáticos para el gráfico (sin consulta AJAX)
+    const etiquetas = [['June', '2015'], 'July', 'August', 'September', 'October', 'November', 'December', ['January', '2016'], 'February', 'March', 'April', 'May']; // Etiquetas del gráfico
+    const cantidades = [12, 19, 3, 5, 6, 13, 8, 9, 7, 10, 15, 14]; // Valores de los estados (ejemplo)
+
+    // Configuración del gráfico de tipo 'line' con tooltip personalizado
+    const config = {
+        type: 'line', // Gráfico de tipo línea
+        data: {
+            labels: etiquetas, // Etiquetas del gráfico
+            datasets: [{
+                label: 'Estado de completado', // Título del gráfico
+                data: cantidades, // Datos de los estados
+                fill: false, // No rellenar el área bajo la línea
+                borderColor: 'rgb(23, 162, 184)', // Color de la línea
+                backgroundColor: 'rgba(23, 162, 184, 0.2)', // Color de fondo
+            }]
+        },
+        options: {
+            responsive: true, // Hacer el gráfico responsive
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Chart with Tick Configuration',
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        // For a category axis, the val is the index so the lookup via getLabelForValue is needed
+                        callback: function(val, index) {
+                            // Hide every 2nd tick label
+                            return index % 2 === 0 ? this.getLabelForValue(val) : '';
+                        },
+                        color: 'red', // Color de los ticks
+                    }
+                }
+            }
+        }
+    };
+
+    // Crear el gráfico con los datos estáticos
+    var myChart = new Chart(ctx, config);
+
+    // Acciones para cambiar la alineación de los ticks en el eje x
+    const actions = [
+        {
+            name: 'Alignment: start',
+            handler(chart) {
+                chart.options.scales.x.ticks.align = 'start';
+                chart.update();
+            }
+        },
+        {
+            name: 'Alignment: center (default)',
+            handler(chart) {
+                chart.options.scales.x.ticks.align = 'center';
+                chart.update();
+            }
+        },
+        {
+            name: 'Alignment: end',
+            handler(chart) {
+                chart.options.scales.x.ticks.align = 'end';
+                chart.update();
+            }
+        },
+    ];
+
+    // Aquí puedes agregar botones para cambiar la alineación de los ticks
+    actions.forEach(action => {
+        document.getElementById('tooltipPositionBtns').innerHTML +=
+            `<button onclick="action.handler(myChart)">${action.name}</button>`;
+    });
+
+});

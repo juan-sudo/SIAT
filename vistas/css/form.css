@@ -2193,7 +2193,7 @@ color: white;
 }
 
 
-.image-box {
+.image-box {  
   position: relative;
   width: 100%;
   height: 300px;
@@ -2697,4 +2697,12 @@ color: white;
     overflow-y: auto;   /* Activar el scroll si el contenido excede el tamaño */
 }
 
+ /* SCROLL EN COMPENSACION */
+  .scrollable-table {
+    max-height: 400px;  /* Ajusta la altura máxima que desees */
+    overflow-y: auto;   /* Activa el desplazamiento vertical */
+    display: block;     /* Hace que la tabla sea un bloque y habilite el scroll */
+  }
 
+
+  

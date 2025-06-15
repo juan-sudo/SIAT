@@ -13,6 +13,9 @@ function cerrarSession() {
     },
   });
 }
+
+
+
 //LOGIN USUARIOS
 $("#logUser").click(function(e) {
   e.preventDefault();

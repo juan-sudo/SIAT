@@ -1486,12 +1486,12 @@ private static function generateRowHTMLHistorial($value, $key)
 			foreach ($campos as $key => $value) {
 				$content .= '<tr id="fila" id_catastro="' . $value['catastro'] . '"  id_tipo="' . $value['tipo_ru'] . '" id_predio="' . $value['id_predio'] . '">';
 				$content .= '<td class="text-center" id_predio=' . $value['id_predio'] . '>' . $value['id_predio'] . '</td> 
-				<td class="text-center">' . $value['tipo_ru'] . '</td>
+				<td class="text-center"  id="id_predio_p" >' . $value['tipo_ru'] . '</td>
 				<td>' . $value['direccion_completo'] . '</td>      
-				<td class="text-center">' . $value['regimen'] . '</td>
+				<td class="text-center" id="id_regimen_p">' . $value['regimen'] . '</td>
 				<td  id_predio_select="' . $value['id_predio'] . '" class="text-center action-column">
 
-				<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="select_predio_calcular" data-size="mini" data-regimen_afecto="' . $value['regimen'] . '"  data-tipo_ru="' . $value['tipo_ru'] . '" data-id="' . $value['id_predio'] . '" >
+				<input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" id="select_predio_calcular" data-size="mini"    data-id="' . $value['id_predio'] . '" >
 				
 				</td>';
 				$content .= '</tr>';

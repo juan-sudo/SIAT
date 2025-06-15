@@ -298,6 +298,9 @@ use Controladores\ControladorContribuyente;
                 <div class="table-responsive col-md-6 div-background">
                     <p>Reporte actualizacion carpetas</p>
                     <canvas id="myChart" width="400" height="200"></canvas>
+
+                  <div id="porcentajesContainer"></div>
+
                 </div>
 
 
@@ -315,6 +318,23 @@ use Controladores\ControladorContribuyente;
       </div>
     </div>
   </section>
+  
+
+<!-- REPORTE ACTUALIZACION CARPETAS -->
+<section class="container-fluid panel-medio">
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive col-md-8 div-background">
+                <p>Reporte actualización carpetas</p>
+                <canvas id="myChartlll" width="400" height="200"></canvas>
+                <!-- Los botones para cambiar la alineación de los ticks se agregarán aquí -->
+               
+            </div>
+        </div>
+    </div>
+</section>
+
+  
 
 
 

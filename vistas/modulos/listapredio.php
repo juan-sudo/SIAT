@@ -929,6 +929,8 @@ $concatenado_id=$idParam;
                       </tbody>
                     </table>
                   </div>
+
+                  
                    <div class="col-md-6">
                      <span class="caption_">Direccion de predio</span>
                       <div class="row2">
