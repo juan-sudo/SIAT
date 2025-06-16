@@ -222,6 +222,10 @@ $tiem = time();
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+	
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
     <div id="respuestaAjax_srm" ></div>
 
 

@@ -2102,7 +2102,7 @@ class ModeloCalcular
 
 
 		//PREDIOS SELECIONADOS
-				if($predio_s!="si"){ //condiciono si solo quiere calcular predios seleccionados
+				if($predio_s!="si"){  //condiciono si solo quiere calcular predios seleccionados
 
 									
 					if (count($valor) === 1) {

@@ -40,7 +40,7 @@ class ModeloDireccion
   {
     $pdo = Conexion::conectar();
       $stmt = $pdo->prepare("SELECT d.Id_Direccion as Id_Direccion,CONCAT( t.Codigo,' ', n.Nombre_Via) AS Nombre_Via 
-                            FROM direccion d inner join nombre_via n ON d.Id_Nombre_Via=n.Id_Nombre_Via 
+                            FROM   d inner join nombre_via n ON d.Id_Nombre_Via=n.Id_Nombre_Via 
                             inner join tipo_via t on d.Id_Tipo_Via=t.Id_Tipo_Via; ");
       $stmt->execute();
       //  $stmt->close();

@@ -132,6 +132,7 @@ class ControladorReporte
 	public static function ctrMostrar_ingresos_tributosagua_presu($fecha)
 	{
 		$respuesta = ModeloReporte::mdlMostrar_ingresos_tributosagua_presu($fecha);
+		
 		$año = substr($fecha, 0, 4);
 		$mes = substr($fecha, 5, 2);
 		$dia = substr($fecha, 8, 2);

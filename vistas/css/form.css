@@ -2705,4 +2705,34 @@ color: white;
   }
 
 
-  
+ /* IMAGEN CATCHA */
+
+
+/* Contenedor que envuelve reCAPTCHA */
+.g-recaptcha-container {
+    display: flex;               /* Usamos flexbox para centrar */
+    justify-content: center;     /* Centra horizontalmente */
+    align-items: center;         /* Centra verticalmente */
+    margin-top: 15px;            /* Espacio superior si lo necesitas */
+    width: 100%;                 /* Asegúrate de que el contenedor ocupe el 100% del ancho */
+    height: auto;                /* Ajusta la altura para que el contenedor ocupe suficiente espacio */
+}
+
+/* Estilo de reCAPTCHA */
+.g-recaptcha {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;      /* Asegura que reCAPTCHA ocupe el 100% del contenedor */
+    max-width: 304px;            /* Ajusta el tamaño máximo si es necesario */
+    margin: 0 auto;              /* Centra reCAPTCHA */
+}
+
+
+/* Este estilo es solo para ocultar el reCAPTCHA si no es necesario */
+#recaptcha-container {
+    display: block;
+}
+
+#recaptcha-container.hidden {
+    display: none;
+}

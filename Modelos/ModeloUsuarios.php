@@ -11,7 +11,7 @@ class ModeloUsuarios {
         if($item != null){
 
             $stmt = Conexion::conectar()->prepare("SELECT  u.*,a.Nombre_Area as area FROM $tabla  u 
-            INNER JOIN area a on a.Id_Area=u.Id_Area WHERE $item = :$item");
+            INNER JOIN area a on a.Id_Area=u.Id_Area WHERE $item = :$item")  ;
             $stmt->bindParam(":".$item, $valor, PDO::PARAM_STR);
     
             $stmt->execute();

@@ -8,13 +8,35 @@ use Modelos\ModeloEmpresa;
 
 class ControladorUsuarios
 {
-
     // METODO PARA INGRESO DE USUARIO
     public  static function ctrIngresoUsuario($user, $pass)
     {
         // Variables de configuración
         $max_intentos = 5; // Máximo intentos fallidos
         $tiempo_bloqueo = 30 * 60; // 30 minutos de bloqueo
+
+        // Verificación de la respuesta de reCAPTCHA solo si hay respuesta
+        if (!empty($_POST['g-recaptcha-response'])) {
+            $recaptcha_secret = '6Lct-mIrAAAAAKBYhOIj1m9AIFPzqeLiHSzrY_UT';
+            $recaptcha_response = $_POST['g-recaptcha-response'];
+
+            // Verifica si la respuesta de reCAPTCHA es válida
+            $recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+            $recaptcha_data = [
+                'secret' => $recaptcha_secret,
+                'response' => $recaptcha_response,
+                'remoteip' => $_SERVER['REMOTE_ADDR']
+            ];
+
+            $recaptcha_verify_response = file_get_contents($recaptcha_verify_url . '?' . http_build_query($recaptcha_data));
+            $recaptcha_response_data = json_decode($recaptcha_verify_response);
+
+            if (!$recaptcha_response_data->success) {
+                echo '<br><div class="alert alert-danger">Por favor, verifica que no eres un robot.</div>';
+                echo "<script>grecaptcha.reset();</script>";
+                exit;
+            }
+        }
 
         // Inicia sesión si no está activa
         if (session_status() == PHP_SESSION_NONE) {
@@ -28,16 +50,12 @@ class ControladorUsuarios
         }
 
         // Si se superaron los intentos y el tiempo de bloqueo no ha pasado, se bloquea
-       // Si se superaron los intentos y el tiempo de bloqueo no ha pasado, se bloquea
         if ($_SESSION['intentos'] >= $max_intentos && (time() - $_SESSION['ultimo_intento']) < $tiempo_bloqueo) {
             $restante = $tiempo_bloqueo - (time() - $_SESSION['ultimo_intento']);
-        
-            // Mostrar mensaje de bloqueo dentro de un div con el tiempo restante
             echo '<br><div class="alert alert-danger">Demasiados intentos fallidos. Intenta nuevamente en ' . round($restante / 60) . ' minutos.</div>';
             echo "<script>grecaptcha.reset();</script>";
             exit;
         }
-
 
         // Reinicia los intentos si ha pasado el tiempo de bloqueo
         if ((time() - $_SESSION['ultimo_intento']) >= $tiempo_bloqueo) {
@@ -96,7 +114,205 @@ class ControladorUsuarios
             echo '<br><div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
             echo "<script>grecaptcha.reset();</script>";
         }
+
     }
+     // METODO PARA INGRESO DE USUARIO
+    // public  static function ctrIngresoUsuario($user, $pass)
+    // {
+    //     // Variables de configuración
+    //     $max_intentos = 5; // Máximo intentos fallidos
+    //     $tiempo_bloqueo = 30 * 60; // 30 minutos de bloqueo
+
+    //     // Verificación de la respuesta de reCAPTCHA
+    //     $recaptcha_secret = '6Lct-mIrAAAAAKBYhOIj1m9AIFPzqeLiHSzrY_UT';
+    //     $recaptcha_response = $_POST['g-recaptcha-response'];
+
+    //     // Verifica si la respuesta de reCAPTCHA es válida
+    //     $recaptcha_verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+    //     $recaptcha_data = [
+    //         'secret' => $recaptcha_secret,
+    //         'response' => $recaptcha_response,
+    //         'remoteip' => $_SERVER['REMOTE_ADDR']
+    //     ];
+
+    //     $recaptcha_verify_response = file_get_contents($recaptcha_verify_url . '?' . http_build_query($recaptcha_data));
+    //     $recaptcha_response_data = json_decode($recaptcha_verify_response);
+
+    //     if (!$recaptcha_response_data->success) {
+    //         echo '<br><div class="alert alert-danger">Por favor, verifica que no eres un robot.</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+    //     // Inicia sesión si no está activa
+    //     if (session_status() == PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     // Inicializa los intentos si es la primera vez
+    //     if (!isset($_SESSION['intentos'])) {
+    //         $_SESSION['intentos'] = 0;
+    //         $_SESSION['ultimo_intento'] = time();
+    //     }
+
+    //     // Si se superaron los intentos y el tiempo de bloqueo no ha pasado, se bloquea
+    //     if ($_SESSION['intentos'] >= $max_intentos && (time() - $_SESSION['ultimo_intento']) < $tiempo_bloqueo) {
+    //         $restante = $tiempo_bloqueo - (time() - $_SESSION['ultimo_intento']);
+    //         echo '<br><div class="alert alert-danger">Demasiados intentos fallidos. Intenta nuevamente en ' . round($restante / 60) . ' minutos.</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+    //     // Reinicia los intentos si ha pasado el tiempo de bloqueo
+    //     if ((time() - $_SESSION['ultimo_intento']) >= $tiempo_bloqueo) {
+    //         $_SESSION['intentos'] = 0; // Resetea los intentos después de 30 minutos
+    //     }
+
+    //     // Verificar si los campos están vacíos
+    //     if (empty($user) || empty($pass)) {
+    //         echo '<br><div class="alert alert-danger">Usuario o contraseña no pueden estar vacíos</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+    //     // Buscar el usuario en la base de datos
+    //     $tabla = "usuarios";
+    //     $item = "usuario";
+    //     $valor = $user;
+    //     $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+
+    //     if ($respuesta === false) {
+    //         // Error en la consulta a la base de datos
+    //         echo '<br><div class="alert alert-danger">Error - No tiene Acceso</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+    //     // Verificar usuario y contraseña
+    //     if ($respuesta['usuario'] == $user && password_verify($pass, $respuesta['password'])) {
+    //         if ($respuesta['estado'] == 1) {
+    //             // Resetea los intentos fallidos al iniciar sesión correctamente
+    //             $_SESSION['intentos'] = 0;
+
+    //             // Iniciar sesión
+    //             $_SESSION['tiempo'] = time();
+    //             $_SESSION['iniciarSesion'] = 'ok';
+    //             $_SESSION['id'] = $respuesta['id'];
+    //             $_SESSION['id_sucursal'] = $respuesta['id_empresa'];
+    //             $_SESSION['nombre'] = $respuesta['nombre'];
+    //             $_SESSION['dni'] = $respuesta['dni'];
+    //             $_SESSION['usuario'] = $respuesta['usuario'];
+    //             $_SESSION['foto'] = $respuesta['foto'];
+    //             $_SESSION['perfil'] = $respuesta['perfil'];
+    //             $_SESSION['area'] = $respuesta['area'];
+
+    //             echo "<script>window.location.href = 'inicio';</script>";
+    //             exit; // Asegurarse de que el script se detenga después de la redirección
+    //         } else {
+    //             echo '<br><div class="alert alert-danger">El usuario está inactivo, contacta al administrador</div>';
+    //             echo "<script>grecaptcha.reset();</script>";
+    //         }
+    //     } else {
+    //         // Incrementa el contador de intentos fallidos
+    //         $_SESSION['intentos']++;
+    //         $_SESSION['ultimo_intento'] = time();
+
+    //         echo '<br><div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //     }
+    // }
+
+
+
+
+    // // METODO PARA INGRESO DE USUARIO
+    // public  static function ctrIngresoUsuario($user, $pass)
+    // {
+    //     // Variables de configuración
+    //     $max_intentos = 5; // Máximo intentos fallidos
+    //     $tiempo_bloqueo = 30 * 60; // 30 minutos de bloqueo
+
+    //     // Inicia sesión si no está activa
+    //     if (session_status() == PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+
+    //     // Inicializa los intentos si es la primera vez
+    //     if (!isset($_SESSION['intentos'])) {
+    //         $_SESSION['intentos'] = 0;
+    //         $_SESSION['ultimo_intento'] = time();
+    //     }
+
+    //     // Si se superaron los intentos y el tiempo de bloqueo no ha pasado, se bloquea
+    //    // Si se superaron los intentos y el tiempo de bloqueo no ha pasado, se bloquea
+    //     if ($_SESSION['intentos'] >= $max_intentos && (time() - $_SESSION['ultimo_intento']) < $tiempo_bloqueo) {
+    //         $restante = $tiempo_bloqueo - (time() - $_SESSION['ultimo_intento']);
+        
+    //         // Mostrar mensaje de bloqueo dentro de un div con el tiempo restante
+    //         echo '<br><div class="alert alert-danger">Demasiados intentos fallidos. Intenta nuevamente en ' . round($restante / 60) . ' minutos.</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+
+    //     // Reinicia los intentos si ha pasado el tiempo de bloqueo
+    //     if ((time() - $_SESSION['ultimo_intento']) >= $tiempo_bloqueo) {
+    //         $_SESSION['intentos'] = 0; // Resetea los intentos después de 30 minutos
+    //     }
+
+    //     // Verificar si los campos están vacíos
+    //     if (empty($user) || empty($pass)) {
+    //         echo '<br><div class="alert alert-danger">Usuario o contraseña no pueden estar vacíos</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+    //     // Buscar el usuario en la base de datos
+    //     $tabla = "usuarios";
+    //     $item = "usuario";
+    //     $valor = $user;
+    //     $respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+
+    //     if ($respuesta === false) {
+    //         // Error en la consulta a la base de datos
+    //         echo '<br><div class="alert alert-danger">Error - No tiene Acceso</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //         exit;
+    //     }
+
+    //     // Verificar usuario y contraseña
+    //     if ($respuesta['usuario'] == $user && password_verify($pass, $respuesta['password'])) {
+    //         if ($respuesta['estado'] == 1) {
+    //             // Resetea los intentos fallidos al iniciar sesión correctamente
+    //             $_SESSION['intentos'] = 0;
+
+    //             // Iniciar sesión
+    //             $_SESSION['tiempo'] = time();
+    //             $_SESSION['iniciarSesion'] = 'ok';
+    //             $_SESSION['id'] = $respuesta['id'];
+    //             $_SESSION['id_sucursal'] = $respuesta['id_empresa'];
+    //             $_SESSION['nombre'] = $respuesta['nombre'];
+    //             $_SESSION['dni'] = $respuesta['dni'];
+    //             $_SESSION['usuario'] = $respuesta['usuario'];
+    //             $_SESSION['foto'] = $respuesta['foto'];
+    //             $_SESSION['perfil'] = $respuesta['perfil'];
+    //             $_SESSION['area'] = $respuesta['area'];
+
+    //             echo "<script>window.location.href = 'inicio';</script>";
+    //             exit; // Asegurarse de que el script se detenga después de la redirección
+    //         } else {
+    //             echo '<br><div class="alert alert-danger">El usuario está inactivo, contacta al administrador</div>';
+    //             echo "<script>grecaptcha.reset();</script>";
+    //         }
+    //     } else {
+    //         // Incrementa el contador de intentos fallidos
+    //         $_SESSION['intentos']++;
+    //         $_SESSION['ultimo_intento'] = time();
+
+    //         echo '<br><div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
+    //         echo "<script>grecaptcha.reset();</script>";
+    //     }
+    // }
 
 
 

@@ -174,7 +174,6 @@ if (isset($_POST['ingUsuario'])) {
     $login = new AjaxUsuarios();
     $login->ajaxLogin();
 }
-
 // OBJETO AGREGAR USUARIO
 if (isset($_POST['nuevoUsuario'])) {
     $nuevo = new AjaxUsuarios();
