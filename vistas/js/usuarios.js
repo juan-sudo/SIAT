@@ -22,6 +22,13 @@ $("#logUser").click(function(e) {
     var ingUsuario = $("#ingUsuario").val();
     var ingPassword = $("#ingPassword").val();
     console.log(ingUsuario,ingPassword);
+
+    // Validar que los campos no estén vacíos LADO CLIENTE
+    if(ingUsuario.trim() === "" || ingPassword.trim() === "") {
+        alert("Por favor ingrese usuario y contraseña.");
+        return;
+    }
+
     let datos = {
       ingUsuario: ingUsuario,
       ingPassword: ingPassword,
@@ -43,6 +50,9 @@ $("#logUser").click(function(e) {
     });
   
 });
+
+
+
 // SUBIENDO LA FOTO DEL USUARIO
 $(".nuevaFoto").change(function () {
   let imagen = this.files[0];
@@ -227,6 +237,8 @@ $("#nuevoDni").keyup(function () {
     $("#nuevoDni").val(ruc);
   }
 });
+
+
 class Usuario {
   constructor() {
     this.idusuario_sesion=0;
