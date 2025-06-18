@@ -863,6 +863,7 @@ LEFT JOIN
        
         AND p.Estado_Transferencia = 'O'
 		AND an.NomAnio =:anio
+		AND p.Baja=0
 ";
 
     $stmt = $pdo->prepare($query);

@@ -504,7 +504,7 @@ $concatenado_id=$idParam;
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        TRANSFERIR PREDIO
+        TRANSFERIR PREDIO j
       </div>
       <div class="modal-body">
         <div class="form-group predio_catastro_transferir">
@@ -2823,6 +2823,38 @@ $concatenado_id=$idParam;
   </div>
 </div>
 
+
+
+
+
+<!-- MODAL ELIMINAR PISO -->
+<div class="modal fade" id="modal_eliminar_piso" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="z-index: 99999 !important;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <i class="bi bi-exclamation-circle" style="color: red; font-size: 48px;"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <h7>¿Estás seguro de que deseas eliminar este piso?</h7>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: center; align-items: center;">
+        <button type="button" class="btn btn-primary" id="confirmarEliminarPiso">Sí, Eliminar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

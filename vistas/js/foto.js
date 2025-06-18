@@ -455,9 +455,10 @@ MostrarFotosPredioModal(id_predio) {
                   if (foto.modal_mostrar_foto === true) {
                     $('#modal_foto_ver').modal('show');
                 }
-              } else {
-                  alert('No hay fotos para este predio aqui.');
-              }
+               } 
+            // else {
+            //       alert('No hay fotos para este predio aqui.');
+            //   }
           },
           error: function () {
               alert('Error al cargar las fotos.');

@@ -924,52 +924,172 @@ $(document).ready(function () {
   $("#modalEditarPiso").on("hidden.bs.modal", function (e) {
     $("#formEditarPiso")[0].reset();
   });
-  //=============== ELIMINAR PISO ======================
-  $("#btnEliminarPiso").on("click", function () {
-    if (filaPiso) {
-      $.ajax({
-        type: "POST",
-        url: "ajax/pisos.ajax.php",
-        data: {
-          idPidoEdit: pisoEdit.idPisoC,
-          eliminar_piso: "eliminar_piso",
-        },
-        success: function (respuesta) {
-          if (respuesta.tipo === "error") {
-            $("#errorPiso").show(); // Mostrar el elemento #error antes de establecer el mensaje
-            $("#errorPiso").html(respuesta.mensaje);
-            setTimeout(function () {
-              $("#errorPiso").hide();
-            }, 4000); 
-          } else {
-            $("#respuestaAjax_correcto").html(respuesta.mensaje);
-            $("#modalAgregarPiso").modal("hide");
-            $("#respuestaAjax_correcto").show(); // Muestra el mensaje
 
-            setTimeout(function () {
-              $("#respuestaAjax_correcto").hide(); 
-            }, 3000); // 3 segundos
-            filaPiso = false;
-            nuevoPiso.MostrarPisos(
-              nuevoPiso.idCatasttroC,
-              nuevoPiso.idAnioFiscalC
-            );
-          }
-        },
-        error: function () {
-          console.error("Error en la solicitud AJAX");
-        },
-      });
-    } else {
-      $("#respuestaAjax_correcto").html(
-        '<div class="alert alert-warning" role="alert">DEBE SELECCIONAR UN PISO</div>'
-      );
-      $("#respuestaAjax_correcto").show();
-      setTimeout(function () {
-        $("#respuestaAjax_correcto").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
-      }, 3000);
-    }
+
+
+  
+
+//=============== ELIMINAR PISO ======================
+$("#btnEliminarPiso").on("click", function () {
+  if (filaPiso) {
+    // Mostrar el modal de confirmación
+    $('#modal_eliminar_piso').modal('show');
+  } else {
+    $("#respuestaAjax_correcto").html(
+      '<div class="alert alert-warning" role="alert">DEBE SELECCIONAR UN PISO</div>'
+    );
+    $("#respuestaAjax_correcto").show();
+    setTimeout(function () {
+      $("#respuestaAjax_correcto").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+    }, 3000);
+  }
+});
+
+// Al hacer clic en el botón de confirmar eliminación dentro del modal
+$("#confirmarEliminarPiso").on("click", function () {
+  $.ajax({
+    type: "POST",
+    url: "ajax/pisos.ajax.php",
+    data: {
+      idPidoEdit: pisoEdit.idPisoC,
+      eliminar_piso: "eliminar_piso",
+    },
+    success: function (respuesta) {
+      if (respuesta.tipo === "error") {
+        $("#errorPiso").show(); // Mostrar el elemento #error antes de establecer el mensaje
+        $("#errorPiso").html(respuesta.mensaje);
+        setTimeout(function () {
+          $("#errorPiso").hide();
+        }, 4000); 
+      } else {
+        $("#respuestaAjax_correcto").html(respuesta.mensaje);
+        $("#modalAgregarPiso").modal("hide");
+        $("#respuestaAjax_correcto").show(); // Muestra el mensaje
+
+        setTimeout(function () {
+          $("#respuestaAjax_correcto").hide(); 
+        }, 3000); // 3 segundos
+        filaPiso = false;
+        nuevoPiso.MostrarPisos(
+          nuevoPiso.idCatasttroC,
+          nuevoPiso.idAnioFiscalC
+        );
+      }
+    },
+    error: function () {
+      console.error("Error en la solicitud AJAX");
+    },
   });
+
+  // Cerrar el modal después de realizar la eliminación
+  $('#modal_eliminar_piso').modal('hide');
+});
+
+
+
+
+  //=============== ELIMINAR PISO ======================
+// $("#btnEliminarPiso").on("click", function () {
+//   if (filaPiso) {
+//     // Preguntar al usuario si realmente desea eliminar el piso
+//     var confirmarEliminar = confirm("¿Estás seguro de que deseas eliminar este piso?");
+//     if (confirmarEliminar) {
+//       $.ajax({
+//         type: "POST",
+//         url: "ajax/pisos.ajax.php",
+//         data: {
+//           idPidoEdit: pisoEdit.idPisoC,
+//           eliminar_piso: "eliminar_piso",
+//         },
+//         success: function (respuesta) {
+//           if (respuesta.tipo === "error") {
+//             $("#errorPiso").show(); // Mostrar el elemento #error antes de establecer el mensaje
+//             $("#errorPiso").html(respuesta.mensaje);
+//             setTimeout(function () {
+//               $("#errorPiso").hide();
+//             }, 4000); 
+//           } else {
+//             $("#respuestaAjax_correcto").html(respuesta.mensaje);
+//             $("#modalAgregarPiso").modal("hide");
+//             $("#respuestaAjax_correcto").show(); // Muestra el mensaje
+
+//             setTimeout(function () {
+//               $("#respuestaAjax_correcto").hide(); 
+//             }, 3000); // 3 segundos
+//             filaPiso = false;
+//             nuevoPiso.MostrarPisos(
+//               nuevoPiso.idCatasttroC,
+//               nuevoPiso.idAnioFiscalC
+//             );
+//           }
+//         },
+//         error: function () {
+//           console.error("Error en la solicitud AJAX");
+//         },
+//       });
+//     }
+//   } else {
+//     $("#respuestaAjax_correcto").html(
+//       '<div class="alert alert-warning" role="alert">DEBE SELECCIONAR UN PISO</div>'
+//     );
+//     $("#respuestaAjax_correcto").show();
+//     setTimeout(function () {
+//       $("#respuestaAjax_correcto").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+//     }, 3000);
+//   }
+// });
+
+
+  // //=============== ELIMINAR PISO ======================
+  // $("#btnEliminarPiso").on("click", function () {
+  //   if (filaPiso) {
+  //     $.ajax({
+  //       type: "POST",
+  //       url: "ajax/pisos.ajax.php",
+  //       data: {
+  //         idPidoEdit: pisoEdit.idPisoC,
+  //         eliminar_piso: "eliminar_piso",
+  //       },
+  //       success: function (respuesta) {
+  //         if (respuesta.tipo === "error") {
+  //           $("#errorPiso").show(); // Mostrar el elemento #error antes de establecer el mensaje
+  //           $("#errorPiso").html(respuesta.mensaje);
+  //           setTimeout(function () {
+  //             $("#errorPiso").hide();
+  //           }, 4000); 
+  //         } else {
+  //           $("#respuestaAjax_correcto").html(respuesta.mensaje);
+  //           $("#modalAgregarPiso").modal("hide");
+  //           $("#respuestaAjax_correcto").show(); // Muestra el mensaje
+
+  //           setTimeout(function () {
+  //             $("#respuestaAjax_correcto").hide(); 
+  //           }, 3000); // 3 segundos
+  //           filaPiso = false;
+  //           nuevoPiso.MostrarPisos(
+  //             nuevoPiso.idCatasttroC,
+  //             nuevoPiso.idAnioFiscalC
+  //           );
+  //         }
+  //       },
+  //       error: function () {
+  //         console.error("Error en la solicitud AJAX");
+  //       },
+  //     });
+  //   } else {
+  //     $("#respuestaAjax_correcto").html(
+  //       '<div class="alert alert-warning" role="alert">DEBE SELECCIONAR UN PISO</div>'
+  //     );
+  //     $("#respuestaAjax_correcto").show();
+  //     setTimeout(function () {
+  //       $("#respuestaAjax_correcto").hide(); // Oculta el mensaje después de un tiempo (por ejemplo, 3 segundos)
+  //     }, 3000);
+  //   }
+  // });
+
+
+
+
   //============FUNCIONES==========================
   function TraerValorxCategoria(
     categoriaP,

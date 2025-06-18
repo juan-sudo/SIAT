@@ -544,6 +544,26 @@ $(document).on("click", ".btnEstadoCuentaAgua", function() {
 });
 
 
+//RECALCULAR ESTADO DE CUENTA POR MESES
+
+$(document).on("click", ".btnEstadoCuentaAguaMeses", function() {
+
+    consulta_deuda_agua_lista.reniciar_valor();
+
+    consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
+    
+    consulta_deuda_agua_lista.MostrarEstadoCuentaAgua(consulta_deuda_agua_lista.idlicenciaagua);
+
+    console.log("iDlicencia agua ahora:"+consulta_deuda_agua_lista.idlicenciaagua);
+
+    $('#ModalEstado_agua_recalculo_meses').modal('show');
+    //ajustando el total de la columna 
+});
+
+//FIN RECALCULAR ESTADO DE CUENTA POR MESES
+
+
+
 $(document).on("click", ".btnEstadoCuentaAgua_pagados", function() {
   consulta_deuda_agua_lista.idlicenciaagua = $(this).attr("idlicenciaagua");
   console.log("iDlicencia agua:"+consulta_deuda_agua_lista.idlicenciaagua)

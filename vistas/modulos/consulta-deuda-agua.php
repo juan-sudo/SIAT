@@ -115,7 +115,7 @@ $idArray = array_filter($idArray);
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <label class="modal-title"> Estado de Cuenta Agua</label>
+        <label class="modal-title"> Estado de Cuenta Agua d</label>
       </div>
                         
                         <div class="modal-body estado_cuentaAgua_mostrar">

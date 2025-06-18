@@ -1118,16 +1118,16 @@ $(document).ready(function () {
 });
 
 //BUSCADOR DE SELECTORES
- // Asegúrate de que el DOM esté cargado
-// $(document).ready(function () {
-//   $('#giroPredio_e').select2({
-//     placeholder: "Seleccione", // Este placeholder se muestra solo si hay una opción vacía
-//     allowClear: true,
-//     width: 'resolve'
-//   });
+// Asegúrate de que el DOM esté cargado
+$(document).ready(function () {
+  $('#giroPredio_e').select2({
+    placeholder: "Seleccione", // Este placeholder se muestra solo si hay una opción vacía
+    allowClear: true,
+    width: 'resolve'
+  });
 
 
-// });
+});
 
 
 

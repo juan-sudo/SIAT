@@ -8,7 +8,7 @@ class Conexion
 {
     const HOST = '127.0.0.1';
     const USER = 'municipalidad';
-    const PASSWORD = 'VILM@juan1234';
+    const PASSWORD = 'VILM@juan1234'; 
     const BDNAME = '300479';
     public static function conectar()
     {

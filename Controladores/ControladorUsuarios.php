@@ -17,7 +17,7 @@ class ControladorUsuarios
 
         // Verificación de la respuesta de reCAPTCHA solo si hay respuesta
         if (!empty($_POST['g-recaptcha-response'])) {
-            $recaptcha_secret = '6Lct-mIrAAAAAKBYhOIj1m9AIFPzqeLiHSzrY_UT';
+            $recaptcha_secret = '6LeAC2QrAAAAAHeKeLPf-peiK_RblNXKRJaasZSz';
             $recaptcha_response = $_POST['g-recaptcha-response'];
 
             // Verifica si la respuesta de reCAPTCHA es válida

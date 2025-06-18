@@ -810,7 +810,7 @@ $idArray = array_filter($idArray);
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <label class="modal-title"> Calcular Estado de Cuenta Agua</label>
+        <label class="modal-title"> Calcular Estado de Cuenta Agua dd</label>
       </div>
       <div class="modal-body">
         <form role="form" method="POST" id="formRegistrarLicenciaAguaEdit">
@@ -955,8 +955,10 @@ $idArray = array_filter($idArray);
   <div class="modal-dialog modal-lg modal-dialog-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <label class="modal-title"> Estado de Cuenta Agua</label>
+        <label class="modal-title"> Estado de Cuenta Agua debes</label>
       </div>
+
+      
 
       <div class="modal-body estado_cuentaAgua_mostrar">
         <div class="row divDetallePredio">
@@ -1009,6 +1011,95 @@ $idArray = array_filter($idArray);
 </div>
 
 <!--  Fin del modal de mostrar el estado de cuenta de agua -->
+
+
+
+<!-- modal recalculo por meses-->
+
+<div class="modal in" id="ModalEstado_agua_recalculo_meses" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label class="modal-title"> Estado de cuenta recalculo meses</label>
+        
+      </div>
+
+      <div class="modal-body estado_cuentaAgua_mostrar">
+
+     
+
+<div class="row " style="margin-bottom: 5px;">
+  <div class="col-12" style="text-align: right;">
+    <select class="busqueda_filtros" id="selectnum" name="selectnum" style="float: right;">
+      <?php
+      $anio = ControladorPredio::ctrMostrarDataAnio();
+      foreach ($anio as $data_anio) {
+        $selected = ($anio_propietario == $data_anio['NomAnio']) ? 'selected' : '';
+        echo "<option value='" . $data_anio['Id_Anio'] . "' $selected>" . $data_anio['NomAnio'] . '</option>';
+      }
+      ?>
+    </select>
+  </div>
+</div>
+
+
+
+
+
+      
+      
+        <div class="row divDetallePredio">
+          <table class="table-container miprimeratabla_agua" id="primeraTabla_agua">
+            <thead>
+              <tr>
+                <th class="text-center" style="width:30px;">Cod.</th>
+                <th class="text-center" style="width:50px;">Servicio</th>
+                <th class="text-center" style="width:50px;">Año</th>
+                <th class="text-center" style="width:50px;">Periodo</th>
+                <th class="text-center" style="width:50px;">Importe</th>
+                <th class="text-center" style="width:50px;">Gastos</th>
+                <th class="text-center" style="width:50px;">Subtotal</th>
+                <th class="text-center" style="width:50px;">Desc.</th>
+                <th class="text-center" style="width:50px;">Total</th>
+                <th class="seleccionado text-center" style="width:20px;">S</th>
+              </tr>
+            </thead>
+            <tbody id="listaLicenciasAgua_estadocuenta">
+              <!-- Aqui Aparecen el estado de cuenta Agua-->
+            </tbody>
+          </table>
+        </div>
+
+
+        <table class="table-container" id="segundaTabla_agua">
+          <tbody>
+            <th class="text-right td-round total_c" style="width:180px;">Total Deuda =</th>
+            <th class="text-center td-round" style="width:50px;"></th>
+            <th class="text-center td-round" style="width:50px;"></th>
+            <th class="text-center td-round" style="width:50px;"></th>
+            <th class="text-center" style="width:50px;"></th>
+            <th class="text-center" style="width:50px;"></th>
+            <th class="text-center" style="width:20px;"></th>
+          </tbody>
+        </table>
+
+
+        <!-- segunda tabla donde muestra el boton imprimir y el total del estado de cuenta-->
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-primary" id="popimprimir_agua" data-target="#Modalimprimir_cuentaagua">Imprimir Deuda</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  Fin del modal recalculo por meses -->
+
+
 
 <!-- modal de estado de cuenta agua pagados-->
 

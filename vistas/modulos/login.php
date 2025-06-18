@@ -16,7 +16,7 @@
         </div>
 
            <div class="g-recaptcha-container" id="recaptcha-container">
-                 <div class="g-recaptcha" data-sitekey="6Lct-mIrAAAAAL5BXazGUSwmFNn7i8M46UwDvJ9Z"></div>
+                 <div class="g-recaptcha" data-sitekey="6LeAC2QrAAAAAL3ErZG_z0nPwLa3Iu9VcQlotfiD"></div>
              </div>
 
 
