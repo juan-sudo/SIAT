@@ -562,11 +562,14 @@ class Predio {
   //formd.append("id_predio", predio.id_predio);
   formd.append("anio_actual", predio.nom_anio_predio);
   formd.append("anio_copiar", predio.anio_copear);
+
   formd.append("propietarios", predio.Propietarios);
  // formd.append("id_catastro", JSON.stringify(predio.id_catastro_p));
  // formd.append("id_catastro", predio.id_catastro_p);
-  formd.append("tipo", predio.id_tipo);
+  //formd.append("tipo", predio.id_tipo);
   formd.append("forzar", forzar);
+
+   formd.append("anio_copiar_predio", "anio_copiar_predio");
 
   for (const pair of formd.entries()) {
     console.log(pair[0] + ", " + pair[1]);

@@ -2077,14 +2077,22 @@ private static function generateRowHTMLHistorial($value, $key)
 	}
 
 
+
+
+
 	// ELIMINAR PREDIO
 	public static function mdlEliminarPredio($datos)
 	{
+
+
+
 		try {
 			$pdo = Conexion::conectar();
 			// Bloquear la tabla
 			$pdo->query("LOCK TABLES detalle_eliminar WRITE");
 			$pdo->beginTransaction();
+
+
 
 			// Realizar la inserción en detalle_eliminar
 			$stmt = $pdo->prepare("INSERT INTO detalle_eliminar(Detalle_Eliminar,id_usuario) VALUES(:Detalle_Eliminar,:id_usuario)");
@@ -2099,6 +2107,15 @@ private static function generateRowHTMLHistorial($value, $key)
             WHERE p.Id_Predio=:id_predio");
 			$stmt->bindParam(":id_predio", $datos['id_predio']);
 			$stmt->execute();
+
+
+
+
+
+
+
+
+
 			//session
 			//LEYEN O->OTORGADO -> no debe mostrar por ya son los antiguos dueños
 			// T TRANSFERIDO  -> si debe mostrar ya que es el nuevo propietario
@@ -2115,21 +2132,20 @@ private static function generateRowHTMLHistorial($value, $key)
 
 			return '<div>Error: ' . $e->getMessage() . '</div>';
 		}
+
+
+
+
 	}
 
 
 
-	// COPIAR PREDIO
+	//COPAIR URBANO
 
-
-
-	
-	public static function mdlCopiarPredio($datos, $id_predio)
-
-	
+	public static function mdlCopiarPredio_u($datos, $id_predio)
 	{
-		//var_dump($datos);
-		//exit;
+		//  var_dump($datos);
+		// exit;
 
 		$anoActual = $datos['anio_actual'];
 		$anoCopiar = $datos['anio_copiar'];
@@ -2139,7 +2155,11 @@ private static function generateRowHTMLHistorial($value, $key)
 
 		try {
 			$pdo = Conexion::conectar();
+
+
+			//FORZADO
 			if ($datos['forzar_copear'] == 'forzar') {
+
 				foreach ($propietarios_array as $valor) {
 					$stmt = $pdo->prepare("INSERT INTO propietario (Id_Predio,
 						                                               Id_Contribuyente,
@@ -2167,11 +2187,26 @@ private static function generateRowHTMLHistorial($value, $key)
 					$stmt->execute();
 				}
 				return "ok";
-			} else {
+			}
+			
+			//NO FORZADO
+			else {
+
+			
+
+
+
+
+
 				if ($datos["tipo"] == 'U') {
+
+
+
 					$stmt = $pdo->prepare("SELECT Id_Anio FROM `anio` where NomAnio=$anoCopiar;");
 					$stmt->execute();
 					$id_anio_copear = $stmt->fetchColumn();
+
+
 					$stmt = $pdo->prepare("INSERT INTO predio 
 											(Fecha_Adquisicion, 
 											Numero_Luz, 
@@ -2330,9 +2365,208 @@ private static function generateRowHTMLHistorial($value, $key)
 						$stmt->bindParam(":anio_actual", $anoActual);
 						$stmt->execute();
 					}
-				} else {
+
+
+
+					
+										// Obtener el Id_Catastro basado en el Codigo_Catastral
+					
+				} 
+				
+				
+				//RUSTICO
+				else {
 					$stmt = $pdo->prepare("SELECT Id_Anio FROM `anio` where NomAnio=$anoCopiar;");
 					$stmt->execute();
+					$anio_p = $stmt->fetchColumn();
+					$stmt = $pdo->prepare("INSERT INTO predio 
+					                      (Fecha_Adquisicion, 
+										  Area_Terreno, 
+										  Valor_Terreno, 
+										  Valor_Construccion, 
+										  Valor_Otras_Instalacions, 
+										  Valor_predio, 
+										  Expediente_Tramite, 
+										  Observaciones, 
+										  predio_UR, 
+										  Area_Construccion, 
+										  Id_Tipo_Predio, 
+										  Id_Uso_Predio, 
+										  Id_Estado_Predio, 
+										  Id_Regimen_Afecto, 
+										  Id_inafecto, 
+										  Id_Condicion_Predio, 
+										  Id_Anio, id_usuario, 
+										  Id_Uso_Terreno, 
+										  Id_Tipo_Terreno, 
+										  Id_Colindante_Denominacion,
+										  Valor_Inaf_Exo, 
+										  Id_Catastro_Rural, 
+										  Id_Denominacion_Rural, 
+										  Valor_Predio_Aplicar,
+										  Direccion_completo)
+
+                                   SELECT Fecha_Adquisicion, 
+								          Area_Terreno, 
+										  Valor_Terreno, 
+										  Valor_Construccion,
+                                          Valor_Otras_Instalacions, 
+										  Valor_predio, 
+										  Expediente_Tramite, 
+										  Observaciones, 
+										  predio_UR, Area_Construccion, 
+										  Id_Tipo_Predio, 
+										  Id_Uso_Predio, 
+										  Id_Estado_Predio, 
+										  Id_Regimen_Afecto, 
+										  Id_inafecto, 
+										  Id_Condicion_Predio, 
+										  :idAnio, 
+										  id_usuario, 
+										  Id_Uso_Terreno, 
+										  Id_Tipo_Terreno, 
+										  Id_Colindante_Denominacion,
+										  Valor_Inaf_Exo,  
+										  Id_Catastro_Rural, 
+										  Id_Denominacion_Rural, 
+										  Valor_Predio_Aplicar,
+										  Direccion_completo
+									FROM
+									predio
+									INNER JOIN
+									anio ON anio.Id_Anio = predio.Id_Anio
+									WHERE
+									predio.Id_predio = :id_predio
+									AND anio.NomAnio = :anio_actual");
+					$stmt->bindParam(":id_predio", $datos["id_predio"]);
+					$stmt->bindParam(":idAnio", $anio_p);
+					$stmt->bindParam(":anio_actual", $anoActual);
+					$stmt->execute();
+					$id_ultimo_predio = $pdo->lastInsertId();
+					
+						//actualizando el valor de Predio
+						$stmt_v = $pdo->prepare("UPDATE predio p
+						INNER JOIN catastro_rural c ON c.Id_Catastro_Rural = p.Id_Catastro_Rural
+						INNER JOIN arancel_rustico_hectarea a ON a.Id_valores_categoria_x_hectarea = c.Id_valores_categoria_x_hectarea
+						INNER JOIN arancel_rustico ar ON ar.Id_Arancel_Rustico = a.Id_Arancel_Rustico
+						SET 
+							p.Valor_Terreno = p.Area_Terreno *ar.Arancel,
+							p.Valor_predio = (p.Valor_Terreno + p.Valor_Construccion + p.Valor_Otras_Instalacions),
+							p.Valor_Inaf_Exo=p.Valor_predio/2,
+							p.Valor_Predio_Aplicar = (p.Valor_predio - p.Valor_Inaf_Exo)
+						WHERE p.Id_Predio = :id_predio and ar.Id_Anio=:anio_p;");
+						$stmt_v->bindParam(":id_predio", $id_ultimo_predio);
+						$stmt_v->bindParam(":anio_p", $anio_p);
+						$stmt_v->execute();
+					
+					// Insertar los nuevos propietarios relacionados con el detalle_transferencia
+					foreach ($propietarios_array as $valor) {
+						$stmt = $pdo->prepare("INSERT INTO propietario (Id_Predio,
+						                                               Id_Contribuyente,
+																	   Estado_Transferencia,
+																	   Fecha_Transferencia,
+																	   Id_Detalle_Transferencia,
+																	   Baja)
+		                                               SELECT $id_ultimo_predio,
+													          $valor,
+															  pro.Estado_Transferencia,
+															  pro.Fecha_Transferencia,
+															  pro.Id_Detalle_Transferencia,
+															  pro.Baja
+															  FROM propietario pro 
+															  inner join predio p on p.Id_Predio=pro.Id_Predio 
+															 -- inner join catastro_rural ca on ca.Id_Catastro_Rural=p.Id_Catastro_Rural  
+															  inner join anio a on a.Id_Anio=p.Id_Anio 
+															 -- where ca.Codigo_Catastral=:catastro 
+															 where pro.Id_Predio=:id_predio
+															  and pro.Id_Contribuyente IN ($propietarios) 
+															  and pro.Baja='1'
+															  and a.NomAnio=:anio_actual GROUP BY pro.Id_Predio;");
+						$stmt->bindParam(":id_predio", $datos["id_predio"]);
+						$stmt->bindParam(":anio_actual", $anoActual);
+						$stmt->execute();
+					}
+				}
+				// Liberar el bloqueo de la tabla
+
+				//	$pdo->query("UNLOCK TABLES");
+
+				//	$pdo->commit();
+				return 'ok';
+			}
+		} catch (Exception $e) {
+			// Manejo de errores
+			$pdo->rollBack();
+			return '<div>Error: ' . $e->getMessage() . '</div>';
+		}
+	}
+
+
+
+
+	// COPIAR PREDIO
+
+
+
+	
+	public static function mdlCopiarPredio($datos, $id_predio)
+	{
+		//var_dump($datos);
+		//exit;
+
+		$anoActual = $datos['anio_actual'];
+		$anoCopiar = $datos['anio_copiar'];
+		$propietarios = $datos['propietarios'];
+		$propietarios_array = explode(",", $propietarios);
+		sort($propietarios_array);
+
+		try {
+			$pdo = Conexion::conectar();
+
+
+			//FORZADO
+			if ($datos['forzar_copear'] == 'forzar') {
+				foreach ($propietarios_array as $valor) {
+					$stmt = $pdo->prepare("INSERT INTO propietario (Id_Predio,
+						                                               Id_Contribuyente,
+																	   Estado_Transferencia,
+																	   Fecha_Transferencia,
+																	   Id_Detalle_Transferencia,
+																	   Baja)
+		                                               SELECT $id_predio,
+													          $valor,
+															  pro.Estado_Transferencia,
+															  pro.Fecha_Transferencia,
+															  pro.Id_Detalle_Transferencia,
+															  pro.Baja
+															  FROM propietario pro 
+															  inner join predio p on p.Id_Predio=pro.Id_Predio 
+															 -- inner join catastro_rural ca on ca.Id_Catastro_Rural=p.Id_Catastro_Rural  
+															  inner join anio a on a.Id_Anio=p.Id_Anio 
+															 -- where ca.Codigo_Catastral=:catastro 
+															 where pro.Id_Predio=:id_predio
+															  and pro.Id_Contribuyente IN ($propietarios) 
+															  and pro.Baja='1'
+															  and a.NomAnio=:anio_actual GROUP BY pro.Id_Predio;");
+					$stmt->bindParam(":id_predio", $datos["id_predio"]);
+					$stmt->bindParam(":anio_actual", $anoActual);
+					$stmt->execute();
+				}
+				return "ok";
+			}
+			
+			//NO FORZADO
+			else {
+
+				//URBANO
+
+				
+				
+				//RUSTICO
+				if ($datos["tipo"] == 'R') {
+					$stmt = $pdo->prepare("SELECT Id_Anio FROM `anio` where NomAnio=$anoCopiar;");
+					$stmt->execute();
+					
 					$anio_p = $stmt->fetchColumn();
 					$stmt = $pdo->prepare("INSERT INTO predio 
 					                      (Fecha_Adquisicion, 

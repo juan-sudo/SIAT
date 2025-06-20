@@ -390,9 +390,9 @@ class AjaxPredio
 		}
 	}
 
-	//COPIAR PREDIO A OTROS AÑOS
 
-	public function ajaxCopiarPredio()
+
+public function ajaxCopiarPredio()
 {
     if (empty($_POST["predios"]) || $_POST["anio_copiar"] == NULL) {
         $respuesta = array(
@@ -405,72 +405,67 @@ class AjaxPredio
     } else {
         // Decodificar el JSON de 'predios'
         $predios = json_decode($_POST["predios"], true);  // 'true' para convertir a array asociativo
-
-        // Verificar si la decodificación fue exitosa
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $respuesta = array(
-                'tipo' => 'error',
-                'mensaje' => 'Error en los datos de predios.'
-            );
-            $respuesta_json = json_encode($respuesta);
-            header('Content-Type: application/json');
-            echo $respuesta_json;
-            return;
-        }
+      //  var_dump($predios); // Para ver el array de predios y verificar si está recibiendo duplicados
 
         // Recoger otros datos
-        // $anio_actual = $_POST["anio_actual"];
-        // $anio_copiar = $_POST["anio_copiar"];
-        // $propietarios = $_POST["propietarios"];
-        // $tipo = $_POST["tipo"];
-        // $forzar_copear = $_POST["forzar"];
+        $anio_actual = $_POST["anio_actual"];
+        $anio_copiar = $_POST["anio_copiar"];
+        $propietarios = $_POST["propietarios"];
+        $forzar_copear = $_POST["forzar"];
+
+        // Crear un array para almacenar los nuevos datos combinados
+        $nuevos_datos = [];
 
         // Procesar y registrar cada predio individualmente
-       foreach ($predios as $predio) {
-    // Procesar cada predio
-    $id_predio = $predio['id_predio'];
-    $id_catastro = $predio['id_catastro'];
-	 $tipo = $predio['tipo'];
+        foreach ($predios as $predio) {
+            // Crear un nuevo array con los datos del predio y los datos adicionales
+            $nuevo_array = array(
+                'id_predio' => $predio['id_predio'],
+                'anio_actual' => $anio_actual,  // Año actual recibido
+                'anio_copiar' => $anio_copiar,  // Año a copiar
+                'propietarios' => $propietarios, // Propietarios
+                'id_catastro' => $predio['id_catastro'], // ID Catastro
+                'tipo' => $predio['tipo'],  // Tipo de predio
+                'forzar_copear' => $forzar_copear  // Si forzar o no
+            );
 
-    // Aquí llamas a tu método para registrar el predio
-    $datos = array(
-        'id_predio' => $id_predio,
-        'anio_actual' => $_POST["anio_actual"],  // Asegúrate de que no sea null
-        'anio_copiar' => $_POST["anio_copiar"],
-        'propietarios' => $_POST["propietarios"],
-			'id_catastro' => $id_catastro,
-			'tipo' => $tipo,
-			'forzar_copear' => $_POST["forzar"]
-		);
+            // Serializar el array para comparar contenido
+            $serializado = serialize($nuevo_array);
 
-		// Llamada al controlador para registrar el predio
-		$registro = ControladorPredio::ctrCopiarPredio($datos);
-		//  var_dump($registro);
-		//  exit();
+            // Verifica si el array ya fue agregado previamente utilizando la comparación de arrays serializados
+            if (!in_array($serializado, array_map('serialize', $nuevos_datos))) {
+                // Si no se ha agregado antes, lo añadimos
+                $nuevos_datos[] = $nuevo_array;
+            }
 
-		if (!$registro) {
-			$respuesta = array(
-				'tipo' => 'error',
-				'mensaje' => 'Error al registrar el predio con ID: ' . $id_predio
-			);
-			$respuesta_json = json_encode($respuesta);
-			header('Content-Type: application/json');
-			echo $respuesta_json;
-			return;
-		}
+            // Para ver el nuevo array de datos por cada iteración
+           // var_dump($nuevo_array);
+        }
 
-		
-	}
+      //  var_dump($nuevos_datos); // Verifica el array final después de la comparación
 
+        // Aquí podrías seguir el proceso con el controlador si es necesario
+        // Ejemplo de cómo llamar al controlador después de haber creado todos los arrays:
+        foreach ($nuevos_datos as $datos) {
+            // Llamada al controlador para registrar el predio
+            $registro = ControladorPredio::ctrCopiarPredio($datos);
+
+            if (!$registro) {
+                $respuesta = array(
+                    'tipo' => 'error',
+                    'mensaje' => 'Error al registrar el predio con ID: ' . $datos['id_predio']
+                );
+                $respuesta_json = json_encode($respuesta);
+                header('Content-Type: application/json');
+                echo $respuesta_json;
+                return;
+            }
+        }
 
         // Si todo salió bien, enviamos una respuesta de éxito
         $respuesta = array(
             'tipo' => 'success',
-            'mensaje' => '<div class="alert success">
-				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
-				<span aria-hidden="true" class="letra">×</span>
-				</button><p class="inner"><strong class="letra">Exito!</strong> 
-				<span class="letra">Se ha copiado los predios correctamente mmm</span></p></div>'
+            'mensaje' => 'Se ha copiado los predios correctamente.'
         );
 
         $respuesta_json = json_encode($respuesta);
@@ -478,6 +473,117 @@ class AjaxPredio
         echo $respuesta_json;
     }
 }
+
+
+
+
+
+
+
+	//COPIAR PREDIO A OTROS AÑOS
+
+// 	public function ajaxCopiarPredio()
+// {
+
+
+//     if (empty($_POST["predios"]) || $_POST["anio_copiar"] == NULL) {
+//         $respuesta = array(
+//             'tipo' => 'error',
+//             'mensaje' => 'Faltan datos requeridos.'
+//         );
+//         $respuesta_json = json_encode($respuesta);
+//         header('Content-Type: application/json');
+//         echo $respuesta_json;
+//     } else {
+
+//         // Decodificar el JSON de 'predios'
+//         $predios = json_decode($_POST["predios"], true);  // 'true' para convertir a array asociativo
+// 		var_dump($predios);
+				
+		
+
+//         // Verificar si la decodificación fue exitosa
+//         // if (json_last_error() !== JSON_ERROR_NONE) {
+//         //     $respuesta = array(
+//         //         'tipo' => 'error',
+//         //         'mensaje' => 'Error en los datos de predios.'
+//         //     );
+//         //     $respuesta_json = json_encode($respuesta);
+//         //     header('Content-Type: application/json');
+			
+//         //     echo $respuesta_json;
+//         //     return;
+//         // }
+
+//         // Recoger otros datos
+//         // $anio_actual = $_POST["anio_actual"];
+//         // $anio_copiar = $_POST["anio_copiar"];
+//         // $propietarios = $_POST["propietarios"];
+//         // $tipo = $_POST["tipo"];
+//         // $forzar_copear = $_POST["forzar"];
+
+
+// 		 $anio_actual = $_POST["anio_actual"];
+//         $anio_copiar = $_POST["anio_copiar"];
+//         $propietarios = $_POST["propietarios"];
+//         $forzar_copear = $_POST["forzar"];
+
+//         // Procesar y registrar cada predio individualmente
+//        foreach ($predios as $predio) {
+// 			// Procesar cada predio
+// 		 $id_predio = $predio['id_predio'];
+//             $id_catastro = $predio['id_catastro'];
+//             $tipo = $predio['tipo'];
+// 			// Aquí llamas a tu método para registrar el predio
+// 			  $datos = array(
+//                 'id_predio' => $id_predio,
+//                 'anio_actual' => $anio_actual,  // Asegúrate de que no sea null
+//                 'anio_copiar' => $anio_copiar,
+//                 'propietarios' => $propietarios,
+//                 'id_catastro' => $id_catastro,
+//                 'tipo' => $tipo,
+//                 'forzar_copear' => $forzar_copear
+//             );
+
+
+// 				var_dump($datos);
+// 				exit();
+
+// 				// Llamada al controlador para registrar el predio
+// 				$registro = ControladorPredio::ctrCopiarPredio($datos);
+// 				//  var_dump($registro);
+// 				//  exit();
+
+// 				if (!$registro) {
+// 					$respuesta = array(
+// 						'tipo' => 'error',
+// 						'mensaje' => 'Error al registrar el predio con ID: ' . $id_predio
+// 					);
+// 					$respuesta_json = json_encode($respuesta);
+// 					header('Content-Type: application/json');
+// 					echo $respuesta_json;
+// 					return;
+// 				}
+
+		
+// 	}
+
+
+//         // Si todo salió bien, enviamos una respuesta de éxito
+//         $respuesta = array(
+//             'tipo' => 'success',
+//             'mensaje' => '<div class="alert success">
+// 				<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+// 				<span aria-hidden="true" class="letra">×</span>
+// 				</button><p class="inner"><strong class="letra">Exito!</strong> 
+// 				<span class="letra">Se ha copiado los predios correctamente mmm</span></p></div>'
+//         );
+
+//         $respuesta_json = json_encode($respuesta);
+//         header('Content-Type: application/json');
+//         echo $respuesta_json;
+//     }
+// }
 
 
 	// public function ajaxCopiarPredio()
@@ -649,7 +755,7 @@ if (isset($_POST["predioRural"])) {
 	$nuevo->ajaxAgregarPredioRural();
 }
 // OBJETO COPIAR PREDIO
-if (isset($_POST["anio_copiar"])) {
+if (isset($_POST["anio_copiar_predio"])) {
 	$copiar = new AjaxPredio();
 	$copiar->ajaxCopiarPredio();
 }

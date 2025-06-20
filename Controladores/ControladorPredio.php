@@ -285,19 +285,17 @@ class ControladorPredio
 	// COPIAR PREDIO
 	public static function ctrCopiarPredio($datos)
 	{ 
-		// var_dump($datos);
-		// exit;
-
+	
 
 		$catastro = $datos['id_catastro'];
 		$anio_copear = $datos['anio_copiar']; 
 
-		$propietario = $datos['propietarios']; 
 
 		$pdo = Conexion::conectar();
 		//NO FORSAR PREDIO
 		if($datos['forzar_copear']=='noforzar'){
-			
+
+
 
 
 	    //    if($datos["tipo"]=="U"){
@@ -337,6 +335,40 @@ class ControladorPredio
 			//else {
 
 			//if{
+
+			//PREDIO URBANO
+			if($datos["tipo"]=="U"){
+
+				
+				$respuesta = ModeloPredio::mdlCopiarPredio_u($datos,'null');
+				if ($respuesta == "ok") {
+					$respuesta = array(
+						'tipo' => 'correcto',
+						'mensaje' => '<div class="alert success">
+						<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+						<span aria-hidden="true" class="letra">×</span>
+						</button><p class="inner"><strong class="letra">Exito!</strong> 
+						<span class="letra">Se copeo jjjj khjkcon exito el predio con N° catastro <b>'.$catastro.'</b>  al año <b> '.$anio_copear.'</b></span></p></div>'
+					);
+					return $respuesta;
+				} else {
+					$respuesta = array(
+						'tipo' => 'error',
+						'mensaje' => '<div class="alert error">
+						<input type="checkbox" id="alert1"/> <button type="button" class="close" aria-label="Close">
+						<span aria-hidden="true" class="letra_error">×</span>
+						</button><p class="inner"><strong class="letra_error">Error!</strong> 
+						<span class="letra_error">Algo salio al copear el predio al año <b> '.$anio_copear.' '.$respuesta.', comunicarce con el Administrador</b></span></p></div>'
+					);
+					return $respuesta;
+				}
+
+
+			}
+
+		 // PREDIO RURAL
+			else {
+
 				$respuesta = ModeloPredio::mdlCopiarPredio($datos,'null');
 				if ($respuesta == "ok") {
 					$respuesta = array(
@@ -359,6 +391,14 @@ class ControladorPredio
 					);
 					return $respuesta;
 				}
+			
+
+
+
+			}
+
+
+
 			
 			//}
 		}

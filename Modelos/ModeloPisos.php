@@ -274,9 +274,13 @@ class ModeloPisos
    }
    public static function mdlMostrarPisosDelPredio($datos)
    {
+   
       if ($datos != null) {
          $pdo = Conexion::conectar();
          try {
+
+
+
             $stmtcatastro = $pdo->prepare("SELECT Id_Catastro FROM catastro WHERE Codigo_Catastral=:Codigo_Catastral");
             $stmtcatastro->bindParam(":Codigo_Catastral", $datos['Catastro_Piso']);
             $stmtcatastro->execute();
@@ -284,20 +288,30 @@ class ModeloPisos
             $idCatastro = $stmtcatastro->fetch();
             $idCatastro = $idCatastro['Id_Catastro'];
 
+             
+
             // Obtener Id_Predio de acuerdo al año solicitado
-            $stmt = $pdo->prepare("SELECT Id_Predio FROM predio WHERE Id_Catastro=:Id_Catastro AND Id_Anio=:Id_Anio");
+            $stmt = $pdo->prepare("SELECT Id_Predio FROM predio WHERE Id_Catastro=:Id_Catastro AND Id_Anio=:Id_Anio ORDER BY Fecha_Registro DESC 
+                               LIMIT 1");
             $stmt->bindParam(":Id_Catastro", $idCatastro); // Utilizar $registro['Id_Catastro'] para obtener el valor
             $stmt->bindParam(":Id_Anio", $datos['Id_Anio']);
             $stmt->execute();
+
+
             //$idPredio = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $idPredio = $stmt->fetch(PDO::FETCH_ASSOC);
             $idPredio = $idPredio['Id_Predio'];
+
+           //  var_dump($idPredio);
+
             $stmt0 = $pdo->prepare("SELECT * FROM pisos WHERE Id_Predio=:Id_Predio order by Numero_Piso");
             $stmt0->bindParam(":Id_Predio", $idPredio);
             $stmt0->execute();
             $registros = $stmt0->fetchAll(PDO::FETCH_ASSOC);
             if (count($registros) > 0) {
                return $registros;
+
+              
             } else {
                return 'nulo'; // o 'nulo'
             }
