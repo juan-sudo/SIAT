@@ -181,7 +181,8 @@ $(document).on('click', '#btnAbrirModalEditar', function() {
               var negocio = respuesta.data[0];  // Obtener el primer negocio de la respuesta
 
          // Asignar los valores a los campos del modal
-            $('#idPredioModal').val(negocio.Id_Predio);
+          $('#idPredioModal_e').val(negocio.Id_Predio);
+            $('#idNegocioModal_e').val(negocio.Id_Negocio);
             $('#razon_social_d').val(negocio.Razon_Social);
             $('#nro_ruc_d').val(negocio.N_Ruc);
             $('#nro_licencia_d').val(negocio.N_Licencia);
@@ -196,19 +197,27 @@ $(document).on('click', '#btnAbrirModalEditar', function() {
             $('#ncamas_d').val(negocio.N_Camas);
             $('#nBano_d').val(negocio.N_Bano);
 
-            // Seleccionar el valor de los radios (agua y ITSE)
-            $('#agua_si').prop('checked', negocio.T_Agua_Negocio === 'si');  // Verificar si tiene agua
-            $('#agua_no').prop('checked', negocio.T_Agua_Negocio === 'no');  // Verificar si no tiene agua
+            // Seleccionar el valor de los radios (agua)
+            $('#agua_si_n').prop('checked', negocio.T_Agua_Negocio === 'si');  // Verificar si tiene agua
+            $('#agua_no_n').prop('checked', negocio.T_Agua_Negocio === 'no');  // Verificar si no tiene agua
 
-            $('#licencia_itse_row').toggle(negocio.T_Itse === 'si');  // Mostrar el campo de fecha vencimiento si tiene ITSE
-            $('#fecha_vencimiento_n').val(negocio.Vencimiento_Itse);  // Asignar la fecha de vencimiento
+
+             // Seleccionar el valor de los radios (ITSE)
+            $('#tiene_itse_si').prop('checked', negocio.T_Itse === 'si');  // Verificar si tiene agua
+            $('#tiene_itse_no').prop('checked', negocio.T_Itse === 'no');  // Verificar si no tiene agua
+
+
+
+           
+
+            $('#fecha_vencimiento_n_d').val(negocio.Vencimiento_Itse);  // Asignar la fecha de vencimiento
 
    
 
 
-    // Mostrar el modal
-    $('#modalRegistrar_negocio_editar').modal('show');
-}
+            // Mostrar el modal
+            $('#modalRegistrar_negocio_editar').modal('show');
+        }
 
             
             
@@ -233,6 +242,74 @@ $(document).on('click', '#btnAbrirModalEditar', function() {
 
 
 
+
+ $(document).ready(function () {
+    
+
+  function toggleCamposRegimen(valor) {
+
+
+    if (valor ===  "si") {
+       $('#licencia_itse_row').show();
+
+    } else {
+      $('#licencia_itse_row').hide();
+      $('#fecha_vencimiento').val(''); // <- corrección aquí
+
+
+    }
+  }
+
+
+    $("input[name='licenciaitse']").on('change', function () {
+       const valor =$(this).val();
+    toggleCamposRegimen(valor);
+  });
+  
+
+$('#modalRegistrar_negocio').on('shown.bs.modal', function () {
+   // const valor = $('#personeria_e').val();
+    const valor = $("input[name='licenciaitse']:checked").val();
+    toggleCamposRegimen(valor);
+  });
+
+
+});
+
+
+
+ $(document).ready(function () {
+    
+
+  function toggleCamposRegimen(valor) {
+
+
+    if (valor ===  "si") {
+       $('#licencia_itse_row_d').show();
+
+    } else {
+      $('#licencia_itse_row_d').hide();
+      $('#fecha_vencimiento_n_d').val(''); // <- corrección aquí
+
+
+    }
+  }
+
+
+    $("input[name='licenciaitse_n_d']").on('change', function () {
+       const valor =$(this).val();
+    toggleCamposRegimen(valor);
+  });
+  
+
+$('#modalRegistrar_negocio_editar').on('shown.bs.modal', function () {
+   // const valor = $('#personeria_e').val();
+    const valor = $("input[name='licenciaitse_n_d']:checked").val();
+    toggleCamposRegimen(valor);
+  });
+
+
+});
 
 // ABRIL EL MODAL DE AGREGAR NEGOCIO
 $(document).ready(function() {
@@ -283,10 +360,163 @@ $(document).ready(function () {
 
 
 
-//REGISTRAR NEGOCIO
-$(document).ready(function() {
+//EDITAR NEGOCIO
+$(document).ready(function() {  
     // Capturar el clic en el botón Guardar
-    $('#btnGuardarNegocio_e').click(function(e) {
+    $('#btnGuardarEditarNegocio_e').click(function(e) {
+        e.preventDefault(); // Prevenir el comportamiento por defecto (por ejemplo, si el formulario tiene un submit)
+
+        console.log("Botón Guardar clickeado"); // Para verificar que el evento se capturó correctamente
+        
+        // Captura de valores del formulario
+       // Captura de valores del formulario
+    const nuevoNegocio = {
+        idPredio: $("#idPredioModal_e").val(),
+        idNegocio: $("#idNegocioModal_e").val(),
+        Id_Giro_Establecimiento: $("#giroNegocio_e_d").val(),
+        razon_social: $("#razon_social_d").val(),
+        N_Ruc: $("#nro_ruc_d").val(),
+        Nro_Licencia: $("#nro_licencia_d").val(),
+        Tenencia_Negocio: $("#tenencia_ne_d").val(),
+        Personeria: $("#personeria_ne_d").val(),
+        T_personeria: $("#tipo_sociedad_d").val(),
+        N_Trabajadores: $("#n_trabajadores_d").val(),
+        N_Mesas: $("#nMesas_e_d").val(),
+        Area_negocio: $("#areaNegocio_e_d").val(),
+        N_Cuartos: $("#ncuartos_d").val(),
+        N_Camas: $("#ncamas_d").val(),
+        N_Bano: $("#nBano_d").val(),
+        T_aguaN: $("input[name='tieneAguan_n']:checked").val(), // Capturamos el valor de los radio buttons
+        T_Itse: $("input[name='licenciaitse_n_d']:checked").val(), // Capturamos el valor de los radio buttons
+        Vencimiento_Itse: $("#fecha_vencimiento_n_d").val(),
+    };
+
+
+       
+        console.log("valores capturados de editar --",nuevoNegocio);
+
+        // Aquí puedes realizar la llamada AJAX o enviar los datos a tu servidor
+        let formd = new FormData();
+
+        formd.append("id_negocio", nuevoNegocio.idNegocio);
+        formd.append("id_giro_establecimiento", nuevoNegocio.Id_Giro_Establecimiento);
+        formd.append("razon_social", nuevoNegocio.razon_social);
+        formd.append("nro_licencia", nuevoNegocio.Nro_Licencia);
+        formd.append("nro_ruc", nuevoNegocio.N_Ruc);
+        
+        
+        formd.append("tenencia_negocio", nuevoNegocio.Tenencia_Negocio);
+        formd.append("personeria", nuevoNegocio.Personeria);
+        formd.append("t_personeria", nuevoNegocio.T_personeria);
+        formd.append("nro_trabajadores", nuevoNegocio.N_Trabajadores);
+
+        formd.append("nro_mesas", nuevoNegocio.N_Mesas);
+        formd.append("area_negocio", nuevoNegocio.Area_negocio);
+        formd.append("nro_cuartos", nuevoNegocio.N_Cuartos);
+        formd.append("nro_camas", nuevoNegocio.N_Camas);
+
+        formd.append("nro_bano", nuevoNegocio.N_Bano);
+        formd.append("t_agua", nuevoNegocio.T_aguaN);
+        formd.append("t_Itse", nuevoNegocio.T_Itse);
+        formd.append("vencimiento_Itse", nuevoNegocio.Vencimiento_Itse);
+
+      
+        formd.append("editar_negocio_guardar", "editar_negocio_guardar");
+        
+
+        // Ver los datos antes de enviarlos
+        for (let [key, value] of formd.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+          $.ajax({
+            type: "POST",
+            url: "ajax/negocio.ajax.php",
+            data: formd,
+            cache: false,
+            contentType: false,
+            processData: false,
+             success: function (respuesta) {
+
+                console.log("se registro negocio de manera exitosa", respuesta);
+             // console.log("respuesta desde ----", respuesta);  // Verifica si la respuesta es la esperada
+              
+              // Verifica si la respuesta es un objeto JSON
+              if (typeof respuesta === "string") {
+                  try {
+                      respuesta = JSON.parse(respuesta);  // Intenta convertir la respuesta si es un string
+                  } catch (e) {
+                      console.error("Error al parsear la respuesta:", e);
+                      return;
+                  }
+              }
+              // Verificar si la respuesta es exitosa
+             // Si la respuesta es exitosa, muestra el mensaje
+            if (respuesta.status === "ok") {
+                //  alert(respuesta.message);  // Muestra el mensaje de éxito
+                $('#modalRegistrar_negocio_editar').modal('hide');  // Cierra el modal
+
+               
+
+                 listarNegocioN(nuevoNegocio.idPredio);  // Aquí puedes pasar el idPredio adecuado para que actualice la tabla
+
+                   $("#respuestaAjax_srm").html(respuesta.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                  setTimeout(function () {
+              $("#respuestaAjax_srm").hide(); //
+                   }, 5000); // 3 segundos
+
+                // Restablecer los campos a cero o vacíos
+         
+            $('#giroNegocio_e').val('');  // Vaciar input
+            $('#razon_social').val('');  // Vaciar input
+            $('#nro_ruc').val('');  // Vaciar input
+            $('#nro_licencia').val('');  // Vaciar input
+            $('#tenencia_ne').val('');  // Vaciar input
+            $('#personeria_ne').val('');  // Vaciar input
+            $('#tipo_sociedad').val('');  // Vaciar input
+            $('#n_trabajadores').val('');  // Restablecer a 0
+            $('#nMesas_e').val('');  // Restablecer a 0
+            $('#areaNegocio_e').val('');  // Restablecer a 0
+            $('#ncuartos').val('');  // Restablecer a 0
+            $('#ncamas').val('');  // Restablecer a 0
+            $('#nBano').val('');  // Restablecer a 0
+            $("input[name='tieneAguan']").prop('checked', false);  // Desmarcar radio buttons
+            $("input[name='licenciaitse']").prop('checked', false);  // Desmarcar radio buttons
+            $('#fecha_vencimiento').val('');  // Vaciar
+            
+               
+            } else {
+                 $("#respuestaAjax_srm").html(respuesta.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                            setTimeout(function () {
+                        $("#respuestaAjax_srm").hide(); //
+                            }, 5000); // 3 segundos
+            }
+              },
+            error: function (xhr, status, error) {
+                console.log("Error en la solicitud AJAX: " + error);
+                console.log("Estado de la respuesta HTTP: " + xhr.status);  // Código de estado HTTP
+                console.log("Texto de respuesta: " + xhr.responseText);  // Respuesta completa del servidor
+            }
+
+        });
+
+        
+    });
+});
+
+
+
+
+//REGISTRAR NEGOCIO
+$(document).ready(function() {  
+    // Capturar el clic en el botón Guardar
+    $('#btnGuardarNegocio_e_a').click(function(e) {
         e.preventDefault(); // Prevenir el comportamiento por defecto (por ejemplo, si el formulario tiene un submit)
 
         console.log("Botón Guardar clickeado"); // Para verificar que el evento se capturó correctamente
@@ -393,6 +623,14 @@ $(document).ready(function() {
 
                  listarNegocioN(nuevoNegocio.idPRedioE);  // Aquí puedes pasar el idPredio adecuado para que actualice la tabla
 
+                     $("#respuestaAjax_srm").html(respuesta.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                            setTimeout(function () {
+                        $("#respuestaAjax_srm").hide(); //
+                            }, 5000); // 3 segundos
+
 
                 // Restablecer los campos a cero o vacíos
          
@@ -415,7 +653,14 @@ $(document).ready(function() {
             
                
             } else {
-                alert(respuesta.message);  // Si hay un error, muestra el mensaje de error
+                   $("#respuestaAjax_srm").html(respuesta.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                            setTimeout(function () {
+                        $("#respuestaAjax_srm").hide(); //
+                            }, 5000); // 3 segundos
+
             }
               },
             error: function (xhr, status, error) {
@@ -521,9 +766,11 @@ $(document).ready(function () {
 
             // Insertar la tabla generada en el contenedor correspondiente
             $("#listaNegocio").html(tablaHTML);
-        } else {
-            alert("Error: No se encontraron negocios.");
-        }
+        } 
+        
+        // else {
+        //     alert("Error: No se encontraron negocios.");
+        // }
     },
 error: function (xhr, status, error) {
     console.log("Error en la solicitud AJAX: " + error);

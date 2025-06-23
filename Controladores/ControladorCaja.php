@@ -31,6 +31,7 @@ class ControladorCaja
 						<td style="width:250px;">' . $proveido['nombre_especie'] . '</td>
 						<td style="width:150px;">' . $proveido['nombres'] . '</td>
 						<td style="width:80px;" class="text-center">' . number_format($proveido['valor_total'] / $proveido['cantidad'], 2) . '</td>
+						
 						<td style="width:80px;" class="text-center">' . $proveido['cantidad'] . '</td>
 						<td style="width:80px;" class="text-center">' . $proveido['valor_total'] . '</td>
 					  </tr>';

@@ -102,6 +102,43 @@ class AjaxNegocio
     }
 
     
+    //  registrar neogicio
+    public function ajaxEditar_negocio_guardar()
+    {  
+        $datos=array(
+
+            "Id_Negocio"=>$_POST['id_negocio'],
+            "Id_Giro_Establecimiento"=>$_POST['id_giro_establecimiento'],
+            "Razon_Social"=>$_POST['razon_social'],
+            "N_Licencia"=>$_POST['nro_licencia'],
+            "N_Ruc"=>$_POST['nro_ruc'],
+
+            "Tenencia_Negocio"=>$_POST['tenencia_negocio'],
+            "Personeria"=>$_POST['personeria'],
+            "Tipo_personeria"=>$_POST['t_personeria'],
+            "N_Trabajadores"=>$_POST['nro_trabajadores'],
+                
+                 
+            "N_Mesas"=>$_POST['nro_mesas'],
+            "Area_negocio"=>$_POST['area_negocio'],
+            "N_Cuartos"=>$_POST['nro_cuartos'],
+            "N_Camas"=>$_POST['nro_camas'],
+            
+            "N_Bano"=>$_POST['nro_bano'],
+            "T_Agua_Negocio"=>$_POST['t_agua'],
+            "T_Itse"=>$_POST['t_Itse'],
+             "Vencimiento_Itse"=>$_POST['vencimiento_Itse']
+                
+                    );
+
+  
+       $respuesta = ControladorNegocio::ctrRegistar_negocio_editar($datos);
+
+       return  $respuesta ;
+ 
+    }
+
+    
  
    
 }
@@ -125,11 +162,16 @@ if (isset($_POST['ver_negocio'])) {
     $mostrar_cuotas_vencimiento->ajaxVer_negocio();
 }
 
-//EDITAT NEGOCIO
-
-
+//EDITAT NEGOCIO TRAER DATOS
 
 if (isset($_POST['editar_negocio'])) {
     $mostrar_cuotas_vencimiento = new AjaxNegocio();
     $mostrar_cuotas_vencimiento->ajaxEditar_negocio();
+}
+
+//EDITAT NEGOCIO GUARDAR
+
+if (isset($_POST['editar_negocio_guardar'])) {
+    $mostrar_cuotas_vencimiento = new AjaxNegocio();
+    $mostrar_cuotas_vencimiento->ajaxEditar_negocio_guardar();
 }

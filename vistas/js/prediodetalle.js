@@ -716,9 +716,11 @@ $(document).ready(function () {
 
             // Insertar la tabla generada en el contenedor correspondiente
             $("#listaNegocio").html(tablaHTML);
-        } else {
-            alert("Error: No se encontraron negocios.");
         }
+        
+        // else {
+        //     alert("Error: No se encontraron negocios.");
+        // }
     },
 error: function (xhr, status, error) {
     console.log("Error en la solicitud AJAX: " + error);
@@ -940,8 +942,11 @@ error: function (xhr, status, error) {
                     $("#respuestaAjax_srm").hide();
                   }, 5000); // 3000 milisegundos = 3 segundos
           } else {
+
             predio.lista_predio(predio.anio_predio);
+
             $("#modalEditarPredio").modal("hide");
+            
             $("#respuestaAjax_srm").html(respuesta.mensaje);
             $("#respuestaAjax_srm").show(); // Muestra el mensaje
 
@@ -1381,37 +1386,6 @@ $('#modalEditarPredio').on('shown.bs.modal', function () {
 });
 
 
- $(document).ready(function () {
-
-  function toggleCamposRegimen(valor) {
-
-
-    if (valor ===  "si") {
-       $('#licencia_itse_row').show();
-
-    } else {
-      $('#licencia_itse_row').hide();
-      $('#fecha_vencimiento').val(''); // <- corrección aquí
-
-
-    }
-  }
-
-
-    $("input[name='licenciaitse']").on('change', function () {
-       const valor =$(this).val();
-    toggleCamposRegimen(valor);
-  });
-  
-
-$('#modalEditarPredio').on('shown.bs.modal', function () {
-   // const valor = $('#personeria_e').val();
-    const valor = $("input[name='licenciaitse']:checked").val();
-    toggleCamposRegimen(valor);
-  });
-
-
-});
 
 
 

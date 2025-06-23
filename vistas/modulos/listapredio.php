@@ -1836,7 +1836,7 @@ $concatenado_id=$idParam;
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> Editar negocio</h5>
+        <h5 class="modal-title" id="exampleModalLabel"> Editar negocio g</h5>
       </div>
       <div class="modal-body">
         <div class="col-12">
@@ -1848,15 +1848,20 @@ $concatenado_id=$idParam;
                       <div class="row">
 
 
-                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        <div class="col-12 col-md-3"> <!-- LADO 1 class="hidden" PARAMETROS DEL PREDIO URBANO-->
                          
-                         <input  type="text" name="idPredioModal" class="hidden" id="idPredioModal" />
+                          <input   name="idPredioModal_e" class="hidden"   id="idPredioModal_e" />
+
+
+                         <input   name="idNegocioModal_e" class="hidden"   id="idNegocioModal_e" />
+
+
 
                               <!-- GIRO ESTABLECIMIENTO -->
                             <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
                               <label for="giroNegocio_e" class="cajalabett"> Giro negocio</label>
 
-                                  <select id="giroNegocio_e_d" class="form22" name="giroNegocio_e_d" required >
+                                  <select id="giroNegocio_e_d" class="form33" name="giroNegocio_e_d" required >
                                         <option value=""></option> <!-- Para placeholder -->
                                         <?php
                                         $tabla = 'giro_establecimiento';
@@ -1981,11 +1986,11 @@ $concatenado_id=$idParam;
                       </div>
 
                      <div class="col-auto d-flex align-items-center">
-                    <input type="radio" id="agua_si" name="tieneAguan_n" value="si" />
-                    <label for="agua_si" class="cajalabet">Sí</label>
+                    <input type="radio" id="agua_si_n" name="tieneAguan_n" value="si" />
+                    <label for="agua_si_n" class="cajalabet">Sí</label>
 
-                    <input type="radio" id="agua_no" name="tieneAguan_n" value="no" />
-                    <label for="agua_no" class="cajalabet">No</label>
+                    <input type="radio" id="agua_no_n" name="tieneAguan_n" value="no" />
+                    <label for="agua_no_n" class="cajalabet">No</label>
                   </div>
 
 
@@ -2001,15 +2006,16 @@ $concatenado_id=$idParam;
                                   </div>
 
                                 <div class="col-auto d-flex align-items-center">
-                                <input type="radio" id="agua_si" name="licenciaitse_n" value="si" />
-                                <label for="agua_si" class="cajalabet">Sí</label>
+                                <input type="radio" id="tiene_itse_si" name="licenciaitse_n_d" value="si" />
+                                <label for="tiene_itse_si" class="cajalabet">Sí</label>
 
-                                <input type="radio" id="agua_no" name="licenciaitse_n" value="no" />
-                                <label for="agua_no" class="cajalabet">No</label>
+                                <input type="radio" id="tiene_itse_no" name="licenciaitse_n_d" value="no" />
+                                <label for="tiene_itse_no" class="cajalabet">No</label>
                               </div>
-                               <div class="row"  id="licencia_itse_row">
-                                      <label for="fecha_vencimiento_n" class="cajalabel22">Fecha vencimiento</label>
-                                        <input type="date" title="Solo se permiten números" class="form33" name="fecha_vencimiento_n" id="fecha_vencimiento_n" maxlength="150" required="">
+
+                               <div class="row"  id="licencia_itse_row_d">
+                                      <label for="fecha_vencimiento_n_d" class="cajalabel22">Fecha vencimiento</label>
+                                        <input type="date" title="Solo se permiten números" class="form33" name="fecha_vencimiento_n_d" id="fecha_vencimiento_n_d" maxlength="150" required="">
                                   
                                  </div>
 
@@ -2033,7 +2039,7 @@ $concatenado_id=$idParam;
       <div class="modal-footer">
         <button type="button" id="cancelarModal" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Salir</button>
    
-       <button type="button" class="btn btn-primary" id="btnGuardarNegocio_e"><i class="bi bi-floppy2-fill"></i> Guardar</button>
+       <button type="button" class="btn btn-primary" id="btnGuardarEditarNegocio_e"><i class="bi bi-floppy2-fill"></i> Guardar</button>
     
       </div>
 
@@ -2050,7 +2056,7 @@ $concatenado_id=$idParam;
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> Agregar negocio</h5>
+        <h5 class="modal-title" id="exampleModalLabel"> Agregar negocio i</h5>
       </div>
       <div class="modal-body">
         <div class="col-12">
@@ -2070,7 +2076,7 @@ $concatenado_id=$idParam;
                             <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
                               <label for="giroNegocio_e" class="cajalabett"> Giro negocio</label>
 
-                                  <select id="giroNegocio_e" class="form22" name="giroNegocio_e" required >
+                                  <select id="giroNegocio_e" class="form33" name="giroNegocio_e" required >
                                         <option value=""></option> <!-- Para placeholder -->
                                         <?php
                                         $tabla = 'giro_establecimiento';
@@ -2247,7 +2253,7 @@ $concatenado_id=$idParam;
       <div class="modal-footer">
         <button type="button" id="cancelarModal" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Salir</button>
    
-       <button type="button" class="btn btn-primary" id="btnGuardarNegocio_e"><i class="bi bi-floppy2-fill"></i> Guardar</button>
+       <button type="button" class="btn btn-primary" id="btnGuardarNegocio_e_a"><i class="bi bi-floppy2-fill"></i> Guardar</button>
     
       </div>
 
@@ -2256,26 +2262,9 @@ $concatenado_id=$idParam;
     </div>
   </div>
 </div>
+ 
 
-
-<!--  MODAL VIAS -->
-<div class="modal" id="modalViacalle_Predio">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> UBICACION DEL PREDIO u</h5>
-      </div>
-      <div class="modal-body">
-        <div class="col-12">
-          <?php include_once "table-viacallePredioEdit.php";  ?>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="cancelarModal" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Salir</button>
-      </div>
-    </div>
-  </div>
-</div>
+ 
 
 <div class="modal" id="moda_PredioRusticoe">
   <div class="modal-dialog modal-lg">
@@ -2295,6 +2284,8 @@ $concatenado_id=$idParam;
   </div>
 </div>
 </div>
+
+
 <!--====== FIN EDITAR PREDIO =====================-->
 <!--====== MODAL DE ELIMINAR PREDIO -->
 <div class="modal fade" id="modalEliminarPredio" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
