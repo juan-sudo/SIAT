@@ -24,7 +24,10 @@ $(document).ready(function () {
   let predioSelect = false;
 
   $(document).on("change", "#tipoPredioUR", function () {
+    
     nuevoPredioU = new PredioClass();
+
+
     tipopredio = $("#tipoPredioUR").val();
     $("#anioFiscal").prop("disabled", false);
     if (tipopredio === "U") {
@@ -388,6 +391,9 @@ $(document).ready(function () {
 
   $("#btnEditarPredioU").click(function () {
 
+   
+    listarNegocio(predioEdit.idPredioC);
+
     if (predioSelect) {
       let datos = new FormData();
       datos.append("idPredio", predioEdit.idPredioC);
@@ -535,6 +541,9 @@ $(document).ready(function () {
 
  console.log("valor de agua",predioEdit.tAguaC);
 
+ 
+
+    $("#idPredio").val(predioEdit.idPredioC);
     $("#nroUbicacion_e").val(predioEdit.numUbicacionC);
     $("#nroLote_e").val(predioEdit.numLoteC);
     $("#reciboLuz_e").val(predioEdit.numeroLuzC);
@@ -646,6 +655,78 @@ $(document).ready(function () {
     $("#valorTerrenoR_e").text(predioEdit.valorTerrenoC);
     $("#valorPredioRAnio_e").text(predioEdit.valorTerrenoC);
 
+  }
+
+
+  
+  function listarNegocio(idPredio) {
+    // OPTENIENDO LA DIRECCION DEL CONTRIBUYENTE
+
+
+    console.log("id para negocios ,", idPredio);
+
+      let formd = new FormData();
+
+       formd.append("id_predio", idPredio);
+        formd.append("listar_negocio", "listar_negocio");
+    $.ajax({
+      type: "POST",
+      url: "ajax/negocio.ajax.php",
+      data: formd,
+      cache: false,
+     contentType: false,
+      processData: false,
+      success: function (respuesta) {
+        console.log("lista negocios---", respuesta);
+
+        // Asegurarse de que la respuesta sea un objeto JSON y contenga 'data'
+        if (respuesta.status === "ok" && respuesta.data) {
+            // Crear el contenido de la tabla HTML dinámicamente
+            let tablaHTML = "";
+
+            // Iterar sobre los datos de negocio
+            respuesta.data.forEach(function(negocio) {
+                tablaHTML += `
+                    <tr>
+                     <td style="text-align: center;">${negocio.Razon_Social}</td>
+                       
+                        <td style="text-align: center;">${negocio.N_Licencia}</td>
+                        <td style="text-align: center;">${negocio.N_Ruc}</td>
+                       
+                        <td style="text-align: center;">${negocio.Area_negocio}</td>
+                        <td style="text-align: center;">${negocio.T_Agua_Negocio}</td>
+                         <td style="text-align: center;">${negocio.T_Itse}</td>
+                      <td style="text-align: center;">
+    <!-- Iconos con fondo gris -->
+    <button type="button" class="btn btn-link" title="Ver" id="btnAbrirModalverN" data-id="${negocio.Id_Negocio }" style="margin: 0; padding: 0; border: none;">
+        <i class="bi bi-eye-fill" style="font-size: 16px; color: #1d1c26;"></i>
+    </button>
+   <button type="button" class="btn btn-link" title="Ver" id="btnAbrirModalEditar" data-id="${negocio.Id_Negocio }" style="margin: 0; padding: 0; border: none;">
+       <i class="bi bi-pencil-fill" style="font-size: 14px; color: #082b07;" ></i> <!-- Icono de editar -->
+   
+    </button>
+    <a href="#" title="Eliminar" >
+        <i class="bi bi-trash" style="font-size: 14px; color: #570d0a;"></i> <!-- Icono de eliminar -->
+    </a>
+</td>
+
+
+                    </tr>`;
+            });
+
+            // Insertar la tabla generada en el contenedor correspondiente
+            $("#listaNegocio").html(tablaHTML);
+        } else {
+            alert("Error: No se encontraron negocios.");
+        }
+    },
+error: function (xhr, status, error) {
+    console.log("Error en la solicitud AJAX: " + error);
+    console.log("Estado de la respuesta HTTP: " + xhr.status);  // Código de estado HTTP
+    console.log("Texto de respuesta: " + xhr.responseText);  // Respuesta completa del servidor
+}
+
+    });
   }
 
   function informacionUbigeo(idubicavia, idanioedit) {
@@ -766,6 +847,7 @@ $(document).ready(function () {
 
 
   }
+
 
 
 
@@ -946,6 +1028,8 @@ $(document).ready(function () {
     }
   });
 
+
+  
   $(document).on("input", "#areaTerreno_e", function () {
     predioEdit.areaTerrenoC = parseFloat($("#areaTerreno_e").val()).toFixed(4);
     predioEdit.arancelTerrenoC = parseFloat($("#valorArancel_e").text()).toFixed(4);
@@ -1172,38 +1256,16 @@ $(document).ready(function () {
   });
 });
 
+
+
+
+
+
+
+
+
 // PEROSNORIA JURIDICA
 
- $(document).ready(function () {
-
-  function toggleCamposRegimen(valor) {
-    if (valor === "PERSONA_JURIDICA" ) {
-      $('#otroInputRowJuridica').show();
-
-    } else {
-      $('#otroInputRowJuridica').hide();
-       // Limpiar la selección en el dropdown de tipo sociedad si es Persona Natural
-      $('#tipoPersona_e').val('');
-
-
-    }
-  }
-
-  $('#personeria_e').on('change', function () {
-    const valor =$(this).val();
-    console.log("personeria...", valor );
-    toggleCamposRegimen(valor);
-  });
-
-  
-
-$('#modalEditarPredio').on('shown.bs.modal', function () {
-    const valor = $('#personeria_e').val();
-    toggleCamposRegimen(valor);
-  });
-
-
-});
 
 //  $(document).ready(function () {});
 
@@ -1319,6 +1381,40 @@ $('#modalEditarPredio').on('shown.bs.modal', function () {
 });
 
 
+ $(document).ready(function () {
+
+  function toggleCamposRegimen(valor) {
+
+
+    if (valor ===  "si") {
+       $('#licencia_itse_row').show();
+
+    } else {
+      $('#licencia_itse_row').hide();
+      $('#fecha_vencimiento').val(''); // <- corrección aquí
+
+
+    }
+  }
+
+
+    $("input[name='licenciaitse']").on('change', function () {
+       const valor =$(this).val();
+    toggleCamposRegimen(valor);
+  });
+  
+
+$('#modalEditarPredio').on('shown.bs.modal', function () {
+   // const valor = $('#personeria_e').val();
+    const valor = $("input[name='licenciaitse']:checked").val();
+    toggleCamposRegimen(valor);
+  });
+
+
+});
+
+
+
 
 
 //   $(document).ready(function() {
@@ -1343,3 +1439,11 @@ $('#modalEditarPredio').on('shown.bs.modal', function () {
 //   });
 // });
 
+
+
+
+ $(document).ready(function () {
+
+
+
+ });

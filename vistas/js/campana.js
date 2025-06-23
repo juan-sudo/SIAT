@@ -89,6 +89,8 @@ $(document).ready(function () {
       },
     });
   });
+
+  
   $(document).on("click", ".btnEliminarCampana", function () {
     let idUsuario = $(this).attr("idUsuario");
     let usuario = $(this).attr("usuario");

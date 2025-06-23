@@ -831,6 +831,8 @@ $concatenado_id=$idParam;
             <form role="form" method="post" class="formEditarPredio" id="formEditarPredio">
               <!--=============== DOCUMENTOS DE INSCRPCION ===================-->
               <div class="row">
+
+              <input type="text" name="idPredio" id="idPredio">
                 <!-- TIPO PREDIO  -->
                 <div class="col-12 col-md-5">
                   <label for="tipoPredioUR_e" class="cajalabel2">Tipo Predio</label>
@@ -935,7 +937,7 @@ $concatenado_id=$idParam;
                      <span class="caption_">Direccion de predio</span>
                       <div class="row2">
                         <div class="flex">
-                          <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalViacalle_Predio">Ubicacion del Predio</button>
+                          <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalViacalle_Predio">Ubicacion del Predio u</button>
                         </div>
                        
                       </div>
@@ -1114,23 +1116,30 @@ $concatenado_id=$idParam;
                                 ?>
                               </select>
                             </div>
+
+
+
+
                             <!-- GIRO ESTABLECIMIENTO -->
                             <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
                               <label for="giroPredio_e" class="cajalabet"> Giro Est.</label>
 
-                          <select id="giroPredio_e" class="form2" name="giroPredio_e" required style="width: 66%">
-                                <option value=""></option> <!-- Para placeholder -->
-                                <?php
-                                $tabla = 'giro_establecimiento';
-                                $registros = ControladorPredio::ctrMostrarData($tabla);
-                                foreach ($registros as $data_d) {
-                                  echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
-                                }
-                                ?>
-                        </select>
+                                  <select id="giroPredio_e" class="form2" name="giroPredio_e" required style="width: 66%">
+                                        <option value=""></option> <!-- Para placeholder -->
+                                        <?php
+                                        $tabla = 'giro_establecimiento';
+                                        $registros = ControladorPredio::ctrMostrarData($tabla);
+                                        foreach ($registros as $data_d) {
+                                          echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
+                                        }
+                                        ?>
+                                </select>
 
                             </div>
 
+
+
+                            
 
 
                             <!-- CONDICION DEL PREDIO  -->
@@ -1245,133 +1254,89 @@ $concatenado_id=$idParam;
 
 
                  
-                <!--====== LEVANTAMIENTO DE DATOS ==-->
+                <!--====== LEVANTAMIENTO YANO ==-->
                 <div id="divDescripPreu" >
                   <div class="box box-success" style="border-top: 0px;">
                     <div class="box-body" style="border: 1px dotted gray;  ">
                       <div class="row">
 
 
-                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                         
-                          <!-- ENTRADA AREA TERRENO-->
-                         <!-- ENTRADA AREA TERRENO -->
-                            <!-- ENTRADA AREA TERRENO -->
-                          
+                       <div class="col-md-4">
+                   
+                      <div class="row2">
+                        <div class="flex">
+                          <button type="button" class="bi bi-cart-fill btn btn-secundary btn-1" id="btnAbrirModal" style="border: 1px solid #6c757d; padding: 5px 10px; border-radius: 5px;">Agregar negocio</button>
 
-
-                          
-                          <!-- ENTRADA AREA TERRENO-->
-                           <div class="row">
-                            <label for="areaTerreno_e" class="cajalabel2">N° licencia</label>
-                            <input type="text" title="Solo se permite todo" class="form33" name="nLicencia_e" id="nLicencia_e" maxlength="10" required="">
-                          </div>
-
-                           <div class="row">
-                            <label for="areaTerreno_e" class="cajalabel2">N° trabajadores </label>
-                            <input type="number" title="Solo se permiten números" class="form33" name="nTrabajadores_e" id="nTrabajadores_e" maxlength="10" required="">
-                          </div>
-
-                          <!-- VALOR ARANCEL-->
-                         
-                        </div>
-
-                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                        
-                        <div class="row">
-                            <label for="nMesas_e" class="cajalabel2">N° mesas</label>
-                            <input type="number" title="Solo se permiten números" class="form33" name="nMesas_e" id="nMesas_e" maxlength="10" required="">
-                        </div>
-                          
-                          <!-- ENTRADA AREA TERRENO-->
-                          <div class="row">
-                            <label for="areaNegocio_e" class="cajalabel2">Area neg. m2</label>
-                            <input type="text" title="Solo se permiten números" class="form33" name="areaNegocio_e" id="areaNegocio_e" maxlength="10" required="">
-                          </div>
-                          <!-- VALOR ARANCEL-->
-                         
-                       
-                         
-                        </div>
-
-                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
-                        
-                        <div class="row">
-                            <label for="npersonas_e" class="cajalabel2">N° person.</label>
-                            <input type="number" title="Solo se permiten números" class="form33" name="npersonas_e" id="npersonas_e" maxlength="10" required="">
+                          <!-- <button type="button" class="bi bi-geo-alt-fill btn btn-secundary btn-1" data-toggle="modal" data-target="#modalRegistrar_negocio">Agregar negocio</button>
+                        -->
                        
                        
-                          </div>
-
-                     <div class="row align-items-center">
-                      <div class="d-flex align-items-center">
-                      <span class="cajalabet">¿Tiene agua?</span>
+                        </div>
+                       
                       </div>
-
-                     <div class="col-auto d-flex align-items-center">
-                    <input type="radio" id="agua_si" name="tieneAgua" value="si" />
-                    <label for="agua_si" class="cajalabet">Sí</label>
-
-                    <input type="radio" id="agua_no" name="tieneAgua" value="no" />
-                    <label for="agua_no" class="cajalabet">No</label>
                   </div>
-
-
-                    </div>
-                           <div class="row"  id="paga_otro_nombre_row">
-                          <label for="paga_otro_nombre_e" class="cajalabel2">Paga a otro nombre(opci)</label>
-                            <input type="text" title="Solo se permiten números" class="form33" name="paga_otro_nombre_e" id="paga_otro_nombre_e" maxlength="150" required="">
-                       
-                          </div>
-
-                          
-                          
-                          
-                                  
-                         
-                        </div>
-
-                          <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                      
+                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
                         
-                           <div class="row">
-                              <label for="areaTerreno_e" class="cajalabel2"> Tenencia neg. </label>
-                              <select class="form33" name="tenencia_e" id="tenencia_e">
-                                <option value="" selected="" >Seleccione</option>
-                                 <option value="PROPIO"  >Propio</option>
-                                  <option value="ALQUILADO"  >Alquilado</option>
-                                    <option value="OTRO"  >Otro</option>
-                               
-                              </select>
-                            </div>
+                              <div class="row">
+                                  <label for="npersonas_e" class="cajalabel2">¿Cuantas personas viven?</label>
+                                  <input type="number" title="Solo se permiten números" class="form33" name="npersonas_e" id="npersonas_e" maxlength="10" required="">
+                            
+                            
+                                </div>
 
+                                     
 
-                           <div class="row">
-                              <label for="areaTerreno_e" class="cajalabel2"> Personeria </label>
-                              <select class="form33" name="personeria_e" id="personeria_e">
-                                <option value="" selected="" >Seleccione</option>
-                                 <option value="PERSONA_NATURAL" >Persona natural</option>
-                                  <option value="PERSONA_JURIDICA"  >Persona juridica</option>
-                                    
-                               
-                              </select>
-                            </div>
-
-                             <div class="row" id="otroInputRowJuridica" >
-                              <label for="areaTerreno_e" class="cajalabel2"> Tipo soc. </label>
-                              <select class="form33" name="tipoPersona_e" id="tipoPersona_e">
-                                <option value="" selected="" >Seleccione</option>
-                                 <option value="SA"  >S.A.</option>
-                                  <option value="SAC" >S.A.C.</option>
-                                    <option value="SRL"  >S.R.L.</option>
-                                     <option value="EIRL" >E.I.R.L.</option>
-                                    
-                               
-                              </select>
-                            </div>
-                          
-                         
-                         
                         </div>
+
+
+                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                            
+                            <!-- TIENE AGUA DEL MISMO PREDIO -->
+                                <div class="row align-items-center">
+                                  <div class="d-flex align-items-center">
+                                  <span class="cajalabet">¿Tiene agua el predio?</span>
+                                  </div>
+
+                                <div class="col-auto d-flex align-items-center">
+                                <input type="radio" id="agua_si" name="tieneAgua" value="si" />
+                                <label for="agua_si" class="cajalabet">Sí</label>
+
+                                <input type="radio" id="agua_no" name="tieneAgua" value="no" />
+                                <label for="agua_no" class="cajalabet">No</label>
+                              </div>
+                               <div class="row"  id="paga_otro_nombre_row">
+                                      <label for="paga_otro_nombre_e" class="cajalabel22">¿Paga a otro nombre?(opcional)</label>
+                                        <input type="text" title="Solo se permiten números" class="form33" name="paga_otro_nombre_e" id="paga_otro_nombre_e" maxlength="150" required="">
+                                  
+                                 </div>
+
+
+                                </div>
+
+
+                        </div>
+
+
+                        
+                         <div class="col-12 col-md-4"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                            
+                            <!-- TIENE AGUA DEL MISMO PREDIO -->
+                               
+
+
+                        </div>
+
+
+                       
+
+
+
+
+
+
 
 
 
@@ -1381,6 +1346,44 @@ $concatenado_id=$idParam;
                     </div>
                   </div>
                 </div>
+
+          
+
+                  <!--====== LISTA DE NEGOCIOS ==-->
+
+                  <div id="divUbigeoPreu">
+                  <div class="box">
+                    <div class="box-body">
+                   
+                      <!-- Tabla-->
+                      <div class="row2">
+                      
+                            <table class="table-container">
+                              <thead>
+                                <tr>
+                                 <th style="text-align: center;">Razon social</th>
+                                  <th style="text-align: center;">licencia</th>
+                                  <th style="text-align: center;">Ruc</th>
+                                  <th style="text-align: center;">Area</th>
+                                  <th style="text-align: center;">Agua</th>
+                                  <th style="text-align: center;">Itze</th>
+                                   <th style="text-align: center;">Accion</th>
+                                </tr>
+                              </thead>
+                              <tbody id="listaNegocio">
+                              </tbody>
+                            </table>
+                         
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+
+
+
+                
+
 
                 <!--====== ENTRADA UBIGEO PREDIO RUST =========-->
                 <div id="divUbigeoPreR">
@@ -1681,13 +1684,586 @@ $concatenado_id=$idParam;
 </div>
 
 
+<!-- MODAL  VER NEGOCIO -->
+<!-- MODAL  VER NEGOCIO -->
+<!-- MODAL  VER NEGOCIO -->
+
+<!-- MODAL  VER NEGOCIO -->
+<div class="modal" id="modalVer_negocio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detalle del Negocio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-12">
+          <div class="card shadow-sm" style="border-radius: 10px;">
+            <div class="card-body">
+               <div class="row mb-4">
+                <div class="col-md-6">
+                
+                  <p id="nombreNegocioModal" class="lead text-muted"></p>
+                </div>
+               
+              </div>
+              
+            
+
+              <!-- Información del Negocio -->
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-person-circle me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Razón Social</span>
+                  </div>
+                  <p id="razonSocialModal"></p>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-building me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">RUC</span>
+                  </div>
+                  <p id="rucModal"></p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-geo-alt me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Área del Negocio</span>
+                  </div>
+                  <p id="areaNegocioModal"></p>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-house-door me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Tenencia del Negocio</span>
+                  </div>
+                  <p id="tenenciaNegocioModal"></p>
+                </div>
+              </div>
+
+              <!-- Más Información -->
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-person-check me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Número de Trabajadores</span>
+                  </div>
+                  <p id="nTrabajadoresModal"></p>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-table me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Número de Mesas</span>
+                  </div>
+                  <p id="nMesasModal"></p>
+                </div>
+              </div>
+
+              <!-- LADO 2 -->
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-bed me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Número de Camas</span>
+                  </div>
+                  <p id="nCamasModal"></p>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-door-open me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Número de Cuartos</span>
+                  </div>
+                  <p id="nCuartosModal"></p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-droplet me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Agua del Negocio</span>
+                  </div>
+                  <p id="aguaNegocioModal"></p>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-shield-lock me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">ITSE</span>
+                  </div>
+                  <p id="itseModal"></p>
+                </div>
+              </div>
+
+              <div class="row">
+                 <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-check-circle me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Estado</span>
+                  </div>
+                  <p id="estadoModal"></p>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center ">
+                    <i class="bi bi-calendar-event me-2 text-muted" style="font-size: 1.5rem;"></i>
+                    <span class="fw-bold mb-0">Vencimiento ITSE</span>
+                  </div>
+                  <p id="vencimientoItseModal"></p>
+                </div>
+               
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" id="cancelarModalVer" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+      
+     
+      </div>
+    </div>
+  </div>
+</div>
 
 
+<!-- MODAL  EDITAR NEGOCIO -->
+<div class="modal" id="modalRegistrar_negocio_editar">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> Editar negocio</h5>
+      </div>
+      <div class="modal-body">
+        <div class="col-12">
+
+        
+         <div id="divDescripPreu" >
+                  <div class="box box-success" style="border-top: 0px;">
+                    <div class="box-body" style="border: 1px dotted gray;  ">
+                      <div class="row">
+
+
+                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                         
+                         <input  type="text" name="idPredioModal" class="hidden" id="idPredioModal" />
+
+                              <!-- GIRO ESTABLECIMIENTO -->
+                            <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
+                              <label for="giroNegocio_e" class="cajalabett"> Giro negocio</label>
+
+                                  <select id="giroNegocio_e_d" class="form22" name="giroNegocio_e_d" required >
+                                        <option value=""></option> <!-- Para placeholder -->
+                                        <?php
+                                        $tabla = 'giro_establecimiento';
+                                        $registros = ControladorPredio::ctrMostrarData($tabla);
+                                        foreach ($registros as $data_d) {
+                                          echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
+                                        }
+                                        ?>
+                                </select>
+
+                            </div>
+
+                          <div class="row">
+                            <label for="razon_social" class="cajalabel2">Razón social</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="razon_social_d" id="razon_social_d" maxlength="100" required="">
+                          </div>
+
+                            <div class="row">
+                            <label for="nro_ruc" class="cajalabel2">Nro RUC</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="nro_ruc_d" id="nro_ruc_d" maxlength="50" required="">
+                          </div>
+
+                          
+                          <!-- ENTRADA AREA TERRENO-->
+                           <div class="row">
+                            <label for="nro_licencia" class="cajalabel2">N° licencia</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="nro_licencia_d" id="nro_licencia_d" maxlength="30" required="">
+                          </div>
+
+                          
+                          <!-- VALOR ARANCEL-->
+                         
+                        </div>
+
+                           <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                           <div class="row">
+                              <label for="tenencia_ne_d" class="cajalabel2"> Tenencia neg. </label>
+                              <select class="form33" name="tenencia_ne_d" id="tenencia_ne_d">
+                                <option value="" selected="" >Seleccione</option>
+                                 <option value="PROPIO"  >Propio</option>
+                                  <option value="ALQUILADO"  >Alquilado</option>
+                                    <option value="OTRO"  >Otro</option>
+                               
+                              </select>
+                            </div>
+
+
+                        <!-- Personería (Natural o Jurídica) -->
+                    <div class="row">
+                      <label for="personeria_ne_d" class="cajalabel2">Personería jurídica</label>
+                      <select class="form33" name="personeria_ne_d" id="personeria_ne_d">
+                        <option value="" selected>Seleccione</option>
+                        <option value="PERSONA_NATURAL">Persona natural</option>
+                        <option value="PERSONA_JURIDICA">Persona jurídica</option>
+                      </select>
+                    </div>
+
+                    <!-- Tipo sociedad (solo se muestra si es PERSONA_JURIDICA) -->
+                    <div class="row" id="otroInputRowJuridica" style="display: none;">
+                      <label for="tipo_sociedad_d" class="cajalabel2">Tipo sociedad</label>
+                      <select class="form33" name="tipo_sociedad_d" id="tipo_sociedad_d">
+                        <option value="" selected>Seleccione</option>
+                        <option value="SA">S.A.</option>
+                        <option value="SAC">S.A.C.</option>
+                        <option value="SRL">S.R.L.</option>
+                        <option value="EIRL">E.I.R.L.</option>
+                      </select>
+                    </div>
+
+
+                             <div class="row">
+                            <label for="n_trabajadores_d" class="cajalabel2">N° trabajadores </label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="n_trabajadores_d" id="n_trabajadores_d" maxlength="10" required="">
+                          </div>
+
+                          
+                         
+                         
+                        </div>
+
+
+                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                        <div class="row">
+                            <label for="nMesas_e_d" class="cajalabel2">N° mesas(Restaurante)</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="nMesas_e_d" id="nMesas_e_d" maxlength="10" required="">
+                        </div>
+                          
+                          <!-- ENTRADA AREA TERRENO-->
+                          <div class="row">
+                            <label for="areaNegocio_e_d" class="cajalabel2">Area neg. m2</label>
+                            <input type="text" title="Solo se permiten números" class="form33" name="areaNegocio_e_d" id="areaNegocio_e_d" maxlength="10" required="">
+                          </div>
+                          <!-- VALOR ARANCEL-->
+
+                        <div class="row">
+                            <label for="ncuartos_d" class="cajalabel2">N° cuartos(hotel)</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="ncuartos_d" id="ncuartos_d" maxlength="10" required="">
+                        </div>
+
+                          <div class="row">
+                            <label for="ncamas_d" class="cajalabel2">N° camas(hotel)</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="ncamas_d" id="ncamas_d" maxlength="10" required="">
+                        </div>
+                         
+                         
+                       
+                         
+                        </div>
+
+                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                        <div class="row">
+                            <label for="nBano_d" class="cajalabel2">N° baño</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="nBano_d" id="nBano_d" maxlength="10" required="">
+                        </div>
+
+                     <div class="row align-items-center">
+                      <div class="d-flex align-items-center">
+                      <span class="cajalabet">¿Tiene agua negocio?</span>
+                      </div>
+
+                     <div class="col-auto d-flex align-items-center">
+                    <input type="radio" id="agua_si" name="tieneAguan_n" value="si" />
+                    <label for="agua_si" class="cajalabet">Sí</label>
+
+                    <input type="radio" id="agua_no" name="tieneAguan_n" value="no" />
+                    <label for="agua_no" class="cajalabet">No</label>
+                  </div>
+
+
+                    </div>
+                        
+                        </div>
+
+                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                         <div class="row align-items-center">
+                                  <div class="d-flex align-items-center">
+                                  <span class="cajalabet">¿Cuenta con ITSE?</span>
+                                  </div>
+
+                                <div class="col-auto d-flex align-items-center">
+                                <input type="radio" id="agua_si" name="licenciaitse_n" value="si" />
+                                <label for="agua_si" class="cajalabet">Sí</label>
+
+                                <input type="radio" id="agua_no" name="licenciaitse_n" value="no" />
+                                <label for="agua_no" class="cajalabet">No</label>
+                              </div>
+                               <div class="row"  id="licencia_itse_row">
+                                      <label for="fecha_vencimiento_n" class="cajalabel22">Fecha vencimiento</label>
+                                        <input type="date" title="Solo se permiten números" class="form33" name="fecha_vencimiento_n" id="fecha_vencimiento_n" maxlength="150" required="">
+                                  
+                                 </div>
+
+
+                                </div>
+                                </div>
+
+                       
+
+
+                        <!--OBSERVACIONES-->
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" id="cancelarModal" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Salir</button>
+   
+       <button type="button" class="btn btn-primary" id="btnGuardarNegocio_e"><i class="bi bi-floppy2-fill"></i> Guardar</button>
+    
+      </div>
+
+<div class="resultados3"></div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODAL  AGREGAR NEGOCIO -->
+<div class="modal" id="modalRegistrar_negocio">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> Agregar negocio</h5>
+      </div>
+      <div class="modal-body">
+        <div class="col-12">
+
+        
+         <div id="divDescripPreu" >
+                  <div class="box box-success" style="border-top: 0px;">
+                    <div class="box-body" style="border: 1px dotted gray;  ">
+                      <div class="row">
+
+
+                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                         
+                         <input  type="text" name="idPredioModal" class="hidden" id="idPredioModal" />
+
+                              <!-- GIRO ESTABLECIMIENTO -->
+                            <div class="row "  style="margin-top: 3px; margin-bottom: 3px" >
+                              <label for="giroNegocio_e" class="cajalabett"> Giro negocio</label>
+
+                                  <select id="giroNegocio_e" class="form22" name="giroNegocio_e" required >
+                                        <option value=""></option> <!-- Para placeholder -->
+                                        <?php
+                                        $tabla = 'giro_establecimiento';
+                                        $registros = ControladorPredio::ctrMostrarData($tabla);
+                                        foreach ($registros as $data_d) {
+                                          echo "<option value='" . intval($data_d['Id_Giro_Establecimiento']) . "'>" . htmlspecialchars($data_d['Nombre']) . "</option>";
+                                        }
+                                        ?>
+                                </select>
+
+                            </div>
+
+                          <div class="row">
+                            <label for="razon_social" class="cajalabel2">Razón social</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="razon_social" id="razon_social" maxlength="100" required="">
+                          </div>
+
+                            <div class="row">
+                            <label for="nro_ruc" class="cajalabel2">Nro RUC</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="nro_ruc" id="nro_ruc" maxlength="50" required="">
+                          </div>
+
+                          
+                          <!-- ENTRADA AREA TERRENO-->
+                           <div class="row">
+                            <label for="nro_licencia" class="cajalabel2">N° licencia</label>
+                            <input type="text" title="Solo se permite todo" class="form33" name="nro_licencia" id="nro_licencia" maxlength="30" required="">
+                          </div>
+
+                          
+                          <!-- VALOR ARANCEL-->
+                         
+                        </div>
+
+                           <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                           <div class="row">
+                              <label for="tenencia_ne" class="cajalabel2"> Tenencia neg. </label>
+                              <select class="form33" name="tenencia_ne" id="tenencia_ne">
+                                <option value="" selected="" >Seleccione</option>
+                                 <option value="PROPIO"  >Propio</option>
+                                  <option value="ALQUILADO"  >Alquilado</option>
+                                    <option value="OTRO"  >Otro</option>
+                               
+                              </select>
+                            </div>
+
+
+                        <!-- Personería (Natural o Jurídica) -->
+                    <div class="row">
+                      <label for="personeria_ne" class="cajalabel2">Personería jurídica</label>
+                      <select class="form33" name="personeria_ne" id="personeria_ne">
+                        <option value="" selected>Seleccione</option>
+                        <option value="PERSONA_NATURAL">Persona natural</option>
+                        <option value="PERSONA_JURIDICA">Persona jurídica</option>
+                      </select>
+                    </div>
+
+                    <!-- Tipo sociedad (solo se muestra si es PERSONA_JURIDICA) -->
+                    <div class="row" id="otroInputRowJuridica" style="display: none;">
+                      <label for="tipo_sociedad" class="cajalabel2">Tipo sociedad</label>
+                      <select class="form33" name="tipo_sociedad" id="tipo_sociedad">
+                        <option value="" selected>Seleccione</option>
+                        <option value="SA">S.A.</option>
+                        <option value="SAC">S.A.C.</option>
+                        <option value="SRL">S.R.L.</option>
+                        <option value="EIRL">E.I.R.L.</option>
+                      </select>
+                    </div>
+
+
+                             <div class="row">
+                            <label for="n_trabajadores" class="cajalabel2">N° trabajadores </label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="n_trabajadores" id="n_trabajadores" maxlength="10" required="">
+                          </div>
+
+                          
+                         
+                         
+                        </div>
+
+
+                        <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                        <div class="row">
+                            <label for="nMesas_e" class="cajalabel2">N° mesas(Restaurante)</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="nMesas_e" id="nMesas_e" maxlength="10" required="">
+                        </div>
+                          
+                          <!-- ENTRADA AREA TERRENO-->
+                          <div class="row">
+                            <label for="areaNegocio_e" class="cajalabel2">Area neg. m2</label>
+                            <input type="text" title="Solo se permiten números" class="form33" name="areaNegocio_e" id="areaNegocio_e" maxlength="10" required="">
+                          </div>
+                          <!-- VALOR ARANCEL-->
+
+                        <div class="row">
+                            <label for="ncuartos" class="cajalabel2">N° cuartos(hotel)</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="ncuartos" id="ncuartos" maxlength="10" required="">
+                        </div>
+
+                          <div class="row">
+                            <label for="ncamas" class="cajalabel2">N° camas(hotel)</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="ncamas" id="ncamas" maxlength="10" required="">
+                        </div>
+                         
+                         
+                       
+                         
+                        </div>
+
+                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                        <div class="row">
+                            <label for="nBano" class="cajalabel2">N° baño</label>
+                            <input type="number" title="Solo se permiten números" class="form33" name="nBano" id="nBano" maxlength="10" required="">
+                        </div>
+
+                     <div class="row align-items-center">
+                      <div class="d-flex align-items-center">
+                      <span class="cajalabet">¿Tiene agua negocio?</span>
+                      </div>
+
+                     <div class="col-auto d-flex align-items-center">
+                    <input type="radio" id="agua_si" name="tieneAguan" value="si" />
+                    <label for="agua_si" class="cajalabet">Sí</label>
+
+                    <input type="radio" id="agua_no" name="tieneAguan" value="no" />
+                    <label for="agua_no" class="cajalabet">No</label>
+                  </div>
+
+
+                    </div>
+                        
+                        </div>
+
+                         <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
+                        
+                         <div class="row align-items-center">
+                                  <div class="d-flex align-items-center">
+                                  <span class="cajalabet">¿Cuenta con ITSE?</span>
+                                  </div>
+
+                                <div class="col-auto d-flex align-items-center">
+                                <input type="radio" id="agua_si" name="licenciaitse" value="si" />
+                                <label for="agua_si" class="cajalabet">Sí</label>
+
+                                <input type="radio" id="agua_no" name="licenciaitse" value="no" />
+                                <label for="agua_no" class="cajalabet">No</label>
+                              </div>
+                               <div class="row"  id="licencia_itse_row">
+                                      <label for="fecha_vencimiento" class="cajalabel22">Fecha vencimiento</label>
+                                        <input type="date" title="Solo se permiten números" class="form33" name="fecha_vencimiento" id="fecha_vencimiento" maxlength="150" required="">
+                                  
+                                 </div>
+
+
+                                </div>
+                                </div>
+
+                       
+
+
+                        <!--OBSERVACIONES-->
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" id="cancelarModal" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Salir</button>
+   
+       <button type="button" class="btn btn-primary" id="btnGuardarNegocio_e"><i class="bi bi-floppy2-fill"></i> Guardar</button>
+    
+      </div>
+
+<div class="resultados3"></div>
+
+    </div>
+  </div>
+</div>
+
+
+<!--  MODAL VIAS -->
 <div class="modal" id="modalViacalle_Predio">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> UBICACION DEL PREDIO</h5>
+        <h5 class="modal-title" id="exampleModalLabel"> UBICACION DEL PREDIO u</h5>
       </div>
       <div class="modal-body">
         <div class="col-12">

@@ -148,24 +148,9 @@ class DataTables
                         <td class="text-center" id="coactivo_contribuyente"><?= $value['coactivo'] === '1' ? 'Si': 'No' ?></td> 
 
                         <td class="text-center">
-                            <?php 
-                            if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$value['coactivo'] === '1') :
-                                // Si coactivo es '1', no se muestra el ícono
-                            ?>
-                                <!-- No se muestra ícono en este caso -->
-                            <?php 
-                            elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($value['coactivo'] !== '1'|| $value['coactivo'] === '0')) :
-                                // Si el área es 'OFICINA DE EJECUCION COACTIVA' y coactivo no es '1', muestra el ícono
-                            ?>
+                           
                                 <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
-                            <?php 
-                            else :
-                                // En todos los demás casos, muestra el ícono
-                            ?>
-                                <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
-                            <?php 
-                            endif; 
-                            ?>    
+                             
                         </td>
 
 
@@ -338,24 +323,9 @@ class DataTables
                         <td class="text-center" id="coactivo_contribuyente"><?= $value['coactivo'] === '1' ? 'Si': 'No' ?></td> 
 
                         <td class="text-center">
-                            <?php 
-                            if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$value['coactivo'] === '1') :
-                                // Si coactivo es '1', no se muestra el ícono
-                            ?>
-                                <!-- No se muestra ícono en este caso -->
-                            <?php 
-                            elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($value['coactivo'] !== '1'|| $value['coactivo'] === '0')) :
-                                // Si el área es 'OFICINA DE EJECUCION COACTIVA' y coactivo no es '1', muestra el ícono
-                            ?>
+                         
                                 <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
-                            <?php 
-                            else :
-                                // En todos los demás casos, muestra el ícono
-                            ?>
-                                <i class="bi bi-house-gear-fill lis_ico_con" title="Predio" idContribuyente_predio_propietario="<?= $value['id_contribuyente'] ?>" init_envio="" id="predio_propietario" parametro_b="c_b" data-target="#modal_predio_propietario"></i>
-                            <?php 
-                            endif; 
-                            ?>    
+                              
                         </td>
 
 

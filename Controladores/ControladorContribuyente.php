@@ -140,17 +140,19 @@ class ControladorContribuyente
 
             if ($init_envio != 'pagado_006_743') {
 
-              if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&& $coactivo === 'Si') 
-              {
-                 echo '<td class="text-center">
+              // if ($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&& $coactivo === 'Si') 
+              // {
+              //    echo '<td class="text-center">
                       
-                        </td>';
-              }
-              elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($coactivo  !== 'Si'|| $coactivo === 'No')){
+              //           </td>';
+              // }
+              // elseif ($area_usuario === 'OFICINA DE EJECUCION COACTIVA' && ($coactivo  !== 'Si'|| $coactivo === 'No')){
+             
                 echo '<td class="text-center">
-                        <img src="./vistas/img/iconos/cuenta_o1.png" id="p_i" class="t-icon-tbl-p btnCuenta" title="estado cuenta" idContribuyente_cuenta="' . $idConcatenado . '">
+             
+                <img src="./vistas/img/iconos/cuenta_o1.png" id="p_i" class="t-icon-tbl-p btnCuenta" title="estado cuenta" idContribuyente_cuenta="' . $idConcatenado . '">
                      </td>';
-              }
+            //  }
                  
               
             
@@ -241,30 +243,30 @@ class ControladorContribuyente
                       <td class="text-center">' .$carpeta . '</td>';
 
 
-                     if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
-                        echo '<td class="text-center">
+                    //  if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                    //     echo '<td class="text-center">
                               
-                              </td>';
-                     }
-                      else {
+                    //           </td>';
+                    //  }
+                    //   else {
                       
                        echo '<td class="text-center">
                                 <i class="bi bi-house-fill btnPredios"  title="Predio" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'" estado_Coactivo="'. $coPropietario["coactivo"] .'" nombre_contribuyente="'. $coPropietario["nombres"] .'"</i>
                               </td>';
-                      }
+                    //  }
                      
                   // Mostrar los años
-                  if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
-                      echo '<td class="text-center">
+                  // if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+                  //     echo '<td class="text-center">
                           
-                          </td>';
-                  }
+                  //         </td>';
+                  // }
 
-                   else {
+                 //  else {
                     echo '<td class="text-center">
                             <i class="bi bi-wallet-fill btndeuda"  title="Deuda" idContribuyente_predio="'. $coPropietario["id_concatenado"] .'"</i>
                           </td>';
-                   }
+                 //  }
       // Mostrar los años
              
               echo '</tr>';
@@ -346,42 +348,42 @@ class ControladorContribuyente
 
               // Mostrar el primer campo solo si el área no es 'GERENCIA DE ADMINISTRACION TRIBUTARIA'
             
-               if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
-                  echo '<td class="text-center">
+              //  if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+              //     echo '<td class="text-center">
                          
-                        </td>';
-              }
-              else{
+              //           </td>';
+              // }
+              // else{
                      echo '<td class="text-center">
                           <img src="./vistas/img/iconos/calcular2.png" id="p_i" class="t-icon-tbl-p btnCalcular_impuesto" title="calcular" idContribuyente_predio="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalCalcularImpuesto">
                         </td>';
 
-              }
+            //  }
 
               // Mostrar el segundo campo solo si el área no es 'GERENCIA DE ADMINISTRACION TRIBUTARIA'
-              if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
-                  echo '<td class="text-center">
+              // if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+              //     echo '<td class="text-center">
                         
-                        </td>';
-              }
-              else{
+              //           </td>';
+              // }
+            //  else{
                     echo '<td class="text-center">
                           <img src="./vistas/img/iconos/formato2.png" id="p_i" class="t-icon-tbl-p btnImprimir_cartilla" title="imprimir formatos" idContribuyente_formato="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalImprimirFormato">
                         </td>';
 
-              }
+            //  }
 
               // Mostrar el tercer campo solo si el área no es 'GERENCIA DE ADMINISTRACION TRIBUTARIA'
-             if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
-                  echo '<td class="text-center">
+            //  if($area_usuario !== 'OFICINA DE EJECUCION COACTIVA'&&$coactivo === 'Si'){
+            //       echo '<td class="text-center">
                           
-                        </td>';
-              }
-              else{
+            //             </td>';
+            //   }
+            //   else{
                   echo '<td class="text-center">
                           <img src="./vistas/img/iconos/tim.png" id="p_img" class="t-icon-tbl-p btnCalcularTim_img" title="Calcular Tim" idContribuyente_tim="' . $coPropietario["id_concatenado"] . '" data-toggle="modal" data-target="#modalCalcularTim">
                         </td>';
-              }
+            //  }
 
               echo '</tr>';
 

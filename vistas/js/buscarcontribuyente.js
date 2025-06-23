@@ -157,7 +157,7 @@ class buscarcontribuyente {
     $.ajax({
       type: "POST",
       url: "ajax/viascalles.ajax.php",
-      data: {idcoDireccion: idContribuyente},
+      data: formd,
       dataType: "json",
       success: function (respuesta) {
         console.log(respuesta);
@@ -183,7 +183,9 @@ class buscarcontribuyente {
       url: 'ajax/contribuyente.ajax.php', // Cambia esto por la URL a la que envías los datos
       data: datosFormulario, // Serializa los datos del formulario
       success: function(respuesta) {
+
         if (respuesta.tipo === "correcto") {
+          
           $("#modalEditarcontribuyente").modal("hide");
           $("#respuestaAjax_srm").show(); // Mostrar el elemento #error antes de establecer el mensaje
           $("#respuestaAjax_srm").html(respuesta.mensaje);

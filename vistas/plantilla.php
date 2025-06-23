@@ -195,6 +195,7 @@ $tiem = time();
 	<script src="vistas/js/foto.js"></script>
 	<script src="vistas/js/prescripcion.js"></script>  
 	<script src="vistas/js/reporteGeneral.js"></script> 
+	<script src="vistas/js/negocio.js"></script> 
 
 	<script>
   	$.fn.modal.Constructor.prototype.enforceFocus = function() {};

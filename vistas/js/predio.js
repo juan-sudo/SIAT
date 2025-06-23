@@ -627,6 +627,10 @@ class Predio {
   }
 
 
+
+
+  
+
   // copear_predio(forzar){
   //   var formd = new FormData();
   // console.log(predio.Propietarios);

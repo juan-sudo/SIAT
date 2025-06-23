@@ -7,8 +7,8 @@ date_default_timezone_set('America/Lima');
 class Conexion
 {
     const HOST = '127.0.0.1';
-    const USER = 'municipalidad';
-    const PASSWORD = 'VILM@juan1234'; 
+    const USER = 'root';
+    const PASSWORD = ''; 
     const BDNAME = '300479';
     public static function conectar()
     {

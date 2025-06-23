@@ -450,6 +450,11 @@ tr.seleccionada {
   width: 145px;
 }
 
+.form22 {
+  display: inline !important;
+  width: 180%;
+}
+
 .form3 {
   padding: 0px !important;
   padding-left: 5px !important;
@@ -531,6 +536,14 @@ padding: 0 !important;
   width: 65px;
   padding-left: 5px;
 }
+
+.cajalabett {
+  width: 100%;
+  padding-left: 5px;
+}
+
+
+
 .cajalabel {
   width: 105px;
   padding-left: 5px;
@@ -542,6 +555,10 @@ padding: 0 !important;
 }
 
 
+.cajalabel22 {
+  width: 100%;
+  padding-left: 10px;
+}
 
 
 
