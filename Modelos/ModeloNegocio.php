@@ -73,6 +73,9 @@ class ModeloNegocio
             $T_Agua_Negocio = $datos['T_Agua_Negocio'];
             $T_Itse = $datos['T_Itse'];
             $Vencimiento_Itse = $datos['Vencimiento_Itse'];
+            $T_Licencia = $datos['T_Licencia'];
+
+            
 
             // Consulta SQL
            $stmt = Conexion::conectar()->prepare(
@@ -94,7 +97,8 @@ class ModeloNegocio
                   
                     T_Agua_Negocio = :T_Agua_Negocio, 
                     T_Itse = :T_Itse, 
-                    Vencimiento_Itse = :Vencimiento_Itse
+                    Vencimiento_Itse = :Vencimiento_Itse,
+                    T_Licencia=:T_Licencia
                 WHERE Id_Negocio = :Id_Negocio"
             );
 
@@ -118,8 +122,10 @@ class ModeloNegocio
             $stmt->bindParam(':T_Agua_Negocio', $T_Agua_Negocio, PDO::PARAM_STR);
              $stmt->bindParam(':T_Itse', $T_Itse, PDO::PARAM_STR);
               $stmt->bindParam(':Vencimiento_Itse', $Vencimiento_Itse, PDO::PARAM_STR);
+               $stmt->bindParam(':T_Licencia', $T_Licencia, PDO::PARAM_STR);
 
             
+              
 
              if ($stmt->execute()) {
                 return "ok";
@@ -160,17 +166,20 @@ class ModeloNegocio
             $T_Agua_Negocio = $datos['T_Agua_Negocio'];
             $T_Itse = $datos['T_Itse'];
             $Vencimiento_Itse = $datos['Vencimiento_Itse'];
+            $T_Licencia = $datos['T_Licencia'];
+
+            
 
             // Consulta SQL
             $stmt = Conexion::conectar()->prepare(
                 "INSERT INTO negocio 
                             (N_Licencia, N_Trabajadores, N_Mesas, Area_negocio, Tenencia_Negocio, Personeria, 
                             Tipo_personeria, N_Camas, N_Cuartos, Razon_Social, N_Ruc, N_Bano, Id_Giro_Establecimiento, 
-                            Id_Predio, T_Agua_Negocio,T_Itse,Vencimiento_Itse) 
+                            Id_Predio, T_Agua_Negocio,T_Itse,Vencimiento_Itse,T_Licencia) 
                             VALUES 
                             (:N_Licencia, :N_Trabajadores, :N_Mesas, :Area_negocio, :Tenencia_Negocio, :Personeria, 
                             :Tipo_personeria, :N_Camas, :N_Cuartos, :Razon_Social, :N_Ruc, :N_Bano, :Id_Giro_Establecimiento, 
-                            :Id_Predio, :T_Agua_Negocio, :T_Itse,:Vencimiento_Itse)"
+                            :Id_Predio, :T_Agua_Negocio, :T_Itse,:Vencimiento_Itse,:T_Licencia)"
             );
 
             // Vincular las variables con los parámetros de la consulta
@@ -191,6 +200,7 @@ class ModeloNegocio
             $stmt->bindParam(':T_Agua_Negocio', $T_Agua_Negocio, PDO::PARAM_STR);
              $stmt->bindParam(':T_Itse', $T_Itse, PDO::PARAM_STR);
               $stmt->bindParam(':Vencimiento_Itse', $Vencimiento_Itse, PDO::PARAM_STR);
+              $stmt->bindParam(':T_Licencia', $T_Licencia, PDO::PARAM_STR);
 
             
 

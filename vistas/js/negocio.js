@@ -207,6 +207,11 @@ $(document).on('click', '#btnAbrirModalEditar', function() {
             $('#tiene_itse_no').prop('checked', negocio.T_Itse === 'no');  // Verificar si no tiene agua
 
 
+               // Seleccionar el valor de los radios (ITSE)
+            $('#tiene_licencia_si').prop('checked', negocio.T_Licencia === 'si');  // Verificar si tiene agua
+            $('#tiene_licencia_no').prop('checked', negocio.T_Licencia === 'no');  // Verificar si no tiene agua
+
+
 
            
 
@@ -311,6 +316,78 @@ $('#modalRegistrar_negocio_editar').on('shown.bs.modal', function () {
 
 });
 
+
+
+
+//TIENE LICENCIA EDITAR
+
+ $(document).ready(function () {
+  function toggleCamposRegimen(valor) {
+
+
+    if (valor ===  "si") {
+       $('#licencia_licencia_row_d').show();
+
+    } else {
+      $('#licencia_licencia_row_d').hide();
+      $('#nro_licencia_d').val(''); // <- corrección aquí
+
+  
+    }
+  }
+
+
+    $("input[name='licenciN_n_d']").on('change', function () {
+       const valor =$(this).val();
+    toggleCamposRegimen(valor);
+  });
+  
+
+$('#modalRegistrar_negocio_editar').on('shown.bs.modal', function () {
+   // const valor = $('#personeria_e').val();
+    const valor = $("input[name='licenciN_n_d']:checked").val();
+    toggleCamposRegimen(valor);
+  });
+
+
+});
+
+
+//TIENE LICENCIA NORMAL
+
+ $(document).ready(function () {
+  function toggleCamposRegimen(valor) {
+
+
+    if (valor ===  "si") {
+       $('#licencia_licencia_row').show();
+
+    } else {
+      $('#licencia_licencia_row').hide();
+      $('#nro_licencia').val(''); // <- corrección aquí
+
+  
+    }
+  }
+
+
+    $("input[name='licenciN_n']").on('change', function () {
+       const valor =$(this).val();
+    toggleCamposRegimen(valor);
+  });
+  
+
+$('#modalRegistrar_negocio').on('shown.bs.modal', function () {
+   // const valor = $('#personeria_e').val();
+    const valor = $("input[name='licenciN_n']:checked").val();
+    toggleCamposRegimen(valor);
+  });
+
+
+});
+
+
+
 // ABRIL EL MODAL DE AGREGAR NEGOCIO
 $(document).ready(function() {
 
@@ -397,7 +474,15 @@ $(document).ready(function() {
         N_Bano: $("#nBano_d").val(),
         T_aguaN: $("input[name='tieneAguan_n']:checked").val(), // Capturamos el valor de los radio buttons
         T_Itse: $("input[name='licenciaitse_n_d']:checked").val(), // Capturamos el valor de los radio buttons
+        T_Licencia: $("input[name='licenciN_n_d']:checked").val(), // Capturamos el valor de los radio buttons
+       
+       
+       
         Vencimiento_Itse: $("#fecha_vencimiento_n_d").val(),
+
+
+
+
     };
 
 
@@ -427,6 +512,8 @@ $(document).ready(function() {
         formd.append("nro_bano", nuevoNegocio.N_Bano);
         formd.append("t_agua", nuevoNegocio.T_aguaN);
         formd.append("t_Itse", nuevoNegocio.T_Itse);
+        formd.append("t_Licencia", nuevoNegocio.T_Licencia);
+
         formd.append("vencimiento_Itse", nuevoNegocio.Vencimiento_Itse);
 
       
@@ -553,6 +640,9 @@ $(document).ready(function() {
             N_Bano: $("#nBano").val(),
             T_aguaN: $("input[name='tieneAguan']:checked").val(), // Capturamos el valor de los radio buttons
              T_Itse: $("input[name='licenciaitse']:checked").val(), // Capturamos el valor de los radio buttons
+             T_Licencia: $("input[name='licenciN_n']:checked").val(), // Capturamos el valor de los radio buttons
+            
+            
              Vencimiento_Itse: $("#fecha_vencimiento").val(),
             
 
@@ -590,6 +680,7 @@ $(document).ready(function() {
         formd.append("nro_bano", nuevoNegocio.N_Bano);
         formd.append("t_agua", nuevoNegocio.T_aguaN);
         formd.append("t_Itse", nuevoNegocio.T_Itse);
+         formd.append("t_Licencia", nuevoNegocio.T_Licencia);
         formd.append("vencimiento_Itse", nuevoNegocio.Vencimiento_Itse);
 
       

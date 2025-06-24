@@ -1886,10 +1886,33 @@ $concatenado_id=$idParam;
 
                           
                           <!-- ENTRADA AREA TERRENO-->
-                           <div class="row">
-                            <label for="nro_licencia" class="cajalabel2">N° licencia</label>
-                            <input type="text" title="Solo se permite todo" class="form33" name="nro_licencia_d" id="nro_licencia_d" maxlength="30" required="">
-                          </div>
+                        
+
+                           <div class="row align-items-center">
+                                      <div class="d-flex align-items-center">
+                                      <span class="cajalabet">¿Cuenta con licencia?</span>
+                                      </div>
+
+                                    <div class="col-auto d-flex align-items-center">
+                                    <input type="radio" id="tiene_licencia_si" name="licenciN_n_d" value="si" />
+                                    <label for="tiene_licencia_si" class="cajalabet">Sí</label>
+
+                                    <input type="radio" id="tiene_licencia_no" name="licenciN_n_d" value="no" />
+                                    <label for="tiene_licencia_no" class="cajalabet">No</label>
+                                  </div>
+
+                                  <div class="row"  id="licencia_licencia_row_d">
+                                          <label for="nro_licencia_d" class="cajalabel22">Nro licencia</label>
+                                          
+                                           <input type="text" title="Solo se permite todo" class="form33" name="nro_licencia_d" id="nro_licencia_d" maxlength="30" required="">
+                         
+                                    </div>
+
+
+                                    </div>
+
+
+
 
                           
                           <!-- VALOR ARANCEL-->
@@ -2000,27 +2023,27 @@ $concatenado_id=$idParam;
 
                          <div class="col-12 col-md-3"> <!-- LADO 1 PARAMETROS DEL PREDIO URBANO-->
                         
-                         <div class="row align-items-center">
-                                  <div class="d-flex align-items-center">
-                                  <span class="cajalabet">¿Cuenta con ITSE?</span>
+                            <div class="row align-items-center">
+                                      <div class="d-flex align-items-center">
+                                      <span class="cajalabet">¿Cuenta con ITSE?</span>
+                                      </div>
+
+                                    <div class="col-auto d-flex align-items-center">
+                                    <input type="radio" id="tiene_itse_si" name="licenciaitse_n_d" value="si" />
+                                    <label for="tiene_itse_si" class="cajalabet">Sí</label>
+
+                                    <input type="radio" id="tiene_itse_no" name="licenciaitse_n_d" value="no" />
+                                    <label for="tiene_itse_no" class="cajalabet">No</label>
                                   </div>
 
-                                <div class="col-auto d-flex align-items-center">
-                                <input type="radio" id="tiene_itse_si" name="licenciaitse_n_d" value="si" />
-                                <label for="tiene_itse_si" class="cajalabet">Sí</label>
-
-                                <input type="radio" id="tiene_itse_no" name="licenciaitse_n_d" value="no" />
-                                <label for="tiene_itse_no" class="cajalabet">No</label>
-                              </div>
-
-                               <div class="row"  id="licencia_itse_row_d">
-                                      <label for="fecha_vencimiento_n_d" class="cajalabel22">Fecha vencimiento</label>
-                                        <input type="date" title="Solo se permiten números" class="form33" name="fecha_vencimiento_n_d" id="fecha_vencimiento_n_d" maxlength="150" required="">
-                                  
-                                 </div>
+                                  <div class="row"  id="licencia_itse_row_d">
+                                          <label for="fecha_vencimiento_n_d" class="cajalabel22">Fecha vencimiento</label>
+                                            <input type="date" title="Solo se permiten números" class="form33" name="fecha_vencimiento_n_d" id="fecha_vencimiento_n_d" maxlength="150" required="">
+                                      
+                                    </div>
 
 
-                                </div>
+                                    </div>
                                 </div>
 
                        
@@ -2103,9 +2126,32 @@ $concatenado_id=$idParam;
                           <!-- ENTRADA AREA TERRENO-->
                            <div class="row">
                             <label for="nro_licencia" class="cajalabel2">N° licencia</label>
-                            <input type="text" title="Solo se permite todo" class="form33" name="nro_licencia" id="nro_licencia" maxlength="30" required="">
+                           
                           </div>
 
+
+                          <div class="row align-items-center">
+                                      <div class="d-flex align-items-center">
+                                      <span class="cajalabet">¿Cuenta con licencia?</span>
+                                      </div>
+
+                                    <div class="col-auto d-flex align-items-center">
+                                    <input type="radio" id="tiene_licencia_s" name="licenciN_n" value="si" />
+                                    <label for="tiene_licencia_si" class="cajalabet">Sí</label>
+
+                                    <input type="radio" id="tiene_licencia_n" name="licenciN_n" value="no" />
+                                    <label for="tiene_licencia_no" class="cajalabet">No</label>
+                                  </div>
+
+                                  <div class="row"  id="licencia_licencia_row">
+                                          <label for="nro_licencia" class="cajalabel22">Nro licencia</label>
+                                          
+                                         <input type="text" title="Solo se permite todo" class="form33" name="nro_licencia" id="nro_licencia" maxlength="30" required="">
+                        
+                                    </div>
+
+
+                                    </div>
                           
                           <!-- VALOR ARANCEL-->
                          

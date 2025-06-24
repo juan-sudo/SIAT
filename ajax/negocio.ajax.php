@@ -55,7 +55,8 @@ class AjaxNegocio
             "N_Bano"=>$_POST['nro_bano'],
             "T_Agua_Negocio"=>$_POST['t_agua'],
             "T_Itse"=>$_POST['t_Itse'],
-             "Vencimiento_Itse"=>$_POST['vencimiento_Itse']
+            "T_Licencia"=>$_POST['t_Licencia'],
+            "Vencimiento_Itse"=>$_POST['vencimiento_Itse']
                 
                     );
 
@@ -125,7 +126,8 @@ class AjaxNegocio
             "N_Bano"=>$_POST['nro_bano'],
             "T_Agua_Negocio"=>$_POST['t_agua'],
             "T_Itse"=>$_POST['t_Itse'],
-             "Vencimiento_Itse"=>$_POST['vencimiento_Itse']
+             "Vencimiento_Itse"=>$_POST['vencimiento_Itse'],
+              "T_Licencia"=>$_POST['t_Licencia']
                 
                     );
 
