@@ -9,6 +9,44 @@ use PDO;
 class ModeloNegocio
 {
 
+
+     public static function mdlNegocioEliminar($datos)
+    {
+       // var_dump($datos);
+      
+             try {
+
+            // Inicialización de las variables que vamos a usar en bindParam
+            
+            $Id_Negocio = $datos['Id_Negocio'];
+           
+
+            // Consulta SQL
+           $stmt = Conexion::conectar()->prepare(
+                "DELETE FROM negocio WHERE Id_Negocio = :Id_Negocio"
+            );
+
+
+            // Vincular las variables con los parámetros de la consulta
+            $stmt->bindParam(':Id_Negocio', $Id_Negocio, PDO::PARAM_INT);
+          
+            
+
+             if ($stmt->execute()) {
+                return "ok";
+                } else {
+                return "error";
+                }
+                $stmt = null;
+
+             } catch (Exception $e) {
+            // Manejo de excepciones
+            return "error";
+        }
+       
+    }
+
+    
     public static function mdlRegistrarNegocioEditar($datos)
     {
        // var_dump($datos);

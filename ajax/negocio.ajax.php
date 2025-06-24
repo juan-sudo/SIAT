@@ -30,9 +30,7 @@ class AjaxNegocio
  
     //VER NEGOCIO
 
-    
-
-    //  registrar neogicio
+        //  registrar neogicio
     public function ajaxRegistrar_negocio()
     {  
         $datos=array(
@@ -139,6 +137,22 @@ class AjaxNegocio
     }
 
     
+
+       public function ajaxEliminar_Negocio()
+    {  
+        $datos=array(
+
+            "Id_Negocio"=>$_POST['id_negocio']
+                
+                    );
+
+  
+       $respuesta = ControladorNegocio::ctrEliminar_negocio($datos);
+
+       return  $respuesta ;
+ 
+    }
+    
  
    
 }
@@ -175,3 +189,11 @@ if (isset($_POST['editar_negocio_guardar'])) {
     $mostrar_cuotas_vencimiento = new AjaxNegocio();
     $mostrar_cuotas_vencimiento->ajaxEditar_negocio_guardar();
 }
+
+//ELIMINAR NEGOCIO
+if (isset($_POST['eliminar_negocio'])) {
+    $mostrar_cuotas_vencimiento = new AjaxNegocio();
+    $mostrar_cuotas_vencimiento->ajaxEliminar_Negocio();
+}
+
+

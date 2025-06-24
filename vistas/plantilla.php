@@ -42,8 +42,10 @@ $tiem = time();
 
 	<link rel="stylesheet" href="vistas/css/form.css">
 
-	<!-- BUSCADOR DE SELECT -->
+	<!-- CSS de Select2 -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+	<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 
 	<!-- jQuery 3 -->
 	<script src="vistas/pack/bower_components/jquery/dist/jquery.min.js"></script>
@@ -53,6 +55,7 @@ $tiem = time();
     <script src="vistas/boss/node_modules/bootstrap/dist/js/bootstrap.min.js"></script> -->
 	<!-- AdminLTE App -->
 	<script src="vistas/pack/dist/js/adminlte.js"></script>
+	
 	<script src="vistas/pack/plugins/sweetalert/sweetalert2.js"></script>
 
 	<!-- InputMask -->
@@ -197,12 +200,20 @@ $tiem = time();
 	<script src="vistas/js/reporteGeneral.js"></script> 
 	<script src="vistas/js/negocio.js"></script> 
 
-	<script>
+	<!-- <script>
   	$.fn.modal.Constructor.prototype.enforceFocus = function() {};
-	</script>
+	</script> -->
+
+	
+
 	<!-- BUSCADOR DE SELECT -->
-	 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-	 
+
+
+	 <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	  -->
+
+
+
 	<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
 	<script>
@@ -226,7 +237,9 @@ $tiem = time();
 	
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-
+	<!-- JS de Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	
     <div id="respuestaAjax_srm" ></div>
 
 

@@ -1,67 +1,67 @@
 
-function cerrarSession() {
-  let datos = { cerrarS: "cerrarS" };
-  $.ajax({
-    url: "ajax/usuarios.ajax.php",
-    method: "POST",
-    data: datos,
-    beforeSend: function () {},
-    success: function (respuesta) {
-      if (respuesta == "ok") {
-        window.location = "salir";
-      }
-    },
-  });
-}
+// function cerrarSession() {
+//   let datos = { cerrarS: "cerrarS" };
+//   $.ajax({
+//     url: "ajax/usuarios.ajax.php",
+//     method: "POST",
+//     data: datos,
+//     beforeSend: function () {},
+//     success: function (respuesta) {
+//       if (respuesta == "ok") {
+//         window.location = "salir";
+//       }
+//     },
+//   });
+// }
 
 
-$("#logUser").click(function(e) {
-    e.preventDefault();
-    var ingUsuario = $("#ingUsuario").val();
-    var ingPassword = $("#ingPassword").val();
-    console.log(ingUsuario, ingPassword);
+// $("#logUser").click(function(e) {
+//     e.preventDefault();
+//     var ingUsuario = $("#ingUsuario").val();
+//     var ingPassword = $("#ingPassword").val();
+//     console.log(ingUsuario, ingPassword);
 
-    // Validar que los campos no estén vacíos LADO CLIENTE
-    if (ingUsuario.trim() === "" || ingPassword.trim() === "") {
-        alert("Por favor ingrese usuario y contraseña.");
-        return;
-    }
+//     Validar que los campos no estén vacíos LADO CLIENTE
+//     if (ingUsuario.trim() === "" || ingPassword.trim() === "") {
+//         alert("Por favor ingrese usuario y contraseña.");
+//         return;
+//     }
 
-    // Verificar si hay conexión a internet
-    if (navigator.onLine) {
-        // Si hay conexión a internet, verificamos el reCAPTCHA
-        var recaptchaResponse = grecaptcha.getResponse(); // Obtener la respuesta de reCAPTCHA
+//     Verificar si hay conexión a internet
+//     if (navigator.onLine) {
+//         Si hay conexión a internet, verificamos el reCAPTCHA
+//         var recaptchaResponse = grecaptcha.getResponse(); // Obtener la respuesta de reCAPTCHA
 
-        // Verificar si se completó el reCAPTCHA
-        if (recaptchaResponse.length == 0) {
-            alert("Por favor, verifica que no eres un robot.");
-            return;
-        }
-    } else {
-        // Si no hay conexión a internet, omite el reCAPTCHA
-        alert("No hay conexión a Internet. Se omitirá la validación del reCAPTCHA.");
-    }
+//         Verificar si se completó el reCAPTCHA
+//         if (recaptchaResponse.length == 0) {
+//             alert("Por favor, verifica que no eres un robot.");
+//             return;
+//         }
+//     } else {
+//         Si no hay conexión a internet, omite el reCAPTCHA
+//         alert("No hay conexión a Internet. Se omitirá la validación del reCAPTCHA.");
+//     }
 
-    let datos = {
-        ingUsuario: ingUsuario,
-        ingPassword: ingPassword,
-        'g-recaptcha-response': (navigator.onLine) ? recaptchaResponse : '' // Si hay conexión, agregar la respuesta del reCAPTCHA
-    };
+//     let datos = {
+//         ingUsuario: ingUsuario,
+//         ingPassword: ingPassword,
+//         'g-recaptcha-response': (navigator.onLine) ? recaptchaResponse : '' // Si hay conexión, agregar la respuesta del reCAPTCHA
+//     };
 
-    $.ajax({
-        url: "ajax/usuarios.ajax.php",
-        method: "POST",
-        data: datos,
-        beforeSend: function () {},
-        success: function (respuesta) {
-            $("#resultLogin")
-                .html(respuesta)
-                .show(500, function () {
-                    $(this).delay(3000).hide(500);
-                });
-        },
-    });
-});
+//     $.ajax({
+//         url: "ajax/usuarios.ajax.php",
+//         method: "POST",
+//         data: datos,
+//         beforeSend: function () {},
+//         success: function (respuesta) {
+//             $("#resultLogin")
+//                 .html(respuesta)
+//                 .show(500, function () {
+//                     $(this).delay(3000).hide(500);
+//                 });
+//         },
+//     });
+// });
 
 
 
@@ -162,40 +162,40 @@ $("#logUser").click(function(e) {
 
 
 
-// //LOGIN USUARIOS
-// $("#logUser").click(function(e) {
-//   e.preventDefault();
-//     var ingUsuario = $("#ingUsuario").val();
-//     var ingPassword = $("#ingPassword").val();
-//     console.log(ingUsuario,ingPassword);
+//LOGIN USUARIOS
+$("#logUser").click(function(e) {
+  e.preventDefault();
+    var ingUsuario = $("#ingUsuario").val();
+    var ingPassword = $("#ingPassword").val();
+    console.log(ingUsuario,ingPassword);
 
-//     // Validar que los campos no estén vacíos LADO CLIENTE
-//     if(ingUsuario.trim() === "" || ingPassword.trim() === "") {
-//         alert("Por favor ingrese usuario y contraseña.");
-//         return;
-//     }
+    // Validar que los campos no estén vacíos LADO CLIENTE
+    if(ingUsuario.trim() === "" || ingPassword.trim() === "") {
+        alert("Por favor ingrese usuario y contraseña.");
+        return;
+    }
 
-//     let datos = {
-//       ingUsuario: ingUsuario,
-//       ingPassword: ingPassword,
-//     };
+    let datos = {
+      ingUsuario: ingUsuario,
+      ingPassword: ingPassword,
+    };
 
-//     $.ajax({
-//       url: "ajax/usuarios.ajax.php",
-//       method: "POST",
-//       data: datos,
-//       beforeSend: function () {},
-//       success: function (respuesta) {
-//         //(respuesta);
-//         $("#resultLogin")
-//           .html(respuesta)
-//           .show(500, function () {
-//             $(this).delay(3000).hide(500);
-//           });
-//       },
-//     });
+    $.ajax({
+      url: "ajax/usuarios.ajax.php",
+      method: "POST",
+      data: datos,
+      beforeSend: function () {},
+      success: function (respuesta) {
+        //(respuesta);
+        $("#resultLogin")
+          .html(respuesta)
+          .show(500, function () {
+            $(this).delay(3000).hide(500);
+          });
+      },
+    });
   
-// });
+});
 
 
 

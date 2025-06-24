@@ -345,15 +345,24 @@ $(document).ready(function() {
 
 //BUSCADOR DE SELECTORES
 // Asegúrate de que el DOM esté cargado
-$(document).ready(function () {
-  $('#giroNegocio_e').select2({
-    placeholder: "Seleccione", // Este placeholder se muestra solo si hay una opción vacía
-    allowClear: true,
-    width: 'resolve'
+ $(document).ready(function() {
+    // Inicializamos Select2 en el select con id 'giroNegocio_e'
+    $('#giroNegocio_e').select2({
+      placeholder: 'Selecciona un giro de negocio', // Placeholder opcional
+      allowClear: true // Permite borrar la selección
+    });
   });
 
 
-});
+  //BUSCADOR DE SELECTORES
+// Asegúrate de que el DOM esté cargado
+ $(document).ready(function() {
+    // Inicializamos Select2 en el select con id 'giroNegocio_e'
+    $('#giroNegocio_e_d').select2({
+      placeholder: 'Selecciona un giro de negocio', // Placeholder opcional
+      allowClear: true // Permite borrar la selección
+    });
+  });
 
 
 
@@ -369,7 +378,7 @@ $(document).ready(function() {
         console.log("Botón Guardar clickeado"); // Para verificar que el evento se capturó correctamente
         
         // Captura de valores del formulario
-       // Captura de valores del formulario
+       // Captura de valores del formulario   
     const nuevoNegocio = {
         idPredio: $("#idPredioModal_e").val(),
         idNegocio: $("#idNegocioModal_e").val(),
@@ -754,9 +763,9 @@ $(document).ready(function () {
    
     </button>
  
-    <a href="#" title="Eliminar" >
-        <i class="bi bi-trash" style="font-size: 14px; color: #570d0a;"></i> <!-- Icono de eliminar -->
-    </a>
+    <button type="button" class="btn btn-link" title="Eliminar" id="btnEliminarNegocio" data-id="${negocio.Id_Negocio }" data-predio="${negocio.Id_Predio}"   style="margin: 0; padding: 0; border: none;">
+       <i class="bi bi-trash" style="font-size: 14px; color: #570d0a;"></i> <!-- Icono de eliminar -->
+    </button>
 </td>
 
 
@@ -793,3 +802,116 @@ $(document).ready(function() {
 
 
 
+
+
+
+
+$(document).on('click', '#btnEliminarNegocio', function() {
+//=============== ELIMINAR NEGOCIO ======================
+
+  console.log("has hecho click aqui--");
+
+    // Asignar los valores del botón al objeto 'negocio'
+    var idNegocio = $(this).data('id');
+     var idPredio = $(this).data('predio');
+
+    
+    // Verificar que los valores se han recibido correctamente
+    console.log("ID del negocio: ", idNegocio);  // Usar el id_negocio según sea necesario
+
+    console.log("ID del predio: ", idPredio);  // Usar el id_predio correctamente
+      
+
+     $('#inputNegocio').val(idNegocio);
+  $('#inputPredio').val(idPredio);
+  
+    // Mostrar el modal de confirmación
+    $('#modal_eliminar_negocio').modal('show');
+ 
+});
+
+
+
+
+// CONFIRMAR ELIMIANR NEGOCIO
+$("#confirmarEliminarNegocio").on("click", function () {
+
+   let idNegocio = $('#inputNegocio').val();
+  let idPredio = $('#inputPredio').val();
+
+  console.log("ID NEGOCIO A ELIMINAR:", idNegocio);
+  console.log("ID PREDIO A ELIMINAR:", idPredio);
+
+  let formd = new FormData();
+formd.append("id_negocio", idNegocio);
+formd.append("id_predio", idPredio);  // Agregar id_predio si lo necesitas
+formd.append("eliminar_negocio", "eliminar_negocio");
+
+
+
+
+  $.ajax({
+     type: "POST",
+      url: "ajax/negocio.ajax.php",
+      data: formd,
+      cache: false,
+     contentType: false,
+      processData: false,
+    success: function (respuesta) {
+
+
+      
+                console.log("se eliminado manera exitosa", respuesta);
+             // console.log("respuesta desde ----", respuesta);  // Verifica si la respuesta es la esperada
+              
+              // Verifica si la respuesta es un objeto JSON
+              if (typeof respuesta === "string") {
+                  try {
+                      respuesta = JSON.parse(respuesta);  // Intenta convertir la respuesta si es un string
+                  } catch (e) {
+                      console.error("Error al parsear la respuesta:", e);
+                      return;
+                  }
+              }
+              // Verificar si la respuesta es exitosa
+             // Si la respuesta es exitosa, muestra el mensaje
+            if (respuesta.status === "ok") {
+                //  alert(respuesta.message);  // Muestra el mensaje de éxito
+                $('#modal_eliminar_negocio').modal('hide');  // Cierra el modal
+
+               
+
+                 listarNegocioN(idPredio);  // Aquí puedes pasar el idPredio adecuado para que actualice la tabla
+
+                     $("#respuestaAjax_srm").html(respuesta.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                            setTimeout(function () {
+                        $("#respuestaAjax_srm").hide(); //
+                            }, 5000); // 3 segundos
+
+
+               
+            } else {
+                   $("#respuestaAjax_srm").html(respuesta.message);
+                     $("#respuestaAjax_srm").show(); // Muestra el mensaje
+
+                  // Obtener los parámetros actuales de la URL
+                            setTimeout(function () {
+                        $("#respuestaAjax_srm").hide(); //
+                            }, 5000); // 3 segundos
+
+            }
+
+
+
+    },
+    error: function () {
+      console.error("Error en la solicitud AJAX");
+    },
+  });
+
+
+
+});

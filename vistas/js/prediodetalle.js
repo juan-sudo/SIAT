@@ -663,11 +663,13 @@ $(document).ready(function () {
     // OPTENIENDO LA DIRECCION DEL CONTRIBUYENTE
 
 
-    console.log("id para negocios ,", idPredio);
+   // console.log("id para negocios ,", idPredio);
+
+  let IdPRedio=idPredio;
 
       let formd = new FormData();
 
-       formd.append("id_predio", idPredio);
+       formd.append("id_predio", IdPRedio);
         formd.append("listar_negocio", "listar_negocio");
     $.ajax({
       type: "POST",
@@ -677,7 +679,7 @@ $(document).ready(function () {
      contentType: false,
       processData: false,
       success: function (respuesta) {
-        console.log("lista negocios---", respuesta);
+        console.log("lista negocios--juan-", respuesta);
 
         // Asegurarse de que la respuesta sea un objeto JSON y contenga 'data'
         if (respuesta.status === "ok" && respuesta.data) {
@@ -705,9 +707,9 @@ $(document).ready(function () {
        <i class="bi bi-pencil-fill" style="font-size: 14px; color: #082b07;" ></i> <!-- Icono de editar -->
    
     </button>
-    <a href="#" title="Eliminar" >
-        <i class="bi bi-trash" style="font-size: 14px; color: #570d0a;"></i> <!-- Icono de eliminar -->
-    </a>
+     <button type="button" class="btn btn-link" title="Eliminar" id="btnEliminarNegocio" data-id="${negocio.Id_Negocio }" data-predio="${negocio.Id_Predio}"   style="margin: 0; padding: 0; border: none;">
+       <i class="bi bi-trash" style="font-size: 14px; color: #570d0a;"></i> <!-- Icono de eliminar -->
+    </button>
 </td>
 
 
