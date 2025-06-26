@@ -622,7 +622,7 @@ $concatenado_id=$idParam;
     <form role="form" id="formCarpetaProgress" method="post" enctype="multipart/form-data">
       
       <div class="modal-header">
-        <label class="modal-title">EDITAR BARRA DE PROGRESO</label>
+        <label class="modal-title">EDITAR BARRA DE PROGRESO PREDIO p</label>
       </div>
       <div class="modal-body">
      
@@ -647,8 +647,32 @@ $concatenado_id=$idParam;
                         <option value="C">Completado</option>
                     </select>
                 </div>
+               
+                 <div class="col-12 col-md-4" style="display: flex; align-items: center;" id="campletado_desde_oficina">
+                    <!-- Label para el select -->
+                  
+                   <label>
+                    <input type="checkbox" id="completado_oficina" name="completado_oficina" >
+                    Completado desde oficina
+                  </label>
+                </div>
+
+                  <div class="col-12 col-md-4" style="display: flex; align-items: center;" id="campletado_desde_Campo">
+                    <!-- Label para el select -->
+                  
+                   <label>
+                    <input type="checkbox" id="completado_campo" name="completado_campo">
+                    Completado desde campo
+                  </label>
+                </div>
+
             </div>
         </section>
+
+      
+
+
+
 
         <!-- Sección de Barra de Progreso -->
         <section class="container-fluid panel-medio" id="propietarios" style="width: 100%; margin-top:5rem">
@@ -663,6 +687,45 @@ $concatenado_id=$idParam;
                 </div>
             </div>
         </section>
+
+        <section class="container-fluid panel-medio" id="campo_observacion" style="width: 100%; ">
+            <div class="row">
+                 <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+
+                    <p> Observacion en progreso </p>
+                    <!-- Área de texto que ocupa el 100% del ancho -->
+                   
+                </div>
+
+                 <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+
+                    <!-- Área de texto que ocupa el 100% del ancho -->
+                    <textarea style="width: 100%;" id="observacion_progreso" name="observacion_progreso"></textarea>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="container-fluid panel-medio" id="campo_observacion_p" style="width: 100%; ">
+
+            <div class="row">
+              
+                <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+
+                    <p> Observacion de pendiente </p>
+                    <!-- Área de texto que ocupa el 100% del ancho -->
+                   
+                </div>
+
+                 <div class="col-12" style="display: flex; align-items: center; width: 100%;">
+
+                    <!-- Área de texto que ocupa el 100% del ancho -->
+                    <textarea style="width: 100%;" id="observacion_pendiente" name="observacion_pendiente"></textarea>
+                </div>
+                
+            </div>
+        </section>
+
 
 
       </div>

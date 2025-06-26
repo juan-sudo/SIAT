@@ -1,16 +1,18 @@
 //PASAR EL VALOR DE CONTRIBUYENTE BUSCADO A PREDIOS POR GET - VALIDADO
 class carpetaEditar {
-  
+
+
+
+
   constructor() {
      this.idContribuyente=null;
   }
 
-  
- 
+
+
 //CARGAR PARA EDITAR CARPETA
   editarCarpetaProgreso(idCarpeta){
-
-    console.log("aqui ya vas -------------", idCarpeta)
+    console.log("aqui ya vas  vienes..-------------", idCarpeta)
 
     let idDireccion;
     let datos = new FormData();
@@ -25,38 +27,42 @@ class carpetaEditar {
       dataType: "json",
       success: function (respuesta) {
 
-        console.log("paar cargar en la vista ",respuesta);
+        console.log("paar cargar en la vista progreso",respuesta);
         // //(respuesta)
-        $("#estado_progreso").val(respuesta["Estado_progreso"]).change(); 
+       // $("#estado_progreso").val(respuesta["Estado_progreso"]).change(); 
+      if (respuesta["Estado_progreso"]) {
+        $("#estado_progreso").val(respuesta["Estado_progreso"]).change();
+      }
+
+      // Asignar observaciones
+      if (respuesta["observacion_progreso"]) {
+        $("#observacion_progreso").val(respuesta["observacion_progreso"]);
+      }
+      if (respuesta["observacion_pendiente"]) {
+        $("#observacion_pendiente").val(respuesta["observacion_pendiente"]);
+      }
+
+
+       // Asignar completado oficina y campo
+      if (respuesta["completado_oficina"] === "on") {
+        $("#completado_oficina").prop("checked", true);
+      } else {
+        $("#completado_oficina").prop("checked", false);
+      }
+
+      if (respuesta["completado_campo"] === "on") {
+        $("#completado_campo").prop("checked", true);
+      } else {
+        $("#completado_campo").prop("checked", false);
+      }
+
+
 
         //  $("#codigo_carpeta").val(respuesta["Codigo_Carpeta"]); 
 
           // Actualizar la barra de progreso en base al valor recibido
         actualizarBarraDeProgreso(respuesta["Estado_progreso"]);
 
-        // $("#iduc").val(respuesta["Id_Ubica_Vias_Urbano"]);
-        // $("#e_tipoDoc").val(respuesta["Id_Tipo_Documento"]);
-        // $("#e_docIdentidad").val(respuesta["Documento"]);
-        // $("#e_tipoContribuyente").val(respuesta["Id_Tipo_Contribuyente"]);
-        // $("#e_codigo_sa").val(respuesta["Codigo_sa"]);
-        // $("#e_razon_social").val(respuesta["Nombres"]);
-        // $("#e_clasificacion").val(respuesta["Id_Clasificacion_Contribuyente"]);
-        // $("#e_apellPaterno").val(respuesta["Apellido_Paterno"]);
-        // $("#e_apellMaterno").val(respuesta["Apellido_Materno"]);
-        // $("#e_condicionContri").val(respuesta["Id_Condicion_Contribuyente"]);
-        // $("#e_nroUbicacion").val(respuesta["Numero_Ubicacion"]);
-        // $("#e_nroLote").val(respuesta["Lote"]);
-        // $("#e_nroDepartamento").val(respuesta["Numero_Departamento"]);
-        // $("#e_nrobloque").val(respuesta["Bloque"]);
-        // $("#e_nroLuz").val(respuesta["Numero_Luz"]);
-        // $("#e_condicionpredio").val(respuesta["Id_Condicion_Predio_Fiscal"]);
-        // $("#e_referencia").val(respuesta["Referencia"]);
-        // $("#e_telefono").val(respuesta["Telefono"]);
-        // $("#e_correo").val(respuesta["Correo"]);
-        // $("#e_observacion").val(respuesta["Observaciones"]);
-        // $("#usuarioCoactivo").prop('checked',respuesta["Coactivo"]==='1');
-        // $("#usuarioFallecida").prop('checked',respuesta["Fallecida"]==='1');
-        // let idDireccion = respuesta["Id_Ubica_Vias_Urbano"];
       },
     });
   }
@@ -64,8 +70,12 @@ class carpetaEditar {
  
 
   guardar_editar_progreso(datosFormulario){
-   
-  console.log(datosFormulario);
+
+    //const isoValue = document.getElementById("mySpan").getAttribute("iso");
+
+   // datosFormulario.id_usuario = isoValue;
+    console.log("formulario de progreso..",datosFormulario);
+
 
     $.ajax({
       type: 'POST',
@@ -93,6 +103,9 @@ class carpetaEditar {
         }
       }
     });
+
+
+
    }
 
 
@@ -115,16 +128,16 @@ $(document).on("click", "#editar_progreso_Predio", function () {
     // Asignarlo al input
     $('#codigo_carpeta').val(carpetaContribuyente);
 
-
-
   editarCarpeta_.editarCarpetaProgreso(carpetaContribuyente); // Llamar al método para cargar los datos del contribuyente y actualizar el modal
 
-  // Asignar el valor al input oculto dentro del modal
-  //$("#codigo_carpeta").val(codigoCarpeta);
 
   // Mostrar el modal
   $("#modal_editar_barra_progreso").show();
 });
+
+
+
+
 
 
 // Cerrar el modal de progreso
@@ -141,12 +154,34 @@ function actualizarBarraDeProgreso(estado_progreso) {
   if (estado_progreso === 'P') {
     progreso = 30; // Pendiente
     colorBarra = "#ffc107"; // Amarillo para pendiente
+    $("#campo_observacion").hide();
+    $("#campletado_desde_Campo").hide();
+    $("#campletado_desde_oficina").hide();
+     $("#campo_observacion_p").show();
+
+    
+   
+
+
   } else if (estado_progreso === 'E') {
     progreso = 60; // En Progreso
     colorBarra = "#17a2b8"; // Naranja para en progreso
+     $("#campo_observacion").show();
+      $("#campletado_desde_Campo").hide();
+      $("#campletado_desde_oficina").hide();
+       $("#campo_observacion_p").hide();
+
+
   } else if (estado_progreso === 'C') {
     progreso = 100; // Completado
     colorBarra = "#28a745"; // Verde para completado
+      $("#campo_observacion").hide();
+     $("#campletado_desde_Campo").show();
+     $("#campletado_desde_oficina").show();
+      $("#campo_observacion_p").hide();
+
+     
+
   }
 
   // Actualiza la barra de progreso con el porcentaje y el color
@@ -162,27 +197,16 @@ $('#formCarpetaProgress').on('submit', function(event) {
     // Serializa los datos del formulario
     var datosFormulario = $(this).serialize(); 
 
+
+    
+  const isoValue = document.getElementById("mySpan").getAttribute("iso");
+  datosFormulario += '&id_usuario=' + encodeURIComponent(isoValue);
     console.log(datosFormulario); 
  
     datosFormulario += '&guardar_estado_progreso=guardar_estado_progreso'; 
     editarCarpeta_.guardar_editar_progreso(datosFormulario);
 
-//   event.preventDefault();
-//     var datosFormulario = $(this).serialize(); // Serializa los datos del formulario
 
-//     let isChecked = $('#usuarioCoactivo').prop('checked');
-//     let value= isChecked ? $('#usuarioCoactivo').attr('check') : $('#usuarioCoactivo').attr('uncheck');//extraemoes el valor del estado del check coactivo
-//     datosFormulario += '&usuariocoactivo='+value;
-//  //USUARIO FALLECIDO
-//     let isCheckedf = $('#usuarioFallecida').prop('checked');
-//     let valuef= isCheckedf ? $('#usuarioFallecida').attr('check') : $('#usuarioFallecida').attr('uncheck');//extraemoes el valor del estado del check coactivo
-//     datosFormulario += '&usuariofallecida='+valuef;
-
-//     datosFormulario += '&guardar_editar_contribuyente=guardar_editar_contribuyente'; 
-   
-  
-//     console.log(datosFormulario); 
-//   buscarcontribuyente_.guardar_editar_contribuyente(datosFormulario);
 })
 
 

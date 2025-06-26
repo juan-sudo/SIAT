@@ -18,6 +18,8 @@ class ControladorCarpeta
    
     $tabla = 'carpeta';
     $respuesta = ModeloCarpeta::mdlMostrarCarpeta($tabla, $item, $valor);
+
+   // var_dump($respuesta);
     return $respuesta;
   }
 
@@ -25,12 +27,9 @@ class ControladorCarpeta
   // EDITAR USUARIOS|
   public static function ctrEditarCarpetaProgreso($tabla,$datos)
   {   
-   // echo '<pre>';
-   // print_r($datos);
-   // echo '</pre>';
-   // exit;
+  
         $respuesta = ModeloCarpeta::mdlEditarCarpetaProgreso($tabla, $datos);
-        
+
         if ($respuesta == "ok") {
           $respuesta = array(
              "tipo" => 'correcto',
